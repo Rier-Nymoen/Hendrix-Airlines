@@ -1,5 +1,7 @@
 # Hendrix-Airlines
-Repository for Hendrix Airlines utilizing PostgreSQL, Express/Node, React, JavaScript, HTML, and CSS
+Repository for Hendrix Airlines utilizing PostgreSQL, Express/Node, React, JavaScript, HTML, and CSS   
+
+![Alt text](client/src/images/hendrix.jpg?raw=true "Hendrix")
 
 # Installing dependencies
 You have to install the dependencies in both the server and client directories. In each directory, type:
