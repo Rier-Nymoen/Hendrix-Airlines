@@ -67,10 +67,27 @@ const deleteUser = (request, response) => {
   })
 }
 
+const getFlightsByAirport = (request, response) => {
+  //parameters for the route, request.body is the body of the request, req.query is query parameters
+  const airport = request.params.airport;
+
+  pool.query('SELECT * FROM FlightExample WHERE Airport = $1', [airport] ,(error, results) =>{
+    if(error)
+    {
+      response.sendStatus(503);
+    }
+    else{
+      response.status(200).json(results.rows)
+    }
+  })
+
+}
+
 module.exports = {
   getUsers,
   getUserByEmail,
   createUser,
   updateUser,
-  deleteUser
+  deleteUser,
+  getFlightsByAirport
 }

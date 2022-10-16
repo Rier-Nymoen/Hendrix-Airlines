@@ -28,4 +28,6 @@ app.post('/users', db.createUser)
 app.put('/users/:email', db.updateUser)
 app.delete('/users/:email', db.deleteUser)
 
+app.get('/book/:airport', db.getFlightsByAirport)
+
 app.listen(port, () => {console.log(`Server started on port ${port}`)})
