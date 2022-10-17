@@ -16,7 +16,7 @@ export const initialValues = {
 export const onSubmit = async (signinData, { setSubmitting, setFieldError }) => {
     setSubmitting(true);
     try {
-        const response = await axios.post('http://localhost:5000/users', signinData);
+        const response = await axios.post('http://localhost:5000/accounts', signinData);
 
         if (response.status !== 201) {
             alert('API Status Error: ' + response.status);

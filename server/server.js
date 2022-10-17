@@ -22,11 +22,11 @@ app.use(
   })
 )
 
-app.get('/users', db.getUsers)
-app.get('/users/:email', db.getUserByEmail)
-app.post('/users', db.createUser)
-app.put('/users/:email', db.updateUser)
-app.delete('/users/:email', db.deleteUser)
+app.get('/accounts', db.getAccounts)
+app.get('/accounts/:email', db.getAccountByEmail)
+app.post('/accounts', db.createAccount)
+app.put('/accounts/:email', db.updateAccount)
+app.delete('/accounts/:email', db.deleteAccount)
 
 app.get('/book/:airport', db.getFlightsByAirport)
 
