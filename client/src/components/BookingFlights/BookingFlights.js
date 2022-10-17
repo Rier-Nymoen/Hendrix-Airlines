@@ -2,6 +2,21 @@ import styled from 'styled-components'
 import { Form} from 'formik';
 
 
+
+
+export const FlightContainer = (props) => {
+    
+    return(
+            <div>
+                {props.flightList.map(flight => <h2> {flight.flightno}</h2>)}
+            </div>
+    )
+
+}
+
+
+
+
 export const FormikForm = styled(Form)`
     
     display : flex;

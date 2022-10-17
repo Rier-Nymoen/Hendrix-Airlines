@@ -2,7 +2,7 @@ import {React, useState} from 'react'
 
 import { TextField} from '@mui/material'
 import {Formik, Field, Form, useFormik, useField} from 'formik'
-import { FormikForm, initialValues } from './BookingFlights';
+import { FormikForm, initialValues, FlightContainer } from './BookingFlights';
 import { onSubmit } from '../Signin/SigninForm/FormElements';
 import axios from 'axios';
 
@@ -30,7 +30,7 @@ import axios from 'axios';
 
 const Booking = () => {
 
-    const [mapTest, changeFlight] = useState();
+    const [flightList, setFlightList] = useState([{}]);
 
     const formikObject = useFormik({
         initialValues: {
@@ -40,12 +40,12 @@ const Booking = () => {
             airport: ''
         },
         onSubmit: async values => {
-            console.log('Form data: ', values)
+           // console.log('Form data: ', values)
             const res = await axios.get('http://localhost:5000/book/' + values.airport)
-            console.log('Form', res.data)
-            const mapTest = res.data.map(object => <h1>object.flightno</h1>)
-            console.log('MapTest: ', mapTest)
-           //    window.location.replace('/');
+            setFlightList(res.data)
+        //     //console.log('Form', res.data)
+        //     const mapTest = res.data.map(object => <h1>object.flightno</h1>)
+        //    //    window.location.replace('/');
 
 
         }
@@ -68,6 +68,10 @@ const Booking = () => {
                  {/*Clicking button automatically calls the onSubmit for formik*/}
                  <button>submit</button>
             </form>
+
+            <FlightContainer flightList={flightList}></FlightContainer>
+
+
         </div>
 
         {/* <Formik initialValues={initialValues}>
