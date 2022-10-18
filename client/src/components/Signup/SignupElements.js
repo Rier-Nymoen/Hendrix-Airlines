@@ -85,7 +85,7 @@ export const SignupWrapper = styled.div`
   border-radius: 20px;
   background: #f7f8fa;
   height: 600px;
-  width: 390px;
+  width: 1200px;
   position: relative;
   padding: 8px 24px;
   display: flex;

@@ -1,35 +1,55 @@
 import React from 'react';
 import {signupSchema} from "./validationSchema";
-import {Field, Formik} from "formik";
+import {Formik, useField} from "formik";
 import TextField from '@mui/material/TextField';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
 import {SignupButton} from "../SignupElements";
-import {FormikForm, initialValues, onSubmit} from "./FormElements";
+import {FormikForm, initialValues, onSubmit, FormColumn} from "./FormElements";
 
 const SignupForm = () => {
+    const TextBox = ({ ...props }) => {
+        const [field, meta] = useField(props);
+        return (
+            <TextField
+                variant="outlined"
+                type="input"
+                helperText={meta.error && meta.touched ? meta.error: " "}
+                error={!!(meta.error && meta.touched)}
+                {...field}
+                {...props} />
+        );
+    };
+
     return (
         <Formik
             validateOnChange={true}
             initialValues={initialValues}
             validationSchema={signupSchema}
-            onSubmit={onSubmit}>{({ values, isSubmitting, errors, touched }) => (
+            onSubmit={onSubmit}>
+            {({ isSubmitting }) => (
             <FormikForm>
-                <Field
-                    name="email"
-                    type="input"
-                    label="Email"
-                    helperText={errors.email && touched.email ? errors.email : " "}
-                    error={!!(errors.email && touched.email)}
-                    variant="outlined"
-                    as={TextField}/>
-                <Field
-                    name="password"
-                    type="password"
-                    label="Password"
-                    helperText={errors.password && touched.password ? errors.password: " "}
-                    error={!!(errors.password && touched.password ? errors.password: "")}
-                    variant="outlined"
-                    as={TextField}/>
-                <SignupButton disabled={isSubmitting} type="submit">Sign Up</SignupButton>
+                <FormColumn>
+                    <TextBox name="fname" label="First Name"/>
+                    <TextBox name="mname" label="Middle Name"/>
+                    <TextBox name="lname" label="Last Name"/>
+                    <Select
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      label="Age"
+                    >
+                      <MenuItem value={10}>Ten</MenuItem>
+                      <MenuItem value={20}>Twenty</MenuItem>
+                      <MenuItem value={30}>Thirty</MenuItem>
+                    </Select>
+                </FormColumn>
+                <FormColumn>
+                    <TextBox name="email" label="Email"/>
+                    <TextBox name="password" label="Password"/>
+                </FormColumn>
+                <FormColumn>
+                    <SignupButton disabled={isSubmitting} type="submit">Sign Up</SignupButton>
+                </FormColumn>
             </FormikForm>
             )}
         </Formik>

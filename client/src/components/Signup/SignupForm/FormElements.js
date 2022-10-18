@@ -5,18 +5,29 @@ import axios from 'axios';
 export const FormikForm = styled(Form)`
   display: flex;
   flex-direction: column;
-  gap: 28px;
+  align-items: center;
+  gap: 10px;
+`;
+
+export const FormColumn = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  //background-color: lightgrey;
 `;
 
 export const initialValues = {
-        email: '',
-        password: '',
+    email: '',
+    password: '',
+    fname: '',
+    mname: '',
+    lname: ''
 }
 
 export const onSubmit = async (signinData, { setSubmitting, setFieldError }) => {
     setSubmitting(true);
     try {
-        const response = await axios.post('http://localhost:5000/users', signinData);
+        const response = await axios.post('http://localhost:5000/accounts', signinData);
 
         if (response.status !== 201) {
             alert('API Status Error: ' + response.status);
@@ -28,7 +39,7 @@ export const onSubmit = async (signinData, { setSubmitting, setFieldError }) => 
         //     setFieldError('password', 'Incorrect password');
         // }
         else {
-            alert('Logged in');
+            alert('Created account.');
         }
     }
 	catch (error) {

@@ -3,8 +3,7 @@ import {signinSchema} from "./validationSchema";
 import {Field, Formik} from "formik";
 import TextField from '@mui/material/TextField';
 import {SigninButton} from "../SigninElements";
-import {FormikForm, initialValues} from "./FormElements"; //onSubmit
-import axios from "axios";
+import {FormikForm, initialValues, onSubmit} from "./FormElements"; //onSubmit
 
 
 // import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
@@ -42,28 +41,6 @@ import axios from "axios";
 // }
 
 const SigninForm = () => {
-    const onSubmit = async (signinData, { setSubmitting, setFieldError }) => {
-        setSubmitting(true);
-        try {
-            const response = await axios.get('http://localhost:5000/users/' + signinData.email);
-
-            if (response.status !== 200) {
-                alert('API Status Error: ' + response.status);
-            } else if (response.data.length === 0) {
-                setFieldError('email', 'Email not found');
-            } else if (response.data[0].password !== signinData.password) {
-                setFieldError('password', 'Incorrect password');
-            } else {
-                alert('Logged in');
-            }
-        }
-        catch (error) {
-            alert(error);
-        }
-
-        setSubmitting(false);
-    };
-
     return (
         <Formik
             validateOnChange={true}
