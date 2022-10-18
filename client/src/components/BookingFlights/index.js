@@ -41,7 +41,7 @@ const Booking = () => {
         },
         onSubmit: async values => {
            // console.log('Form data: ', values)
-            const res = await axios.get('http://localhost:5000/book/' + values.airport)
+            const res = await axios.get('http://localhost:5000/book/' + values.airport.toUpperCase())
             setFlightList(res.data)
         //     //console.log('Form', res.data)
         //     const mapTest = res.data.map(object => <h1>object.flightno</h1>)

@@ -8,7 +8,7 @@ export const FlightContainer = (props) => {
     
     return(
             <div>
-                {props.flightList.map(flight => <h2> {flight.flightno}</h2>)}
+                {props.flightList.map(flight => <h2> {flight.flight_no}</h2>)}
             </div>
     )
 
