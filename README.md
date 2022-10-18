@@ -19,3 +19,9 @@ In the client directory, type:
 ```
 npm start
 ```
+
+# Viewing the Airline Website Page
+You can access the website on https://localhost:3000. 
+
+
+The results http requests can be seen on https://localhost:5000 . . .
