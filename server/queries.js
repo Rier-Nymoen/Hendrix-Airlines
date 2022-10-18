@@ -72,7 +72,7 @@ const getFlightsByAirport = (request, response) => {
   //parameters for the route, request.body is the body of the request, req.query is query parameters
   const airport = request.params.airport;
 
-  pool.query('SELECT * FROM Flight WHERE Airport = $1', [airport] ,(error, results) =>{
+  pool.query('SELECT * FROM Flight WHERE Source_gate_code = $1', [airport] ,(error, results) =>{
     if(error)
     {
       response.sendStatus(503);
