@@ -1,26 +1,22 @@
 import React from 'react';
 import {signupSchema} from "./validationSchema";
-import {Formik, useField} from "formik";
-import TextField from '@mui/material/TextField';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
+import {Formik} from "formik";
 import {SignupButton} from "../SignupElements";
-import {FormikForm, initialValues, onSubmit, FormColumn} from "./FormElements";
+import {
+    FormikForm,
+    initialValues,
+    onSubmit,
+    FormColumn,
+    TextBox,
+    SuffixSelect,
+    DOBSelect,
+    GenderSelect,
+    CountrySelect,
+    StateSelect
+} from "./FormElements";
+
 
 const SignupForm = () => {
-    const TextBox = ({ ...props }) => {
-        const [field, meta] = useField(props);
-        return (
-            <TextField
-                variant="outlined"
-                type="input"
-                helperText={meta.error && meta.touched ? meta.error: " "}
-                error={!!(meta.error && meta.touched)}
-                {...field}
-                {...props} />
-        );
-    };
-
     return (
         <Formik
             validateOnChange={true}
@@ -33,15 +29,22 @@ const SignupForm = () => {
                     <TextBox name="fname" label="First Name"/>
                     <TextBox name="mname" label="Middle Name"/>
                     <TextBox name="lname" label="Last Name"/>
-                    <Select
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
-                      label="Age"
-                    >
-                      <MenuItem value={10}>Ten</MenuItem>
-                      <MenuItem value={20}>Twenty</MenuItem>
-                      <MenuItem value={30}>Thirty</MenuItem>
-                    </Select>
+                    <SuffixSelect name="suffix"/>
+                </FormColumn>
+                <FormColumn>
+                    <DOBSelect name="dob"/>
+                    <GenderSelect name="gender"/>
+                    <TextBox name="phone" label="Phone Number"/>
+                </FormColumn>
+                <FormColumn>
+                    <CountrySelect name="country" />
+                    <TextBox name="address" label="Address"/>
+                    <TextBox name="address2" label="Address 2"/>
+                </FormColumn>
+                <FormColumn>
+                    <TextBox name="city" label="City"/>
+                    <StateSelect name="state" />
+                    <TextBox name="zip" label="Zip Code"/>
                 </FormColumn>
                 <FormColumn>
                     <TextBox name="email" label="Email"/>

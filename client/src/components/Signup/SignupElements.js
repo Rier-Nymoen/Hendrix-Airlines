@@ -76,7 +76,7 @@ export const SignupContent = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  top: 135px;
+  top: 80px;
   bottom: 135px;
 `;
 
@@ -84,7 +84,7 @@ export const SignupContent = styled.div`
 export const SignupWrapper = styled.div`
   border-radius: 20px;
   background: #f7f8fa;
-  height: 600px;
+  height: 750px;
   width: 1200px;
   position: relative;
   padding: 8px 24px;
@@ -98,8 +98,8 @@ export const SignupHeader = styled.h1`
   text-align: center;
   font-weight: normal;
   font-size: 30px;
-  margin-top: 65px;
-  margin-bottom: 60px;
+  margin-top: 20px;
+  margin-bottom: 30px;
 `;
 
 export const FormWrap = styled.div`
@@ -122,7 +122,7 @@ export const SignupButton = styled.button`
   align-items: center;
   transition: all 0.2s ease-in-out;
   text-decoration: none;
-  margin-top: 15px;
+  //margin-top: 15px;
   
   &:hover {
     transition: all 0.2s ease-in-out;
@@ -134,7 +134,7 @@ export const HaveAnAccount = styled(Link)`
   color: #49A9E6;
   text-decoration: none;
   text-align: center;
-  margin-top: 34px;
+  margin-top: 20px;
   font-weight: bold;
   font-size: 9.8pt;
   
