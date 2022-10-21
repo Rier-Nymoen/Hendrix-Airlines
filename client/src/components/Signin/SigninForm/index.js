@@ -1,27 +1,40 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {signinSchema} from "./validationSchema";
 import {Field, Formik} from "formik";
 import TextField from '@mui/material/TextField';
 import {SigninButton} from "../SigninElements";
-import {FormikForm, initialValues, onSubmit} from "./FormElements";
+import {FormikForm, initialValues, onSubmit} from "./FormElements"; //onSubmit
 
 
-// import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+// import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 // import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 // import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 //
-// function BasicDatePicker() {
-//   const [value, setValue] = React.useState(null);
-//
+// const BasicDatePicker = () => {
+//   const [date, setDate] = useState(null);
+//   const [error, setError] = useState(false);
+//   // if (date) {
+//   //     console.log(date.toLocaleString());
+//   // }
 //   return (
-//     <LocalizationProvider dateAdapter={AdapterDayjs}>
+//     <LocalizationProvider dateAdapter={AdapterDateFns}>
 //       <DatePicker
 //         label="Departure Date"
-//         value={value}
-//         onChange={(newValue) => {
-//           setValue(newValue);
+//         value={date}
+//         disablePast={true}
+//         onError={(reason) => {
+//             if (reason) {
+//                 setError(true)
+//             }
+//             else {
+//                 setError(false)
+//             }
 //         }}
-//         renderInput={(params) => <TextField {...params} />}
+//         onChange={(newDate) => {
+//           setDate(newDate);
+//         }}
+//         renderInput={(params) => <TextField{...params}
+//                                            helperText={error ? "Invalid Date" : " "}/>}
 //       />
 //     </LocalizationProvider>
 //   );
@@ -54,6 +67,7 @@ const SigninForm = () => {
                 {/*<pre>{JSON.stringify(values, null, 2)}</pre>*/}
                 {/*<pre>{JSON.stringify(errors, null, 2)}</pre>*/}
                 <SigninButton disabled={isSubmitting} type="submit">Sign In</SigninButton>
+                {/*<BasicDatePicker />*/}
             </FormikForm>
             )}
         </Formik>

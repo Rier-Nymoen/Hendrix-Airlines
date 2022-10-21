@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import {Form} from 'formik';
 import axios from 'axios';
 
+
 export const FormikForm = styled(Form)`
   display: flex;
   flex-direction: column;
@@ -13,10 +14,11 @@ export const initialValues = {
         password: '',
 }
 
+
 export const onSubmit = async (signinData, { setSubmitting, setFieldError }) => {
     setSubmitting(true);
     try {
-        const response = await axios.get('http://localhost:5000/users/' + signinData.email);
+        const response = await axios.get('http://localhost:5000/accounts/' + signinData.email);
 
         if (response.status !== 200) {
             alert('API Status Error: ' + response.status);
@@ -34,6 +36,7 @@ export const onSubmit = async (signinData, { setSubmitting, setFieldError }) => 
 
     setSubmitting(false);
 };
+
 
 // axios.post('http://localhost:5000/users',
 // 	signinData).then(res => {

@@ -7,8 +7,8 @@ const pool = new Pool({
     database: "postgres"
 })
 
-const getUsers = (request, response) => {
-    pool.query('SELECT * FROM users', (error, results)=>{
+const getAccounts = (request, response) => {
+    pool.query('SELECT * FROM account', (error, results)=>{
     if(error){
         response.sendStatus(503);
     } else {
@@ -17,11 +17,11 @@ const getUsers = (request, response) => {
 })
 }
 
-const getUserByEmail = (request, response) => {
+const getAccountByEmail = (request, response) => {
   const email = request.params.email;
   console.log(request.params);
 
-  pool.query('SELECT * FROM users WHERE email = $1', [email], (error, results) => {
+  pool.query('SELECT * FROM account WHERE email = $1', [email], (error, results) => {
     if (error) {
         response.sendStatus(503);
     } else {
@@ -30,10 +30,25 @@ const getUserByEmail = (request, response) => {
   })
 }
 
-const createUser = (request, response) => {
-  const {email, password} = request.body
+const createAccount = (request, response) => {
+  const {address,
+      address2,
+      city,
+      dob,
+      email,
+      fname,
+      gender,
+      lname,
+      mname,
+      password,
+      phone,
+      state,
+      suffix,
+      zip
+  } = request.body
 
-  pool.query('INSERT INTO users (email, password) VALUES ($1, $2) RETURNING *', [email, password], (error, results) => {
+  pool.query('INSERT INTO account VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) RETURNING *',
+   [email, password, fname, mname, lname, suffix, dob, gender, address, address2, phone, city, zip, state], (error, results) => {
     if (error) {
         response.sendStatus(503);
     } else {
@@ -42,11 +57,11 @@ const createUser = (request, response) => {
   })
 }
 
-const updateUser = (request, response) => {
+const updateAccount = (request, response) => {
   const email = request.params.email;
   const {password} = request.body;
 
-  pool.query('UPDATE users SET password = $1 WHERE email = $2', [password, email], (error, results) => {
+  pool.query('UPDATE account SET password = $1 WHERE email = $2', [password, email], (error, results) => {
       if (error) {
           response.sendStatus(503);
       } else {
@@ -55,10 +70,10 @@ const updateUser = (request, response) => {
     })
 }
 
-const deleteUser = (request, response) => {
+const deleteAccount = (request, response) => {
   const email = request.params.email;
 
-  pool.query('DELETE FROM users WHERE email = $1', [email], (error, results) => {
+  pool.query('DELETE FROM account WHERE email = $1', [email], (error, results) => {
     if (error) {
         response.sendStatus(503);
     } else {
@@ -67,10 +82,27 @@ const deleteUser = (request, response) => {
   })
 }
 
+const getFlightsByAirport = (request, response) => {
+  //parameters for the route, request.body is the body of the request, req.query is query parameters
+  const airport = request.params.airport;
+
+  pool.query('SELECT * FROM Flight WHERE Source_gate_code = $1', [airport] ,(error, results) =>{
+    if(error)
+    {
+      response.sendStatus(503);
+    }
+    else{
+      response.status(200).json(results.rows)
+    }
+  })
+
+}
+
 module.exports = {
-  getUsers,
-  getUserByEmail,
-  createUser,
-  updateUser,
-  deleteUser
+  getAccounts,
+  getAccountByEmail,
+  createAccount,
+  updateAccount,
+  deleteAccount,
+  getFlightsByAirport
 }
