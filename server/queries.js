@@ -31,10 +31,24 @@ const getAccountByEmail = (request, response) => {
 }
 
 const createAccount = (request, response) => {
-  const {email, password, firstName, middleName, lastName, suffix, dob, gender, address, address2, phoneNumber} = request.body
+  const {address,
+      address2,
+      city,
+      dob,
+      email,
+      fname,
+      gender,
+      lname,
+      mname,
+      password,
+      phone,
+      state,
+      suffix,
+      zip
+  } = request.body
 
-  pool.query('INSERT INTO account VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *',
-   [email, password, firstName, middleName, lastName, suffix, dob, gender, address, address2, phoneNumber], (error, results) => {
+  pool.query('INSERT INTO account VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) RETURNING *',
+   [email, password, fname, mname, lname, suffix, dob, gender, address, address2, phone, city, zip, state], (error, results) => {
     if (error) {
         response.sendStatus(503);
     } else {

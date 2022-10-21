@@ -12,7 +12,6 @@ export const signupSchema = yup.object({
   suffix: yup.string(),
   dob: yup.date().typeError("Invalid Date").nullable().required("Required"),
   gender: yup.string().required("Required"),
-  country: yup.string().nullable().required("Required"),
   address: yup.string().required("Required"),
   address2: yup.string(),
   city: yup.string().required("Required"),

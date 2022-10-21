@@ -37,7 +37,6 @@ export const initialValues = {
     suffix: '',
     dob: null,
     gender: '',
-    country: '',
     address: '',
     address2: '',
     city: '',
@@ -48,18 +47,20 @@ export const initialValues = {
 
 export const onSubmit = async (signinData, { setSubmitting }) => {
     setSubmitting(true);
+    let data = {...signinData}
+    data.dob = `${data.dob.getFullYear()}-${data.dob.getMonth()}-${data.dob.getDate()}`
     try {
-        const response = await axios.post('http://localhost:5000/accounts', signinData);
+        const response = await axios.post('http://localhost:5000/accounts', data);
 
         if (response.status !== 201) {
-            alert('API Status Error: ' + response.status);
+            alert("Email already in use.");
         }
         else {
             alert('Created account.');
         }
     }
 	catch (error) {
-        alert(error);
+        alert("Email already in use.");
     }
 
     setSubmitting(false);
@@ -70,7 +71,6 @@ export const TextBox = ({ ...props }) => {
         return (
             <TextField
                 variant="outlined"
-                type="input"
                 helperText={meta.error && meta.touched ? meta.error: " "}
                 error={!!(meta.error && meta.touched)}
                 {...field}
@@ -157,24 +157,9 @@ export const GenderSelect = ({ ...props }) => {
     );
 };
 
-export const CountrySelect = ({ ...props }) => {
-    const [field, meta] = useField(props);
-    //console.log(meta)
-    return (
-        <Autocomplete
-          sx={{ width: 300 }}
-          id="country"
-          renderInput={(params) => <TextField label="Country" {...params} {...field}
-                                helperText={meta.error && meta.touched ? meta.error : " "}
-                                error={!!(meta.error && meta.touched)}/>}
-          options={countries}
-        />
-    );
-};
-
 export const StateSelect = ({ ...props }) => {
     const [field, meta, helpers] = useField(props);
-    console.log(meta)
+    //console.log(meta)
     return (
         <Autocomplete
           sx={{ width: 190 }}
