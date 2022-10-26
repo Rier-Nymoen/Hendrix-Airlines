@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import {FaBars} from 'react-icons/fa';
 import {animateScroll as scroll} from 'react-scroll';
 import {Nav,
@@ -13,6 +13,7 @@ import {Nav,
     UserDropdown
 } from "./NavbarElements";
 import {UserContext} from "../UserContext";
+import {Avatar, Menu, MenuItem, IconButton, Tooltip} from '@mui/material';
 
 const Navbar = ({ toggle }) => {
     const toggleHome = () => {
@@ -20,10 +21,14 @@ const Navbar = ({ toggle }) => {
     }
     const { user, setUser } = useContext(UserContext);
 
-    const logout = () => {
+    const signOut = () => {
         localStorage.removeItem("user");
-        setUser(null)
+        setUser(null);
+        window.location.replace('/');
     };
+
+    const [anchorEl, setAnchorEl] = useState(null);
+    const open = Boolean(anchorEl);
 
     return (
         <>
@@ -52,9 +57,30 @@ const Navbar = ({ toggle }) => {
                         )}
                     </NavMenu>
                     {user ? (
-                        <NavBtn>
-                            <NavBtnLink to="/" onClick={logout}>{user ? user.email : ''}</NavBtnLink>
-                        </NavBtn>
+                        <div>
+                            <Tooltip title="Account settings">
+                                <IconButton
+                                    onClick={(event) => setAnchorEl(event.currentTarget)}
+                                    aria-controls={open ? 'account-menu' : undefined}
+                                    aria-haspopup="true"
+                                    aria-expanded={open ? 'true' : undefined}>
+                                        <Avatar sx={{ width: 45, height: 45 }}>
+                                            {user.email[0].toUpperCase()}
+                                        </Avatar>
+                                </IconButton>
+                            </Tooltip>
+                            <Menu
+                                anchorEl={anchorEl}
+                                id="account-menu"
+                                open={open}
+                                onClose={()=> setAnchorEl(null)}
+                                onClick={()=> setAnchorEl(null)}
+                                transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+                                anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}>
+                                    <MenuItem>My Account</MenuItem>
+                                    <MenuItem onClick={signOut}>Sign Out</MenuItem>
+                            </Menu>
+                        </div>
                     ) : (
                         <NavBtn>
                             <NavBtnLink to="/sign-in">Sign In</NavBtnLink>
