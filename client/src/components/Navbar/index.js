@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {FaBars} from 'react-icons/fa';
 import {animateScroll as scroll} from 'react-scroll';
 import {Nav,
@@ -9,13 +9,21 @@ import {Nav,
     NavItem,
     NavLinks,
     NavBtn,
-    NavBtnLink
+    NavBtnLink,
+    UserDropdown
 } from "./NavbarElements";
+import {UserContext} from "../UserContext";
 
 const Navbar = ({ toggle }) => {
     const toggleHome = () => {
         scroll.scrollToTop();
     }
+    const { user, setUser } = useContext(UserContext);
+
+    const logout = () => {
+        localStorage.removeItem("user");
+        setUser(null)
+    };
 
     return (
         <>
@@ -37,13 +45,21 @@ const Navbar = ({ toggle }) => {
                         <NavItem>
                             <NavLinks to="/services">Services</NavLinks>
                         </NavItem>
-                        <NavItem>
-                            <NavLinks to="/sign-up">Sign Up</NavLinks>
-                        </NavItem>
+                        {user ? null : (
+                            <NavItem>
+                                <NavLinks to="/sign-up">Sign Up</NavLinks>
+                            </NavItem>
+                        )}
                     </NavMenu>
-                    <NavBtn>
-                        <NavBtnLink to="/sign-in">Sign In</NavBtnLink>
-                    </NavBtn>
+                    {user ? (
+                        <NavBtn>
+                            <NavBtnLink to="/" onClick={logout}>{user ? user.email : ''}</NavBtnLink>
+                        </NavBtn>
+                    ) : (
+                        <NavBtn>
+                            <NavBtnLink to="/sign-in">Sign In</NavBtnLink>
+                        </NavBtn>
+                    )}
                 </NavbarContainer>
             </Nav>
         </>

@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, {useContext} from 'react';
 import {signinSchema} from "./validationSchema";
 import {Field, Formik} from "formik";
 import TextField from '@mui/material/TextField';
 import {SigninButton} from "../SigninElements";
-import {FormikForm, initialValues, onSubmit} from "./FormElements"; //onSubmit
+import {FormikForm, initialValues} from "./FormElements";
+import {UserContext} from "../../UserContext";
+import axios from "axios";
 
 
 // import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
@@ -41,6 +43,32 @@ import {FormikForm, initialValues, onSubmit} from "./FormElements"; //onSubmit
 // }
 
 const SigninForm = () => {
+    const { setUser } = useContext(UserContext);
+
+    const onSubmit = async (signinData, { setSubmitting, setFieldError }) => {
+        setSubmitting(true);
+
+        try {
+            const response = await axios.get('http://localhost:5000/accounts/' + signinData.email);
+
+            if (response.status !== 200) {
+                alert('API Status Error: ' + response.status);
+            } else if (response.data.length === 0) {
+                setFieldError('email', 'Email not found');
+            } else if (response.data[0].password !== signinData.password) {
+                setFieldError('password', 'Incorrect password');
+            } else {
+                setUser(response.data[0]);
+                window.location.replace('/');
+            }
+        }
+        catch (error) {
+            alert(error);
+        }
+
+        setSubmitting(false);
+    };
+
     return (
         <Formik
             validateOnChange={true}

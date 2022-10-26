@@ -48,7 +48,7 @@ export const initialValues = {
 export const onSubmit = async (signinData, { setSubmitting }) => {
     setSubmitting(true);
     let data = {...signinData}
-    data.dob = `${data.dob.getFullYear()}-${data.dob.getMonth()}-${data.dob.getDate()}`
+    data.dob = `${data.dob.getFullYear()}-${data.dob.getMonth() + 1}-${data.dob.getDate()}`
     try {
         const response = await axios.post('http://localhost:5000/accounts', data);
 
@@ -57,6 +57,7 @@ export const onSubmit = async (signinData, { setSubmitting }) => {
         }
         else {
             alert('Created account.');
+            window.location.replace('/sign-in');
         }
     }
 	catch (error) {

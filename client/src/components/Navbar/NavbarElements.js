@@ -113,3 +113,7 @@ export const NavBtnLink = styled(LinkR)`
     color: #010606;
   }
 `;
+
+export const UserDropdown = styled.div`
+  background-color: lightblue;
+`;
