@@ -32,7 +32,7 @@ import {bookingSchema} from "./bookingSchema";
 
 const Booking = () => {
 
-    const [flightList, setFlightList] = useState([{}]);
+    const [flightList, setFlightList] = useState([]);
     const [isOpen, setIsOpen] = useState(false);
 
     const toggle = () => {
@@ -64,10 +64,15 @@ const Booking = () => {
     const onSubmit = async (values, { setSubmitting }) => {
         setSubmitting(true);
 
+
         console.log('onSubmitPressed')
-        // const res = await axios.get('http://localhost:5000/book/' + values.sourceAirport.toUpperCase() +
-        //  '/' + values.destinationAirport.toUpperCase() + '/' + values.departDate + '/' + values.passengerSelect)
-        // setFlightList(values.data)
+        console.log(`${values.departDate.getFullYear()}-${values.departDate.getMonth()}-${values.departDate.getDate()}`)
+
+        const res = await axios.get('http://localhost:5000/book/' + values.sourceAirport.toUpperCase() +
+        '/' + values.destinationAirport.toUpperCase() + '/' +  `${values.departDate.getFullYear()}-${values.departDate.getMonth() + 1}-${values.departDate.getDate()}` + '/' + values.passengerSelect)
+        setFlightList(res.data)
+        console.log()
+        console.log(res)
 
         setSubmitting(false);
 
