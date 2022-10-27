@@ -1,18 +1,18 @@
 import React from "react";
 import styled from 'styled-components';
 import {Form, useField} from 'formik';
-import axios from 'axios';
-import TextField from '@mui/material/TextField';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
-import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
-import FormHelperText from '@mui/material/FormHelperText';
-import Autocomplete from '@mui/material/Autocomplete';
-import {countries, states} from "./countries_states";
+import {TextField,
+    FormControl,
+    InputLabel,
+    Select,
+    MenuItem,
+    Autocomplete,
+    FormHelperText
+} from "@mui/material";
+import { states } from "./countries_states";
 
 
 export const FormikForm = styled(Form)`
@@ -44,28 +44,6 @@ export const initialValues = {
     zip: '',
     phone: ''
 }
-
-export const onSubmit = async (signinData, { setSubmitting }) => {
-    setSubmitting(true);
-    let data = {...signinData}
-    data.dob = `${data.dob.getFullYear()}-${data.dob.getMonth() + 1}-${data.dob.getDate()}`
-    try {
-        const response = await axios.post('http://localhost:5000/accounts', data);
-
-        if (response.status !== 201) {
-            alert("Email already in use.");
-        }
-        else {
-            alert('Created account.');
-            window.location.replace('/sign-in');
-        }
-    }
-	catch (error) {
-        alert("Email already in use.");
-    }
-
-    setSubmitting(false);
-};
 
 export const TextBox = ({ ...props }) => {
         const [field, meta] = useField(props);

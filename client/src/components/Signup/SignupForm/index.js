@@ -5,7 +5,6 @@ import {SignupButton} from "../SignupElements";
 import {
     FormikForm,
     initialValues,
-    onSubmit,
     FormColumn,
     TextBox,
     SuffixSelect,
@@ -13,9 +12,35 @@ import {
     GenderSelect,
     StateSelect
 } from "./FormElements";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 
 const SignupForm = () => {
+    const navigate = useNavigate();
+
+    const onSubmit = async (signupData, { setSubmitting }) => {
+        setSubmitting(true);
+        let data = {...signupData}
+        data.dob = `${data.dob.getFullYear()}-${data.dob.getMonth() + 1}-${data.dob.getDate()}`
+        try {
+            const response = await axios.post('http://localhost:5000/accounts', data);
+
+            if (response.status !== 201) {
+                alert("Email already in use.");
+            }
+            else {
+                alert('Account successfully created!');
+                navigate('/sign-in');
+            }
+        }
+        catch (error) {
+            alert("Email already in use.");
+        }
+
+        setSubmitting(false);
+    };
+
     return (
         <Formik
             validateOnChange={true}

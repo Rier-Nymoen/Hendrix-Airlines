@@ -1,34 +1,35 @@
 import React, {useContext, useState} from 'react';
-import {FaBars} from 'react-icons/fa';
 import {animateScroll as scroll} from 'react-scroll';
-import {Nav,
+import {
+    Nav,
     NavbarContainer,
     NavLogo,
-    MobileIcon,
     NavMenu,
     NavItem,
     NavLinks,
     NavBtn,
-    NavBtnLink,
-    UserDropdown
+    NavBtnLink
 } from "./NavbarElements";
 import {UserContext} from "../UserContext";
 import {Avatar, Menu, MenuItem, IconButton, Tooltip} from '@mui/material';
+import { useNavigate } from "react-router-dom";
 
-const Navbar = ({ toggle }) => {
+const Navbar = () => {
     const toggleHome = () => {
         scroll.scrollToTop();
     }
     const { user, setUser } = useContext(UserContext);
 
+    const [anchorEl, setAnchorEl] = useState(null);
+    const open = Boolean(anchorEl);
+
+    const navigate = useNavigate()
+
     const signOut = () => {
         localStorage.removeItem("user");
         setUser(null);
-        window.location.replace('/');
+        navigate('/');
     };
-
-    const [anchorEl, setAnchorEl] = useState(null);
-    const open = Boolean(anchorEl);
 
     return (
         <>
@@ -37,9 +38,6 @@ const Navbar = ({ toggle }) => {
                     <NavLogo to='/' onClick={toggleHome}>
                         Hendrix Airlines
                     </NavLogo>
-                    <MobileIcon onClick={toggle}>
-                        <FaBars />
-                    </MobileIcon>
                     <NavMenu>
                         <NavItem>
                             <NavLinks to="/about">About</NavLinks>
@@ -57,7 +55,7 @@ const Navbar = ({ toggle }) => {
                         )}
                     </NavMenu>
                     {user ? (
-                        <div>
+                        <>
                             <Tooltip title="Account settings">
                                 <IconButton
                                     onClick={(event) => setAnchorEl(event.currentTarget)}
@@ -77,10 +75,11 @@ const Navbar = ({ toggle }) => {
                                 onClick={()=> setAnchorEl(null)}
                                 transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}>
-                                    <MenuItem>My Account</MenuItem>
+                                    <MenuItem divider={true} disabled={true}>{user.email}</MenuItem>
+                                    <MenuItem divider={true} onClick={() => navigate('/my-account')}>My Account</MenuItem>
                                     <MenuItem onClick={signOut}>Sign Out</MenuItem>
                             </Menu>
-                        </div>
+                        </>
                     ) : (
                         <NavBtn>
                             <NavBtnLink to="/sign-in">Sign In</NavBtnLink>

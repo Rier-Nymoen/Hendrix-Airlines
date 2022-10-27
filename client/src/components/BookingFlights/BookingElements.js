@@ -14,11 +14,11 @@ export const FlightMap = styled.div`
   gap: 10px;
 `
 
-export const FlightListContainer = (props) => {
+export const FlightListContainer = ({ flightList }) => {
     
     return(
             <FlightMap>
-                {props.flightList.map(flight => <Flight> {flight.flight_no}</Flight>)}
+                {flightList.map(flight => <Flight key={flight.flight_no}>{flight.flight_no}</Flight>)}
             </FlightMap>
     )
 
@@ -31,10 +31,9 @@ export const BookingContainer = styled.div`
   margin-top: 35px;
   height: 100%;
   width: 100%;
-  justify-content: center;
   align-items: center;
   margin-bottom: 30px;
-`
+`;
 
 
 

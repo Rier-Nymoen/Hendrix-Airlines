@@ -1,9 +1,7 @@
 import React, {useState} from 'react'
-
 import {Formik, Field, Form, useField} from 'formik'
 import { FormikForm, initialValues, FlightListContainer, BookButton, BookingContainer } from './BookingElements';
 import axios from 'axios';
-import Sidebar from "../Sidebar";
 import Navbar from "../Navbar";
 import { TextBox } from "../Signup/SignupForm/FormElements";
 import {bookingSchema} from "./bookingSchema";
@@ -32,12 +30,7 @@ import {bookingSchema} from "./bookingSchema";
 
 const Booking = () => {
 
-    const [flightList, setFlightList] = useState([{}]);
-    const [isOpen, setIsOpen] = useState(false);
-
-    const toggle = () => {
-        setIsOpen(!isOpen);
-    }
+    const [flightList, setFlightList] = useState([]);
 
     // const formikObject = useFormik({
     //     initialValues: {
@@ -71,9 +64,8 @@ const Booking = () => {
 
    // console.log('Form values', formikObject.values)
     return(
-        <div>
-            <Sidebar isOpen={isOpen} toggle={toggle}/>
-            <Navbar toggle={toggle}/>
+        <>
+            <Navbar />
             <BookingContainer>
                 <Formik
                     validateOnChange={true}
@@ -124,7 +116,7 @@ const Booking = () => {
             )}
             </Formik> */}
 
-        </div>
+        </>
     )
 
 }

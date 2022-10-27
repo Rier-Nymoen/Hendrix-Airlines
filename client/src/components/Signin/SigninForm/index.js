@@ -1,49 +1,17 @@
 import React, {useContext} from 'react';
 import {signinSchema} from "./validationSchema";
 import {Field, Formik} from "formik";
-import TextField from '@mui/material/TextField';
+import {TextField} from '@mui/material';
 import {SigninButton} from "../SigninElements";
 import {FormikForm, initialValues} from "./FormElements";
 import {UserContext} from "../../UserContext";
 import axios from "axios";
+import {useNavigate} from "react-router-dom";
 
-
-// import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-// import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-// import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-//
-// const BasicDatePicker = () => {
-//   const [date, setDate] = useState(null);
-//   const [error, setError] = useState(false);
-//   // if (date) {
-//   //     console.log(date.toLocaleString());
-//   // }
-//   return (
-//     <LocalizationProvider dateAdapter={AdapterDateFns}>
-//       <DatePicker
-//         label="Departure Date"
-//         value={date}
-//         disablePast={true}
-//         onError={(reason) => {
-//             if (reason) {
-//                 setError(true)
-//             }
-//             else {
-//                 setError(false)
-//             }
-//         }}
-//         onChange={(newDate) => {
-//           setDate(newDate);
-//         }}
-//         renderInput={(params) => <TextField{...params}
-//                                            helperText={error ? "Invalid Date" : " "}/>}
-//       />
-//     </LocalizationProvider>
-//   );
-// }
 
 const SigninForm = () => {
     const { setUser } = useContext(UserContext);
+    const navigate = useNavigate();
 
     const onSubmit = async (signinData, { setSubmitting, setFieldError }) => {
         setSubmitting(true);
@@ -59,7 +27,7 @@ const SigninForm = () => {
                 setFieldError('password', 'Incorrect password');
             } else {
                 setUser(response.data[0]);
-                window.location.replace('/');
+                navigate('/');
             }
         }
         catch (error) {
