@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 
 import {Formik, Field, Form, useField} from 'formik'
-import { FormikForm, initialValues, FlightListContainer, BookButton, BookingContainer, DepartureCalendar, PassengerSelect } from './BookingElements';
+import { FormikForm, initialValues, FlightListContainer, BookButton, BookingContainer } from './BookingElements';
 import axios from 'axios';
 import Sidebar from "../Sidebar";
 import Navbar from "../Navbar";
@@ -58,25 +58,18 @@ const Booking = () => {
     //     }
     // })
 
-    //http://localhost:5000/book/xxx/xxx/#/
-
-
     const onSubmit = async (values, { setSubmitting }) => {
         setSubmitting(true);
 
-        console.log('onSubmitPressed')
-        // const res = await axios.get('http://localhost:5000/book/' + values.sourceAirport.toUpperCase() +
-        //  '/' + values.destinationAirport.toUpperCase() + '/' + values.departDate + '/' + values.passengerSelect)
-        // setFlightList(values.data)
+        const res = await axios.get('http://localhost:5000/book/' + values.airport.toUpperCase())
+        setFlightList(res.data)
 
         setSubmitting(false);
 
 
     }
 
-
-
-
+   // console.log('Form values', formikObject.values)
     return(
         <div>
             <Sidebar isOpen={isOpen} toggle={toggle}/>
@@ -89,10 +82,7 @@ const Booking = () => {
                     onSubmit={onSubmit}>
                     {({ isSubmitting }) => (
                     <FormikForm>
-                        <TextBox name="sourceAirport" type="input" label="From" />
-                        <TextBox name="destinationAirport" type="input" label="To" />
-                        <DepartureCalendar name="departDate"></DepartureCalendar>
-                        <PassengerSelect name="passengerSelect"> </PassengerSelect>
+                        <TextBox name="airport" type="input" label="Airport" />
                         <BookButton disabled={isSubmitting} type="submit">Search</BookButton>
                     </FormikForm>
                     )}
