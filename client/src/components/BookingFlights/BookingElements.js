@@ -26,7 +26,7 @@ export const FlightListContainer = (props) => {
     
     return(
             <FlightMap>
-                {/*props.flightList.map(flight => <Flight> {flight.flight_no}</Flight>)*/}
+                {props.flightList.map(flight => <Flight> {flight.flight_no}</Flight>)}
             </FlightMap>
     )
 
