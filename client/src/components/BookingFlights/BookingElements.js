@@ -1,6 +1,14 @@
 import styled from 'styled-components'
-import { Form } from 'formik';
-
+import { Form, useField} from 'formik';
+import TextField from '@mui/material/TextField';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+import FormHelperText from '@mui/material/FormHelperText';
 
 const Flight = styled.div`
   border-style: groove;
@@ -18,7 +26,7 @@ export const FlightListContainer = (props) => {
     
     return(
             <FlightMap>
-                {props.flightList.map(flight => <Flight> {flight.flight_no}</Flight>)}
+                {/*props.flightList.map(flight => <Flight> {flight.flight_no}</Flight>)*/}
             </FlightMap>
     )
 
@@ -72,6 +80,62 @@ export const BookButton = styled.button`
 
 export const initialValues =
 {
-    airport: ''
+      sourceAirport: '',
+      destinationAirport: '',
+      departDate: null,
+      passengerSelect: '1'
 
+};
+
+export const DepartureCalendar = ({ ...props }) => {
+  const [, meta, helpers] = useField(props);
+  //console.log("meta:", meta)
+
+  // if (date) {
+  //     console.log(date.toLocaleDateString());
+  // }
+  return (
+  <LocalizationProvider dateAdapter={AdapterDateFns}>
+    <DatePicker
+      label="Depart"
+      disablePast={true}
+      value={meta.value}
+      onChange={(newDate) => {
+        helpers.setValue(newDate);
+      }}
+      renderInput={(params) => <TextField {...params} onBlur={() => {helpers.setTouched(true)}}
+                                          helperText={meta.error && meta.touched ? meta.error: " "}
+                                          error={!!(meta.error && meta.touched)}/>}
+    />
+  </LocalizationProvider>
+  );
+};
+
+export const  PassengerSelect = ({ ...props }) => {
+  const [field, meta, helpers] = useField(props);
+  //console.log(meta)
+  return (
+      <FormControl
+          sx={{ minWidth: 200 }}
+          error={!!(meta.error && meta.touched)}
+          onBlur={() => {
+              helpers.setTouched(true)
+          }}>
+          <InputLabel id="passengers">Passengers</InputLabel>
+          <Select
+          labelId="passengers"
+          id="passengers"
+          label="Passengers"
+          {...field}
+          >
+              <MenuItem value="1">1 Passenger</MenuItem>
+              <MenuItem value="2">2 Passengers</MenuItem>
+              <MenuItem value="3">3 Passengers</MenuItem>
+              <MenuItem value="4">4 Passengers</MenuItem>
+              <MenuItem value="5">5 Passengers</MenuItem>
+
+          </Select>
+          <FormHelperText>{meta.error && meta.touched ? meta.error: " "}</FormHelperText>
+      </FormControl>
+  );
 };
