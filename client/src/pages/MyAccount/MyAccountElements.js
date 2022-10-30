@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import Footer from "../../components/Footer";
-import {Link} from "react-router-dom";
+
 
 export const PageWrap = styled.div`
   display: flex;
@@ -15,6 +15,38 @@ export const PageBody = styled.div`
   align-items: center;
   justify-content: center;
   gap: 15px;
+`;
+
+export const BgImg = styled.img`
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  z-index: -1;
+  object-fit: cover;
+  filter: brightness(90%);
+`;
+
+export const TabsContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+`;
+
+export const AccountTab = styled.button`
+  border-style: solid;
+  background-color: ${({currTab}) => (currTab ? '#ffffff' : '#e6f7ff')};
+  height: 70px;
+  width: 250px;
+  font-size: 18pt;
+  font-weight: bold;
+  border-radius: 25px;
+  //text-decoration: underline;
+  cursor: ${({currTab}) => (currTab ? 'default' : 'pointer')};
+  
+  &:hover {
+    transition: all 0.2s ease-in-out;
+    background: white;
+  }
 `;
 
 export const InfoRow = styled.div`
@@ -61,16 +93,34 @@ export const SignOutButton = styled.button`
   }
 `;
 
-export const AccountInfoContainer = styled.div`
+// export const AccountDetailsContainer = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   height: 550px;
+//   width: 1200px;
+//   border-style: groove;
+//   background-color: #e6f7ff;
+//   align-items: center;
+//   justify-content: center;
+//   gap: 20px;
+// `;
+
+export const AccountDetailsContainer = styled.div`
   display: flex;
   flex-direction: column;
   height: 550px;
   width: 1200px;
-  border-style: groove;
-  background-color: #e6f7ff;
   align-items: center;
   justify-content: center;
   gap: 20px;
+`;
+
+export const CenterBox = styled.div`
+  height: 550px;
+  width: 1200px;
+  //border-style: groove;
+  background-color: #e6f7ff;
+  border-radius: 20px;
 `;
 
 export const AccountFooter = styled(Footer)`

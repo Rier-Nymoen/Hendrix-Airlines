@@ -16,9 +16,7 @@ import {
     CreateAccountLink
 } from "./SigninElements";
 import SigninForm from './SigninForm';
-
-
-const plane = require('../../images/signin.jpg')
+import plane from '../../images/signin.jpg';
 
 const Signin = () => {
 
