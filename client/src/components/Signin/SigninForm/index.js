@@ -1,12 +1,12 @@
 import React, {useContext} from 'react';
 import {signinSchema} from "./validationSchema";
-import {Field, Formik} from "formik";
-import {TextField} from '@mui/material';
+import {Formik} from "formik";
 import {SigninButton} from "../SigninElements";
 import {FormikForm, initialValues} from "./FormElements";
 import {UserContext} from "../../UserContext";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
+import {PassBox, TextBox} from "../../FormFields";
 
 
 const SigninForm = () => {
@@ -44,26 +44,9 @@ const SigninForm = () => {
             validationSchema={signinSchema}
             onSubmit={onSubmit}>{({ values, isSubmitting, errors, touched }) => (
             <FormikForm>
-                <Field
-                    name="email"
-                    type="input"
-                    label="Email"
-                    helperText={errors.email && touched.email ? errors.email : " "}
-                    error={!!(errors.email && touched.email)}
-                    variant="outlined"
-                    as={TextField}/>
-                <Field
-                    name="password"
-                    type="password"
-                    label="Password"
-                    helperText={errors.password && touched.password ? errors.password: " "}
-                    error={!!(errors.password && touched.password ? errors.password: "")}
-                    variant="outlined"
-                    as={TextField}/>
-                {/*<pre>{JSON.stringify(values, null, 2)}</pre>*/}
-                {/*<pre>{JSON.stringify(errors, null, 2)}</pre>*/}
+                <TextBox name="email" label="Email" />
+                <PassBox name="password" label="Password" />
                 <SigninButton disabled={isSubmitting} type="submit">Sign In</SigninButton>
-                {/*<BasicDatePicker />*/}
             </FormikForm>
             )}
         </Formik>

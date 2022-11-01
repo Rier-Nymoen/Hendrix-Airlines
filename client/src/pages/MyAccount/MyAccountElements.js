@@ -34,18 +34,17 @@ export const TabsContainer = styled.div`
 
 export const AccountTab = styled.button`
   border-style: solid;
-  background-color: ${({currTab}) => (currTab ? '#ffffff' : '#e6f7ff')};
+  border-width: thin;
+  background-color: ${({currTab}) => (currTab ? '#49A9E6' : '#ffffff')};
   height: 70px;
   width: 250px;
   font-size: 18pt;
-  font-weight: bold;
-  border-radius: 25px;
-  //text-decoration: underline;
+  border-radius: 30px;
   cursor: ${({currTab}) => (currTab ? 'default' : 'pointer')};
   
   &:hover {
     transition: all 0.2s ease-in-out;
-    background: white;
+    background: #49A9E6;
   }
 `;
 
@@ -119,7 +118,7 @@ export const CenterBox = styled.div`
   height: 550px;
   width: 1200px;
   //border-style: groove;
-  background-color: #e6f7ff;
+  background-color: white; //#e6f7ff
   border-radius: 20px;
 `;
 

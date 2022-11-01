@@ -66,6 +66,7 @@ const AccountDetails = () => {
 };
 
 const MyAccount = () => {
+    const { user } = useContext(UserContext);
     const [currentTab, setCurrentTab] = useState("accountDetails");
 
     const switchToTrips = () => {
@@ -76,6 +77,10 @@ const MyAccount = () => {
         setCurrentTab("accountDetails");
     };
 
+    const switchToAdminView = () => {
+        setCurrentTab("adminView");
+    };
+
     return (
         <PageWrap>
             <Navbar />
@@ -84,9 +89,14 @@ const MyAccount = () => {
                 <TabsContainer>
                     <AccountTab currTab={currentTab === "accountDetails"} onClick={switchToAccountDetails}>Account Details</AccountTab>
                     <AccountTab currTab={currentTab === "trips"} onClick={switchToTrips}>My Trips</AccountTab>
+                    {user.type === 'admin'
+                        && <AccountTab currTab={currentTab === "adminView"} onClick={switchToAdminView}>Admin View</AccountTab>}
                 </TabsContainer>
                 <CenterBox>
-                    {currentTab === "accountDetails" ? <AccountDetails /> : <h1>Trips</h1>}
+                    {currentTab === "accountDetails" ? <AccountDetails />
+                        : currentTab === "trips" ? <h1>Trips</h1>
+                        : currentTab === "adminView" && user.type === 'admin' ? <h1>Admin View</h1>
+                        : null}
                 </CenterBox>
             </PageBody>
             <AccountFooter />

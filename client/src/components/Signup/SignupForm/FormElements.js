@@ -12,7 +12,7 @@ import {TextField,
     Autocomplete,
     FormHelperText
 } from "@mui/material";
-import { states } from "./countries_states";
+import { states } from "./state_list";
 
 
 export const FormikForm = styled(Form)`
@@ -42,20 +42,9 @@ export const initialValues = {
     city: '',
     state: '',
     zip: '',
-    phone: ''
+    phone: '',
+    confirm_password: ''
 }
-
-export const TextBox = ({ ...props }) => {
-        const [field, meta] = useField(props);
-        return (
-            <TextField
-                variant="outlined"
-                helperText={meta.error && meta.touched ? meta.error: " "}
-                error={!!(meta.error && meta.touched)}
-                {...field}
-                {...props} />
-        );
-    };
 
 export const SuffixSelect = ({ ...props }) => {
     const [field] = useField(props);
@@ -82,14 +71,9 @@ export const SuffixSelect = ({ ...props }) => {
     );
 };
 
-
 export const DOBSelect = ({ ...props }) => {
     const [, meta, helpers] = useField(props);
-    //console.log("meta:", meta)
 
-    // if (date) {
-    //     console.log(date.toLocaleDateString());
-    // }
     return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <DatePicker
@@ -111,7 +95,7 @@ export const DOBSelect = ({ ...props }) => {
 
 export const GenderSelect = ({ ...props }) => {
     const [field, meta, helpers] = useField(props);
-    //console.log(meta)
+
     return (
         <FormControl
             sx={{ minWidth: 94 }}
@@ -138,7 +122,7 @@ export const GenderSelect = ({ ...props }) => {
 
 export const StateSelect = ({ ...props }) => {
     const [field, meta, helpers] = useField(props);
-    //console.log(meta)
+
     return (
         <Autocomplete
           sx={{ width: 190 }}

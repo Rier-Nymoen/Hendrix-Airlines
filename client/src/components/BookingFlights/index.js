@@ -3,7 +3,7 @@ import {Formik, Field, Form, useField} from 'formik'
 import { FormikForm, initialValues, FlightListContainer, BookButton, BookingContainer } from './BookingElements';
 import axios from 'axios';
 import Navbar from "../Navbar";
-import { TextBox } from "../Signup/SignupForm/FormElements";
+import {TextBox} from "../FormFields";
 import {bookingSchema} from "./bookingSchema";
 
 // import DatePicker from "react-datepicker";

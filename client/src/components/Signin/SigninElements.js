@@ -69,14 +69,7 @@ export const Img = styled.img`
   height: 100%;
   -o-object-fit: cover;
   object-fit: cover;
-  filter: brightness(90%);
-  
-  //@media screen and (max-height: 880px) {
-  //  width: 1920px;
-  //  height: 880px;
-  //  -o-object-fit: none;
-  //  object-fit: none;
-  //}
+  filter: brightness(98%);
 `;
 
 export const SigninContent = styled.div`
