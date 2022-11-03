@@ -9,29 +9,115 @@ import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import FormHelperText from '@mui/material/FormHelperText';
+import Popup from 'reactjs-popup';
+import { StepContext } from '@mui/material';
 
-const Flight = styled.div`
-  border-style: groove;
-  width: 800px;
-  height: 200px;
-`
 
+//Container that will hold every mapped flight component
 export const FlightMap = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 30px;
+  
+
 `
 
-export const FlightListContainer = (props) => {
-    
+//Component that is the Box holding flight information - holds each flight and contents
+const Flight = styled.div`
+  border-style: solid;
+
+  width: 800px;
+  height: 200px;
+`
+//Inside each FlightComponent and each Flight's seat picker
+export const FlightButton = styled.button`
+  border-radius: 50px;
+  background: #010606;
+  white-space: nowrap;
+  padding: 13px 28px;
+  color: white;
+  font-size: 16px;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.2s ease-in-out;
+  text-decoration: none;
+  
+  &:hover {
+    transition: all 0.2s ease-in-out;
+    background: #49A9E6;
+  }
+`;
+
+// export const Popup = styled.div`
+
+// `
+// export const PopupInner = styled.div`
+
+// `
+//Holds all flight lists (props is a convention we can use)
+export const FlightListContainer = ({flightList, setCurrentFlight, setIsModalOpen}) => {
+//may need async
+  const selectHandler =  (plane) => {
+      setCurrentFlight(plane)
+      setIsModalOpen(true)
+  }
     return(
             <FlightMap>
-                {props.flightList.map(flight => <Flight> {flight.flight_no}</Flight>)}
+                {flightList.map(flight =>
+                <Flight>
+                   {flight.flight_no}, {flight.status}, {flight.source_gate_code} to {flight.destination_gate_code} {flight.regno}
+                  <FlightButton onClick={() => {selectHandler(flight)}}> Pick Seats</FlightButton>
+                </Flight>)}
             </FlightMap>
     )
+}
+
+export const FModal = ({currentFlight, setIsModalOpen}) => {
+
+  return(
+    <FModalBackground>
+
+    <FModalContainer>
+          <h1>{currentFlight.maincabinseats}</h1>
+          <button onClick={() => {setIsModalOpen(false)}}>Close Modal</button>
+    </FModalContainer>
+
+
+    </FModalBackground>
+
+  )
+
+
 
 }
 
+export const FModalBackground = styled.div`
+width: 100%;
+height:100%;
+position: fixed;
+display: flex;
+justify-content: center;
+align-items: center;
+background-color: rgba(200,200,200,0.3);
+z-index: 4;
+`
+
+
+export const FModalContainer = styled.div`
+border-style: solid;
+width: 600px;
+height: 600px;
+background-color: rgba(255,255,255,1);
+z-index: 4;
+`
+
+
+
+//Represents the part of the page under the Navbar that holds flight searches, and displays.
 export const BookingContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -56,6 +142,7 @@ export const FormikForm = styled(Form)`
   //left: 35px;
 `;
 
+//@TODO rename to flight search possibly. Currently this is what starts queries.
 export const BookButton = styled.button`
   border-radius: 50px;
   background: #010606;
@@ -78,6 +165,7 @@ export const BookButton = styled.button`
   }
 `;
 
+//Prop for formik to initialize values
 export const initialValues =
 {
       sourceAirport: '',
@@ -86,6 +174,7 @@ export const initialValues =
       passengerSelect: '1'
 
 };
+
 
 export const DepartureCalendar = ({ ...props }) => {
   const [, meta, helpers] = useField(props);
