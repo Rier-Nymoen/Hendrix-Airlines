@@ -1,18 +1,18 @@
 import React from "react";
 import styled from 'styled-components';
 import {Form, useField} from 'formik';
-import axios from 'axios';
-import TextField from '@mui/material/TextField';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
-import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
-import FormHelperText from '@mui/material/FormHelperText';
-import Autocomplete from '@mui/material/Autocomplete';
-import {countries, states} from "./countries_states";
+import {TextField,
+    FormControl,
+    InputLabel,
+    Select,
+    MenuItem,
+    Autocomplete,
+    FormHelperText
+} from "@mui/material";
+import { states } from "./state_list";
 
 
 export const FormikForm = styled(Form)`
@@ -42,41 +42,9 @@ export const initialValues = {
     city: '',
     state: '',
     zip: '',
-    phone: ''
+    phone: '',
+    confirm_password: ''
 }
-
-export const onSubmit = async (signinData, { setSubmitting }) => {
-    setSubmitting(true);
-    let data = {...signinData}
-    data.dob = `${data.dob.getFullYear()}-${data.dob.getMonth()}-${data.dob.getDate()}`
-    try {
-        const response = await axios.post('http://localhost:5000/accounts', data);
-
-        if (response.status !== 201) {
-            alert("Email already in use.");
-        }
-        else {
-            alert('Created account.');
-        }
-    }
-	catch (error) {
-        alert("Email already in use.");
-    }
-
-    setSubmitting(false);
-};
-
-export const TextBox = ({ ...props }) => {
-        const [field, meta] = useField(props);
-        return (
-            <TextField
-                variant="outlined"
-                helperText={meta.error && meta.touched ? meta.error: " "}
-                error={!!(meta.error && meta.touched)}
-                {...field}
-                {...props} />
-        );
-    };
 
 export const SuffixSelect = ({ ...props }) => {
     const [field] = useField(props);
@@ -103,14 +71,9 @@ export const SuffixSelect = ({ ...props }) => {
     );
 };
 
-
 export const DOBSelect = ({ ...props }) => {
     const [, meta, helpers] = useField(props);
-    //console.log("meta:", meta)
 
-    // if (date) {
-    //     console.log(date.toLocaleDateString());
-    // }
     return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <DatePicker
@@ -132,7 +95,7 @@ export const DOBSelect = ({ ...props }) => {
 
 export const GenderSelect = ({ ...props }) => {
     const [field, meta, helpers] = useField(props);
-    //console.log(meta)
+
     return (
         <FormControl
             sx={{ minWidth: 94 }}
@@ -159,7 +122,7 @@ export const GenderSelect = ({ ...props }) => {
 
 export const StateSelect = ({ ...props }) => {
     const [field, meta, helpers] = useField(props);
-    //console.log(meta)
+
     return (
         <Autocomplete
           sx={{ width: 190 }}

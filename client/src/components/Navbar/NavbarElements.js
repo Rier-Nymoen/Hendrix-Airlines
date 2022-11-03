@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Link as LinkR } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 export const Nav = styled.nav`
   background: black;
@@ -13,9 +13,9 @@ export const Nav = styled.nav`
   top: 0;
   z-index: 10;
 
-  @media screen and (max-width: 960px) {
-      transition: 0.8s all ease;
-  }
+  //@media screen and (max-width: 960px) {
+  //    transition: 0.8s all ease;
+  //}
 `;
 
 export const NavbarContainer = styled.div`
@@ -28,7 +28,7 @@ export const NavbarContainer = styled.div`
   max-width: 1100px;
 `;
 
-export const NavLogo = styled(LinkR)`
+export const NavLogo = styled(Link)`
   color: white;
   justify-self: flex-start;
   cursor: pointer;
@@ -40,20 +40,6 @@ export const NavLogo = styled(LinkR)`
   text-decoration: none;
 `;
 
-export const MobileIcon = styled.div`
-  display: none;
-  
-  @media screen and (max-width: 768px) {
-    display: block;
-    position: absolute;
-    top: 0;
-    right: 0;
-    transform: translate(-100%, 60%);
-    font-size: 1.8rem;
-    cursor: pointer;
-    color: white;
-  }
-`;
 
 export const NavMenu = styled.ul`
   display: flex;
@@ -62,16 +48,16 @@ export const NavMenu = styled.ul`
   text-align: center;
   margin-right: -22px;
   
-  @media screen and (max-width: 768px) {
-    display: none;
-  }
+  //@media screen and (max-width: 768px) {
+  //  display: none;
+  //}
 `;
 
 export const NavItem = styled.li`
   height: 80px;
 `;
 
-export const NavLinks = styled(LinkR)`
+export const NavLinks = styled(Link)`
   color: white;
   display: flex;
   align-items: center;
@@ -89,12 +75,12 @@ export const NavBtn = styled.nav`
   display: flex;
   align-items: center;
   
-  @media screen and (max-width: 768px) {
-    display: none;
-  }
+  //@media screen and (max-width: 768px) {
+  //  display: none;
+  //}
 `;
 
-export const NavBtnLink = styled(LinkR)`
+export const NavBtnLink = styled(Link)`
   border-radius: 50px;
   background: #49A9E6;
   white-space: nowrap;

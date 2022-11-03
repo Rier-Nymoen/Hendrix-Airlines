@@ -19,7 +19,6 @@ const getAccounts = (request, response) => {
 
 const getAccountByEmail = (request, response) => {
   const email = request.params.email;
-  console.log(request.params);
 
   pool.query('SELECT * FROM account WHERE email = $1', [email], (error, results) => {
     if (error) {
@@ -47,10 +46,12 @@ const createAccount = (request, response) => {
       zip
   } = request.body
 
-  pool.query('INSERT INTO account VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) RETURNING *',
+
+  pool.query("INSERT INTO account VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, 'user') RETURNING *",
    [email, password, fname, mname, lname, suffix, dob, gender, address, address2, phone, city, zip, state], (error, results) => {
     if (error) {
         response.sendStatus(503);
+        console.log(error);
     } else {
         response.status(201).send(`User added with email: ${results.rows[0].id}`)
     }
@@ -97,6 +98,23 @@ const getFlightsByAirport = (request, response) => {
   })
 
 }
+const getFlightsBySearch = (request, response) => {
+  //parameters for the route, request.body is the body of the request, req.query is query parameters
+  const {source,destination, departure, passengers}= request.params;
+
+  pool.query("SELECT * FROM Flight natural join Plane where source_gate_code = $1 and destination_gate_code = $2 and date(departure) = $3 and maincabinseats + firstclassseats - passengers >= $4", [source, destination, departure, passengers] ,(error, results) =>{
+    if(error)
+    {
+      response.sendStatus(503);
+    }
+    else{
+      response.status(200).json(results.rows)
+    }
+  })
+}
+
+
+
 
 module.exports = {
   getAccounts,
@@ -104,5 +122,6 @@ module.exports = {
   createAccount,
   updateAccount,
   deleteAccount,
-  getFlightsByAirport
+  getFlightsByAirport,
+  getFlightsBySearch
 }
