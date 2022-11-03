@@ -98,6 +98,23 @@ const getFlightsByAirport = (request, response) => {
   })
 
 }
+const getFlightsBySearch = (request, response) => {
+  //parameters for the route, request.body is the body of the request, req.query is query parameters
+  const {source,destination, departure, passengers}= request.params;
+
+  pool.query("SELECT * FROM Flight natural join Plane where source_gate_code = $1 and destination_gate_code = $2 and date(departure) = $3 and maincabinseats + firstclassseats - passengers >= $4", [source, destination, departure, passengers] ,(error, results) =>{
+    if(error)
+    {
+      response.sendStatus(503);
+    }
+    else{
+      response.status(200).json(results.rows)
+    }
+  })
+}
+
+
+
 
 module.exports = {
   getAccounts,
@@ -105,5 +122,6 @@ module.exports = {
   createAccount,
   updateAccount,
   deleteAccount,
-  getFlightsByAirport
+  getFlightsByAirport,
+  getFlightsBySearch
 }
