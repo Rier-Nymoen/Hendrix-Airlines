@@ -1,19 +1,18 @@
 import React, {useState} from 'react'
-import Popup from 'reactjs-popup'
 
 import {Formik, Field, Form, useField} from 'formik'
 import { FormikForm, initialValues, FlightListContainer, BookButton, BookingContainer, DepartureCalendar, PassengerSelect, FModal} from './BookingElements';
 import axios from 'axios';
 import Navbar from "../Navbar";
-import { TextBox } from "../FormFields";
+import {TextBox} from "../FormFields";
 import {bookingSchema} from "./bookingSchema";
-import Modal from 'react-modal'
 
 const Booking = () => {
 
     const [flightList, setFlightList] = useState([]);
     const [currentFlight, setCurrentFlight] = useState(null)
     const [isModalOpen, setIsModalOpen] = useState(false)
+
 
 
     const onSubmit = async (values, { setSubmitting }) => {
