@@ -17,5 +17,6 @@ export const signupSchema = yup.object({
   city: yup.string().required("Required"),
   state: yup.string().nullable().required("Required"),
   zip: yup.string().required("Required").matches(/^[0-9]+$/, "Invalid Zip").min(5, "Invalid Zip").max(5, "Invalid Zip"),
-  phone: yup.string().required("Required").max(30, "Field too long")
+  phone: yup.string().required("Required").max(30, "Field too long"),
+  confirm_password: yup.string().required("Required").oneOf([yup.ref('password')], 'Passwords must match')
 });

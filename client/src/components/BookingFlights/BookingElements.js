@@ -125,10 +125,9 @@ export const BookingContainer = styled.div`
   margin-top: 35px;
   height: 100%;
   width: 100%;
-  justify-content: center;
   align-items: center;
   margin-bottom: 30px;
-`
+`;
 
 
 

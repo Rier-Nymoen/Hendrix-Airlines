@@ -4,9 +4,8 @@ import Popup from 'reactjs-popup'
 import {Formik, Field, Form, useField} from 'formik'
 import { FormikForm, initialValues, FlightListContainer, BookButton, BookingContainer, DepartureCalendar, PassengerSelect, FModal} from './BookingElements';
 import axios from 'axios';
-import Sidebar from "../Sidebar";
 import Navbar from "../Navbar";
-import { TextBox } from "../Signup/SignupForm/FormElements";
+import {TextBox} from "../FormFields";
 import {bookingSchema} from "./bookingSchema";
 import Modal from 'react-modal'
 
