@@ -9,7 +9,6 @@ import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import FormHelperText from '@mui/material/FormHelperText';
-import Popup from 'reactjs-popup';
 import { StepContext } from '@mui/material';
 
 
@@ -112,6 +111,7 @@ border-style: solid;
 width: 600px;
 height: 600px;
 background-color: rgba(255,255,255,1);
+position: fixed;
 z-index: 4;
 `
 

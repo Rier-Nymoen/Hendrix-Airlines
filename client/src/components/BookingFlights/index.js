@@ -1,5 +1,4 @@
 import React, {useState} from 'react'
-import Popup from 'reactjs-popup'
 
 import {Formik, Field, Form, useField} from 'formik'
 import { FormikForm, initialValues, FlightListContainer, BookButton, BookingContainer, DepartureCalendar, PassengerSelect, FModal} from './BookingElements';
@@ -7,18 +6,14 @@ import axios from 'axios';
 import Navbar from "../Navbar";
 import {TextBox} from "../FormFields";
 import {bookingSchema} from "./bookingSchema";
-import Modal from 'react-modal'
 
 const Booking = () => {
 
     const [flightList, setFlightList] = useState([]);
-    const [isOpen, setIsOpen] = useState(false);
     const [currentFlight, setCurrentFlight] = useState(null)
     const [isModalOpen, setIsModalOpen] = useState(false)
 
-    const toggle = () => {
-        setIsOpen(!isOpen);
-    }
+
 
     const onSubmit = async (values, { setSubmitting }) => {
         setSubmitting(true);
@@ -41,10 +36,9 @@ const Booking = () => {
 
     return(
         <div>
-            <Sidebar isOpen={isOpen} toggle={toggle}/>
             {isModalOpen && <FModal currentFlight={currentFlight} setIsModalOpen={setIsModalOpen}> </FModal>}
 
-            <Navbar toggle={toggle}/>
+            <Navbar/>
 
             <BookingContainer>
                 <Formik
@@ -63,7 +57,7 @@ const Booking = () => {
                     </FormikForm>
                     )}
                 </Formik>
-                <FlightListContainer flightList={flightList} setCurrentFlight={setCurrentFlight} setIsModalOpen={setIsModalOpen} flightList={flightList}></FlightListContainer>
+                <FlightListContainer flightList={flightList} setCurrentFlight={setCurrentFlight} setIsModalOpen={setIsModalOpen}></FlightListContainer>
 
                 
             </BookingContainer>
