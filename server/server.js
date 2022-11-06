@@ -31,4 +31,6 @@ app.delete('/accounts/:email', db.deleteAccount)
 app.get('/book/:airport', db.getFlightsByAirport)
 app.get('/book/:source/:destination/:departure/:passengers', db.getFlightsBySearch)
 
+app.get('/trips/:email', db.getTripsByEmail)
+
 app.listen(port, () => {console.log(`Server started on port ${port}`)})

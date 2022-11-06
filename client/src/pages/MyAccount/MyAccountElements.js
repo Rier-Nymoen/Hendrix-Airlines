@@ -125,3 +125,23 @@ export const CenterBox = styled.div`
 export const AccountFooter = styled(Footer)`
   flex-shrink: 0;
 `;
+
+export const TripMap = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  gap: 10px;
+  padding-top: 10px;
+`;
+
+export const Trip = styled.div`
+  border-style: solid;
+  height: 100px;
+  width: 800px;
+`;
+
+export const NoTrips = styled.h1`
+  font-size: 24pt;
+`;

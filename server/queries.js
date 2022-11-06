@@ -98,6 +98,7 @@ const getFlightsByAirport = (request, response) => {
   })
 
 }
+
 const getFlightsBySearch = (request, response) => {
   //parameters for the route, request.body is the body of the request, req.query is query parameters
   const {source,destination, departure, passengers}= request.params;
@@ -113,15 +114,30 @@ const getFlightsBySearch = (request, response) => {
   })
 }
 
+const getTripsByEmail = (request, response) => {
+  const email = request.params.email;
+
+  pool.query('SELECT * FROM trip WHERE email = $1', [email] ,(error, results) =>{
+    if(error)
+    {
+      response.sendStatus(503);
+    }
+    else{
+      response.status(200).json(results.rows)
+    }
+  })
+
+}
 
 
 
 module.exports = {
-  getAccounts,
-  getAccountByEmail,
-  createAccount,
-  updateAccount,
-  deleteAccount,
-  getFlightsByAirport,
-  getFlightsBySearch
+    getAccounts,
+    getAccountByEmail,
+    createAccount,
+    updateAccount,
+    deleteAccount,
+    getFlightsByAirport,
+    getFlightsBySearch,
+    getTripsByEmail
 }

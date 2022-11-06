@@ -36,7 +36,7 @@ const SignupForm = () => {
             }
         }
         catch (error) {
-            alert("Email already in use.");
+            alert("Unexpected Error :(");
         }
 
         setSubmitting(false);
