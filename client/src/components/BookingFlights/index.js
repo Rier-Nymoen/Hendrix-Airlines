@@ -20,7 +20,7 @@ const Booking = () => {
         console.log('onSubmitPressed')
 
         //GetMonth has +1, because Calendar forms denote January as 0, February as 1, and so on. In order to make the queries work, it needs to be the month how we usually denote it.
-        const res = await axios.get('http://localhost:5000/book/' + values.sourceAirport.toUpperCase() +
+        const res = await axios.get('http://localhost:5005/book/' + values.sourceAirport.toUpperCase() +
         '/' + values.destinationAirport.toUpperCase() + '/' +  `${values.departDate.getFullYear()}-${values.departDate.getMonth() + 1}-${values.departDate.getDate()}` +
         '/' + values.passengerSelect)
 

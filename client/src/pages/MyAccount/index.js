@@ -100,7 +100,7 @@ const MyAccount = () => {
 
     useEffect(() => {
         const getMyTrips = async () => {
-            const response = await axios.get('http://localhost:5000/trips/' + user.email);
+            const response = await axios.get('http://localhost:5005/trips/' + user.email);
             if (response.status !== 200) {
                 alert('API Status Error: ' + response.status);
             }
