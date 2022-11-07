@@ -16,7 +16,7 @@ const ConfirmationNumForm = () => {
       setSubmitting(true);
 
       try {
-          const response = await axios.get('http://localhost:5005/trip/' + confirmation_numData.confirmation_num);
+          const response = await axios.get('http://localhost:5005/trips/' + confirmation_numData.confirmation_num);
 
           if (response.status !== 200) {
               alert('API Status Error: ' + response.status);

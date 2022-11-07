@@ -37,7 +37,7 @@ const App = ()  => {
                 <Route path="/sign-up" element={user ? <Error /> : <SignupPage />} />
                 <Route path="/book" element={<Booking />} />
                 <Route path="/my-account" element={user ? <MyAccount /> : <Error />} />
-                <Route path="/trip" element={user ? <ConfirmationNumPage /> : <Error />} />
+                <Route path="/trips" element={user ? <ConfirmationNumPage /> : <Error />} />
             </Routes>
         </UserContext.Provider>
     </Router>
