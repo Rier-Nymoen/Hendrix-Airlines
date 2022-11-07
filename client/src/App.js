@@ -5,6 +5,7 @@ import Home from "./pages";
 import SigninPage from "./pages/signin";
 import SignupPage from "./pages/signup";
 import Booking from "./components/BookingFlights";
+import ConfirmationNumPage from "./pages/confirmationnum";
 import {UserContext} from "./components/UserContext";
 import MyAccount from "./pages/MyAccount";
 import Error from "./pages/Error";
@@ -36,6 +37,7 @@ const App = ()  => {
                 <Route path="/sign-up" element={user ? <Error /> : <SignupPage />} />
                 <Route path="/book" element={<Booking />} />
                 <Route path="/my-account" element={user ? <MyAccount /> : <Error />} />
+                <Route path="/trip" element={user ? <ConfirmationNumPage /> : <Error />} />
             </Routes>
         </UserContext.Provider>
     </Router>
