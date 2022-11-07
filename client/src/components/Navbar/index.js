@@ -46,7 +46,7 @@ const Navbar = () => {
                             <NavLinks to="/discover">Discover</NavLinks>
                         </NavItem>
                         <NavItem>
-                            <NavLinks to="/services">Services</NavLinks>
+                            <NavLinks to="/trip">Flight Info</NavLinks>
                         </NavItem>
                         {user ? null : (
                             <NavItem>
