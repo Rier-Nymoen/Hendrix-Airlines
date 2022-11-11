@@ -10,6 +10,7 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import FormHelperText from '@mui/material/FormHelperText';
 import { StepContext } from '@mui/material';
+import axios from 'axios';
 
 
 //Container that will hold every mapped flight component
@@ -17,7 +18,6 @@ export const FlightMap = styled.div`
   display: flex;
   flex-direction: column;
   gap: 30px;
-  
 
 `
 
@@ -51,18 +51,17 @@ export const FlightButton = styled.button`
   }
 `;
 
-// export const Popup = styled.div`
 
-// `
-// export const PopupInner = styled.div`
-
-// `
 //Holds all flight lists (props is a convention we can use)
-export const FlightListContainer = ({flightList, setCurrentFlight, setIsModalOpen}) => {
+export const FlightListContainer = ({flightList, setCurrentFlight, setIsModalOpen, setPlaneLayout}) => {
 //may need async
-  const selectHandler =  (plane) => {
+  const selectHandler = async (plane) => {
       setCurrentFlight(plane)
+      const res = await axios.get('http://localhost:5000/book/' + plane.regno + '/seats')
+      console.log(res.data)
+      setPlaneLayout(res.data)
       setIsModalOpen(true)
+
   }
     return(
             <FlightMap>
@@ -75,24 +74,108 @@ export const FlightListContainer = ({flightList, setCurrentFlight, setIsModalOpe
     )
 }
 
-export const FModal = ({currentFlight, setIsModalOpen}) => {
-
+export const FModal = ({currentFlight, setIsModalOpen, planeLayout}) => {
   return(
     <FModalBackground>
 
     <FModalContainer>
+      {/* 
+      if regno for component, render that component otherwise render the other component
+      
+      */}
           <h1>{currentFlight.maincabinseats}</h1>
+          <div></div>
           <button onClick={() => {setIsModalOpen(false)}}>Close Modal</button>
+          <div></div>
+          {console.log(currentFlight.model)}
+
+          {(() => {
+            if(currentFlight.model === "B747")
+            {
+              console.log(currentFlight.model)
+              return(
+                <ModelB747 planeLayout={planeLayout}>
+                {console.log(planeLayout)}
+                </ModelB747>       
+              )
+            }
+      
+          })()}
+
+
     </FModalContainer>
-
-
     </FModalBackground>
 
   )
+}
 
 
+
+//Seat object to be rendered
+export const FSeat = ({row, isTaken, column}) => {
+
+  if(isTaken)
+  {
+    return(<h1>{"occupied"}</h1>)
+  }
+  else
+  {
+    return(<button>{row} {column}</button>)
+  }
+}
+
+export const SeatInteractable = ({})
+
+
+export const ModelB747 = ({planeLayout}) => {
+
+  return(
+    <>
+        {console.log(planeLayout[0]["istaken"])}
+        {console.log("testing")}
+
+    <FSeatColumn>
+      <FSeat row={planeLayout[0]["row"]} column={planeLayout[0]["columnletter"]} isTaken={planeLayout[0]["istaken"]}></FSeat>
+      <FSeat row={planeLayout[1]["row"]} column={planeLayout[1]["columnletter"]} isTaken={planeLayout[1]["istaken"]} ></FSeat>
+      <FSeat row={planeLayout[2]["row"]} column={planeLayout[2]["columnletter"]}  isTaken={planeLayout[2]["istaken"]}></FSeat>
+      <FSeat row={planeLayout[3]["row"]} column={planeLayout[3]["columnletter"]}  isTaken={planeLayout[3]["istaken"]}></FSeat>
+    </FSeatColumn>
+    <FSeatColumn>
+      <FSeat row={planeLayout[4]["row"]} column={planeLayout[4]["columnletter"]}  isTaken={planeLayout[4]["istaken"]}></FSeat>
+      <FSeat row={planeLayout[5]["row"]} column={planeLayout[5]["columnletter"]}  isTaken={planeLayout[5]["istaken"]}></FSeat>
+      <FSeat row={planeLayout[6]["row"]} column={planeLayout[6]["columnletter"]}  isTaken={planeLayout[6]["istaken"]}></FSeat>
+      <FSeat row={planeLayout[7]["row"]} column={planeLayout[7]["columnletter"]}  isTaken={planeLayout[7]["istaken"]}></FSeat>
+    </FSeatColumn>
+    <FSeatColumn>
+      <FSeat row={planeLayout[8]["row"]} column={planeLayout[8]["columnletter"]}  isTaken={planeLayout[8]["istaken"]}></FSeat>
+      <FSeat row={planeLayout[9]["row"]} column={planeLayout[9]["columnletter"]}  isTaken={planeLayout[9]["istaken"]}></FSeat>
+      <FSeat row={planeLayout[10]["row"]} column={planeLayout[10]["columnletter"]}  isTaken={planeLayout[10]["istaken"]}></FSeat>
+      <FSeat row={planeLayout[11]["row"]} column={planeLayout[11]["columnletter"]}  isTaken={planeLayout[11]["istaken"]}></FSeat>
+    </FSeatColumn>
+    <FSeatColumn>
+      <FSeat row={planeLayout[12]["row"]} column={planeLayout[12]["columnletter"]} isTaken={planeLayout[12]["istaken"]}></FSeat>
+      <FSeat row={planeLayout[13]["row"]} column={planeLayout[13]["columnletter"]} isTaken={planeLayout[13]["istaken"]}></FSeat>
+      <FSeat row={planeLayout[14]["row"]} column={planeLayout[14]["columnletter"]} isTaken={planeLayout[14]["istaken"]}></FSeat>
+      <FSeat row={planeLayout[15]["row"]} column={planeLayout[15]["columnletter"]} isTaken={planeLayout[15]["istaken"]}></FSeat>
+    </FSeatColumn>
+    </>
+  )
+}
+
+export const ModelA11 = () =>{
 
 }
+
+
+export const FSeatColumn = styled.div`
+
+border-style: solid;
+background-color: #45aaed;
+float: left;
+width: 15%;
+padding: 10px;
+height: 400px;
+`
 
 export const FModalBackground = styled.div`
 width: 100%;
@@ -227,3 +310,29 @@ export const  PassengerSelect = ({ ...props }) => {
       </FormControl>
   );
 };
+
+/*
+Seat = () =>
+{
+
+if( row = object[row] and  column = object[column])
+    if(object[isTaken] == true)
+    {
+
+
+      return selectable react seat object
+    } 
+    else{
+      not selectable seat component
+    }
+}
+
+
+<Seat row={1} column={1} />
+
+passengerList={{p1 : seat}, p2, p3}
+current=passengerList[0]
+
+
+*/
+

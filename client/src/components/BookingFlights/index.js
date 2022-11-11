@@ -12,6 +12,7 @@ const Booking = () => {
     const [flightList, setFlightList] = useState([]);
     const [currentFlight, setCurrentFlight] = useState(null)
     const [isModalOpen, setIsModalOpen] = useState(false)
+    const [planeLayout, setPlaneLayout] = useState([])
 
 
 
@@ -27,8 +28,8 @@ const Booking = () => {
         console.log(res)
         setFlightList(res.data)
         setSubmitting(false);
-        //set current flight should be null i believe
-        //setCurrentFlight(null)
+        //set current flight should be empty list i believe or null?
+        //setCurrentFlight([]) 
 
 
     }
@@ -36,7 +37,7 @@ const Booking = () => {
 
     return(
         <div>
-            {isModalOpen && <FModal currentFlight={currentFlight} setIsModalOpen={setIsModalOpen}> </FModal>}
+            {isModalOpen && <FModal currentFlight={currentFlight} setIsModalOpen={setIsModalOpen} planeLayout={planeLayout}> </FModal>}
 
             <Navbar/>
 
@@ -57,17 +58,15 @@ const Booking = () => {
                     </FormikForm>
                     )}
                 </Formik>
-                <FlightListContainer flightList={flightList} setCurrentFlight={setCurrentFlight} setIsModalOpen={setIsModalOpen}></FlightListContainer>
-
-                
-            </BookingContainer>
-
-                        
-            
-            
-        </div>
-
-        
+                <FlightListContainer
+                flightList={flightList}
+                setCurrentFlight={setCurrentFlight}
+                setIsModalOpen={setIsModalOpen}
+                planeLayout={planeLayout} 
+                setPlaneLayout={setPlaneLayout}
+                ></FlightListContainer>
+            </BookingContainer>     
+        </div>  
     )
 
 }

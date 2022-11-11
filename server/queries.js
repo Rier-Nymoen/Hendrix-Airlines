@@ -113,6 +113,21 @@ const getFlightsBySearch = (request, response) => {
   })
 }
 
+const getPlaneLayout = (request, response) => {
+  //parameters for the route, request.body is the body of the request, req.query is query parameters
+  const {regno}= request.params;
+
+  pool.query("SELECT * FROM Seat where regno = $1 order by columnletter, row", [regno] ,(error, results) =>{
+    if(error)
+    {
+      response.sendStatus(503);
+    }
+    else{
+      response.status(200).json(results.rows)
+    }
+  })
+}
+
 
 
 
@@ -123,5 +138,6 @@ module.exports = {
   updateAccount,
   deleteAccount,
   getFlightsByAirport,
-  getFlightsBySearch
+  getFlightsBySearch,
+  getPlaneLayout
 }
