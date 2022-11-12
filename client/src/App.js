@@ -5,7 +5,7 @@ import Home from "./pages";
 import SigninPage from "./pages/signin";
 import SignupPage from "./pages/signup";
 import Booking from "./components/BookingFlights";
-import {UserContext} from "./components/UserContext";
+import {UserContext, PassengerContext} from "./components/UserContext";
 import MyAccount from "./pages/MyAccount";
 import Error from "./pages/Error";
 
@@ -13,6 +13,9 @@ import Error from "./pages/Error";
 const App = ()  => {
     const [user, setUser] = useState(null)
     const userMemo = useMemo(() => ({ user, setUser }), [user, setUser]);
+    const [passengerList, setPassengerList] = useState(null)
+
+    const passengerMemo = useMemo(() => ({ passengerList, setPassengerList }), [passengerList, setPassengerList]);
 
     useEffect(() => {
         const data = localStorage.getItem("user");
@@ -30,13 +33,15 @@ const App = ()  => {
     return (
     <Router>
         <UserContext.Provider value={userMemo}>
-            <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/sign-in" element={user ? <Error /> : <SigninPage />} />
-                <Route path="/sign-up" element={user ? <Error /> : <SignupPage />} />
-                <Route path="/book" element={<Booking />} />
-                <Route path="/my-account" element={user ? <MyAccount /> : <Error />} />
-            </Routes>
+            <PassengerContext.Provider value={passengerMemo}>
+                <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/sign-in" element={user ? <Error /> : <SigninPage />} />
+                    <Route path="/sign-up" element={user ? <Error /> : <SignupPage />} />
+                    <Route path="/book" element={<Booking />} />
+                    <Route path="/my-account" element={user ? <MyAccount /> : <Error />} />
+                </Routes>
+            </PassengerContext.Provider>
         </UserContext.Provider>
     </Router>
     );
