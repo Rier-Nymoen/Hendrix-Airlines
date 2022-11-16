@@ -1,19 +1,21 @@
-import React, {useState} from 'react'
+import React, {useContext, useState} from 'react'
 
 import {Formik, Field, Form, useField} from 'formik'
-import { FormikForm, initialValues, FlightListContainer, BookButton, BookingContainer, DepartureCalendar, PassengerSelect, FModal} from './BookingElements';
+import { FormikForm, initialValues, FlightListContainer, BookButton, BookingContainer, DepartureCalendar, PassengerSelect, FModal, InteractableButton} from './BookingElements';
 import axios from 'axios';
 import Navbar from "../Navbar";
 import {TextBox} from "../FormFields";
 import {bookingSchema} from "./bookingSchema";
+import { Link } from 'react-router-dom';
+import { PassengerContext} from '../UserContext';
 
 const Booking = () => {
 
     const [flightList, setFlightList] = useState([]);
     const [currentFlight, setCurrentFlight] = useState(null)
     const [isModalOpen, setIsModalOpen] = useState(false)
-
-
+    const [planeLayout, setPlaneLayout] = useState([])
+    const {passengerList,setPassengerList} = useContext(PassengerContext);
 
     const onSubmit = async (values, { setSubmitting }) => {
         setSubmitting(true);
@@ -27,16 +29,23 @@ const Booking = () => {
         console.log(res)
         setFlightList(res.data)
         setSubmitting(false);
-        //set current flight should be null i believe
-        //setCurrentFlight(null)
+        //set current flight should be empty list i believe or null?
+        //setCurrentFlight([])
 
+
+
+          setPassengerList([...Array(parseInt(values.passengerSelect))].map(() => {
+            return { row: null, column: null };
+          }))
 
     }
 
 
     return(
+
         <div>
-            {isModalOpen && <FModal currentFlight={currentFlight} setIsModalOpen={setIsModalOpen}> </FModal>}
+
+            {isModalOpen && <FModal currentFlight={currentFlight} setIsModalOpen={setIsModalOpen} planeLayout={planeLayout}> </FModal>}
 
             <Navbar/>
 
@@ -57,17 +66,16 @@ const Booking = () => {
                     </FormikForm>
                     )}
                 </Formik>
-                <FlightListContainer flightList={flightList} setCurrentFlight={setCurrentFlight} setIsModalOpen={setIsModalOpen}></FlightListContainer>
-
+                <FlightListContainer
+                flightList={flightList}
+                setCurrentFlight={setCurrentFlight}
+                setIsModalOpen={setIsModalOpen}
+                planeLayout={planeLayout}
+                setPlaneLayout={setPlaneLayout}
+                ></FlightListContainer>
 
             </BookingContainer>
-
-
-
-
         </div>
-
-
     )
 
 }
