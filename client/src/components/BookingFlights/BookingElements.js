@@ -72,7 +72,6 @@ export const FModal = ({currentFlight, setIsModalOpen, planeLayout}) => {
               )
             }
           })()}
-          <h1>{currentFlight.maincabinseats}</h1>
 
       </FModalContainer>
     </FModalBackground>

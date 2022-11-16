@@ -83,26 +83,32 @@ const deleteAccount = (request, response) => {
   })
 }
 
-const getFlightsByAirport = (request, response) => {
-  //parameters for the route, request.body is the body of the request, req.query is query parameters
-  const airport = request.params.airport;
 
-  pool.query('SELECT * FROM Flight WHERE Source_gate_code = $1', [airport] ,(error, results) =>{
-    if(error)
-    {
-      response.sendStatus(503);
-    }
-    else{
-      response.status(200).json(results.rows)
-    }
-  })
 
-}
+/*   This was the old query we relied on for a while, leaving here for reference
+     
+const getFlightsBySearch = (request, response) => {
+//   //parameters for the route, request.body is the body of the request, req.query is query parameters
+//   const {source,destination, departure, passengers}= request.params;
+
+//   pool.query("SELECT * FROM Flight natural join Plane where source_gate_code = $1 and destination_gate_code = $2 and date(departure) = $3 and maincabinseats + firstclassseats - passengers >= $4", [source, destination, departure, passengers] ,(error, results) =>{
+//     if(error)
+//     {
+//       response.sendStatus(503);
+//     }
+//     else{
+//       response.status(200).json(results.rows)
+//     }
+//   })
+} */
+
+//New Updated query
+
 const getFlightsBySearch = (request, response) => {
   //parameters for the route, request.body is the body of the request, req.query is query parameters
   const {source,destination, departure, passengers}= request.params;
 
-  pool.query("SELECT * FROM Flight natural join Plane where source_gate_code = $1 and destination_gate_code = $2 and date(departure) = $3 and maincabinseats + firstclassseats - passengers >= $4", [source, destination, departure, passengers] ,(error, results) =>{
+  pool.query('SELECT * FROM Flight natural join Plane NATURAL JOIN (SELECT regno from seat where istaken = false group by regno having count(istaken) - $4 >= 0) as capacity where source_gate_code = $1 and destination_gate_code = $2 and date(departure) = $3', [source, destination, departure, passengers] ,(error, results) =>{
     if(error)
     {
       response.sendStatus(503);
@@ -112,6 +118,7 @@ const getFlightsBySearch = (request, response) => {
     }
   })
 }
+
 
 const getPlaneLayout = (request, response) => {
   //parameters for the route, request.body is the body of the request, req.query is query parameters
@@ -137,7 +144,6 @@ module.exports = {
   createAccount,
   updateAccount,
   deleteAccount,
-  getFlightsByAirport,
   getFlightsBySearch,
   getPlaneLayout
 }

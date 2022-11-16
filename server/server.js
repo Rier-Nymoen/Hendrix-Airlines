@@ -28,7 +28,6 @@ app.post('/accounts', db.createAccount)
 app.put('/accounts/:email', db.updateAccount)
 app.delete('/accounts/:email', db.deleteAccount)
 
-app.get('/book/:airport', db.getFlightsByAirport)
 app.get('/book/:source/:destination/:departure/:passengers', db.getFlightsBySearch)
 app.get('/book/:regno/seats', db.getPlaneLayout)
 
