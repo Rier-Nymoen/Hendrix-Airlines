@@ -31,10 +31,12 @@ export const FlightListContainer = ({flightList, setCurrentFlight, setIsModalOpe
             <FlightMap>
                 {flightList.map(flight =>
                   <Flight key={flight.flight_no}>
-                  {flight.flight_no}, {flight.status}, {flight.source_gate_code} to {flight.destination_gate_code} {flight.regno}
+                  {flight.flight_no}, {flight.status}, {flight.source_gate_code} to {flight.destination_gate_code} {flight.regno} {flight.departure}
                   <FlightButton onClick={() => {selectHandler(flight)}}> Pick Seats</FlightButton>
+
                   </Flight>)}
             </FlightMap>
+            
     )
 }
 
@@ -59,7 +61,7 @@ export const FModal = ({currentFlight, setIsModalOpen, planeLayout}) => {
       <FModalContainer>
 
           <div></div>
-          <button onClick={exitModalHandler}> Close Modal</button>
+          <CloseButton onClick={exitModalHandler}>X</CloseButton>
           <div></div>
 
           {(() => {
@@ -67,7 +69,6 @@ export const FModal = ({currentFlight, setIsModalOpen, planeLayout}) => {
             {
               return(
                 <ModelB747 planeLayout={planeLayout}>
-                {/* {x.log(planeLayout)} */}
                 </ModelB747>       
               )
             }
@@ -99,7 +100,7 @@ export const FSeat = ({row, isTaken, column, currentPassenger}) => {
   }
   else if(selectedPassenger !== null && passengerList[selectedPassenger].row === row && passengerList[selectedPassenger].column === column) 
   {
-    return(<FSeatStyle>P{selectedPassenger + 1}</FSeatStyle>)
+    return(<FSeatSelected>P{selectedPassenger + 1}</FSeatSelected>)
   }
   else
   {
@@ -268,6 +269,44 @@ export const ContinueButton = styled(Link)`
     background: #49A9E6;
   }
 `
+export const CloseButton = styled.button`
+  background: black;
+  white-space: nowrap;
+  padding: 13px 28px;
+  color: white;
+  font-size: 16px;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.2s ease-in-out;
+  text-decoration: none;
+  
+  &:hover {
+    transition: all 0.2s ease-in-out;
+    background: red;
+  }
+`;
+
+export const FSeatSelected = styled.button`
+  background: black;
+  white-space: nowrap;
+  padding: 13px 28px;
+  color: white;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.2s ease-in-out;
+  text-decoration: none;
+  
+  
+`
+
 
 //Styling for FSeat
 export const FSeatStyle = styled.button`
