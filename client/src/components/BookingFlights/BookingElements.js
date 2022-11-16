@@ -171,7 +171,7 @@ export const ModelB747 = ({planeLayout}) => {
     {(() => {
       if(passengerList.every((passenger) => passenger.row !== null))
       {
-        return(<ContinueButton>Continue</ContinueButton>)
+        return(<ContinueButton to="/book/trip">Continue</ContinueButton>)
       }
 
       })()}
@@ -249,7 +249,7 @@ export const NextPassengerButton = styled.button`
 `
 
 
-export const ContinueButton = styled.button`
+export const ContinueButton = styled(Link)`
   background: #010606;
   white-space: nowrap;
   padding: 13px 28px;

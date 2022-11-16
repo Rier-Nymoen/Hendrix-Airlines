@@ -40,6 +40,8 @@ const App = ()  => {
                     <Route path="/sign-up" element={user ? <Error /> : <SignupPage />} />
                     <Route path="/book" element={<Booking />} />
                     <Route path="/my-account" element={user ? <MyAccount /> : <Error />} />
+                    <Route path="/book/trip"/>
+
                 </Routes>
             </PassengerContext.Provider>
         </UserContext.Provider>
