@@ -32,5 +32,6 @@ app.get('/book/:source/:destination/:departure/:passengers', db.getFlightsBySear
 app.get('/book/:regno/seats', db.getPlaneLayout)
 
 app.get('/trips/:email', db.getTripsByEmail)
+app.get('/trips/confirmation_no/:confirmation_no', db.getTripByConfirmationNo)
 
 app.listen(port, () => {console.log(`Server started on port ${port}`)})

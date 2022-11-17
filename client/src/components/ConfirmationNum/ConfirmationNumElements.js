@@ -67,7 +67,7 @@ export const Img = styled.img`
   height: 100%;
   -o-object-fit: cover;
   object-fit: cover;
-  filter: brightness(98%);
+  filter: brightness(80%);
 `;
 
 export const ConfirmationNumContent = styled.div`

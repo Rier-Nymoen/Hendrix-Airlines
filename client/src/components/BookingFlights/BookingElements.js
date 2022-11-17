@@ -19,7 +19,7 @@ import { useContext, useState} from 'react';
 export const FlightListContainer = ({flightList, setCurrentFlight, setIsModalOpen, setPlaneLayout}) => {
   const selectHandler = async (plane) => {
       setCurrentFlight(plane)
-      const res = await axios.get('http://localhost:5000/book/' + plane.regno + '/seats')
+      const res = await axios.get('http://localhost:5005/book/' + plane.regno + '/seats')
       // console.log(res.data)
       setPlaneLayout(res.data)
 

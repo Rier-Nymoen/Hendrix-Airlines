@@ -148,6 +148,21 @@ const getTripsByEmail = (request, response) => {
   })
 }
 
+const getTripByConfirmationNo = (request, response) => {
+  const confirmation_no = request.params.confirmation_no;
+
+  pool.query('SELECT * FROM trip WHERE confirmation_no = $1', [confirmation_no] ,(error, results) =>{
+    if(error)
+    {
+      response.sendStatus(503);
+    }
+    else{
+      response.status(200).json(results.rows)
+    }
+  })
+}
+
+
 
 module.exports = {
     getAccounts,
@@ -157,5 +172,6 @@ module.exports = {
     deleteAccount,
     getFlightsBySearch,
     getPlaneLayout,
-    getTripsByEmail
+    getTripsByEmail,
+    getTripByConfirmationNo
 }
