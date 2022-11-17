@@ -146,7 +146,6 @@ const getTripsByEmail = (request, response) => {
       response.status(200).json(results.rows)
     }
   })
-
 }
 
 

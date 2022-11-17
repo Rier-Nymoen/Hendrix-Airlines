@@ -25,7 +25,7 @@ const SignupForm = () => {
         delete data.confirm_password;
         data.dob = `${data.dob.getFullYear()}-${data.dob.getMonth() + 1}-${data.dob.getDate()}`
         try {
-            const response = await axios.post('http://localhost:5000/accounts', data);
+            const response = await axios.post('http://localhost:5005/accounts', data);
 
             if (response.status !== 201) {
                 alert("Email already in use.");

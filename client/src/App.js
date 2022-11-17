@@ -6,6 +6,7 @@ import SigninPage from "./pages/signin";
 import SignupPage from "./pages/signup";
 import Booking from "./components/BookingFlights";
 import {UserContext, PassengerContext} from "./components/UserContext";
+import ConfirmationNumPage from "./pages/confirmationnum";
 import MyAccount from "./pages/MyAccount";
 import Error from "./pages/Error";
 
@@ -40,8 +41,8 @@ const App = ()  => {
                     <Route path="/sign-up" element={user ? <Error /> : <SignupPage />} />
                     <Route path="/book" element={<Booking />} />
                     <Route path="/my-account" element={user ? <MyAccount /> : <Error />} />
-                    <Route path="/book/trip"/>
-
+                    <Route path="/trips" element={user ? <ConfirmationNumPage /> : <Error />} />
+                    <Route path="/book/trip" element={<Error />} />
                 </Routes>
             </PassengerContext.Provider>
         </UserContext.Provider>
