@@ -162,6 +162,28 @@ const getTripByConfirmationNo = (request, response) => {
   })
 }
 
+const createPassenger = (request, response) => {
+  const {fname,
+      mname,
+      lname,
+      dob,
+      gender,
+      state,
+      bags
+  } = request.body
+    const ticketno = (Math.random().toString(36)+'00000000000000000').slice(2, 15)
+
+  pool.query("INSERT INTO passenger VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *",
+   [ticketno, fname, mname, lname, dob, gender, state, bags], (error, results) => {
+    if (error) {
+        response.sendStatus(503);
+        console.log(error);
+    } else {
+        response.status(201).send(`Passenger added with ticket number: ${results.rows[0].id}`)
+    }
+  })
+}
+
 
 
 module.exports = {
@@ -173,5 +195,6 @@ module.exports = {
     getFlightsBySearch,
     getPlaneLayout,
     getTripsByEmail,
-    getTripByConfirmationNo
+    getTripByConfirmationNo,
+    createPassenger
 }

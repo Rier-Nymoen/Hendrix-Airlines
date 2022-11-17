@@ -11,37 +11,38 @@ import MenuItem from "@mui/material/MenuItem";
 import FormHelperText from '@mui/material/FormHelperText';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { PassengerContext } from '../UserContext';
-import { useContext, useState} from 'react';
+import {FlightContext, PassengerContext} from '../UserContext';
+import { useContext, useState } from 'react';
 
 
 //Holds all flight lists (props is a convention we can use)
-export const FlightListContainer = ({flightList, setCurrentFlight, setIsModalOpen, setPlaneLayout}) => {
-  const selectHandler = async (plane) => {
+export const FlightListContainer = ({flightList, setIsModalOpen, setPlaneLayout}) => {
+    const {setCurrentFlight} = useContext(FlightContext);
+
+    const selectHandler = async (plane) => {
       setCurrentFlight(plane)
       const res = await axios.get('http://localhost:5005/book/' + plane.regno + '/seats')
       // console.log(res.data)
       setPlaneLayout(res.data)
 
-      
+
       //must be last thing called in this function
       setIsModalOpen(true)
-  }
+    }
     return(
-            <FlightMap>
-                {flightList.map(flight =>
-                  <Flight key={flight.flight_no}>
-                  {flight.flight_no}, {flight.status}, {flight.source_gate_code} to {flight.destination_gate_code} {flight.regno} {flight.departure}
-                  <FlightButton onClick={() => {selectHandler(flight)}}> Pick Seats</FlightButton>
-
-                  </Flight>)}
-            </FlightMap>
-            
+        <FlightMap>
+            {flightList.map(flight =>
+              <Flight key={flight.flight_no}>
+              {flight.flight_no}, {flight.status}, {flight.source_gate_code} to {flight.destination_gate_code} {flight.regno} {flight.departure}
+              <FlightButton onClick={() => {selectHandler(flight)}}>Pick Seats</FlightButton>
+              </Flight>)}
+        </FlightMap>
     )
 }
 
 //Modal menu that displays seatpicker for a flight
-export const FModal = ({currentFlight, setIsModalOpen, planeLayout}) => {
+export const FModal = ({setIsModalOpen, planeLayout}) => {
+  const {currentFlight} = useContext(FlightContext);
 
   const {passengerList,setPassengerList} = useContext(PassengerContext);
   console.log("Passenger List :", passengerList)
@@ -110,7 +111,7 @@ export const FSeat = ({row, isTaken, column, currentPassenger}) => {
 /* */
 
 export const ModelB747 = ({planeLayout}) => {
-  const {passengerList,setPassengerList} = useContext(PassengerContext);
+  const {passengerList} = useContext(PassengerContext);
 
   const [currentPassenger, setCurrentPassenger] = useState(0)
 

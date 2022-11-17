@@ -12,10 +12,9 @@ import { PassengerContext} from '../UserContext';
 const Booking = () => {
 
     const [flightList, setFlightList] = useState([]);
-    const [currentFlight, setCurrentFlight] = useState(null)
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [planeLayout, setPlaneLayout] = useState([])
-    const {passengerList,setPassengerList} = useContext(PassengerContext);
+    const {setPassengerList} = useContext(PassengerContext);
 
     const onSubmit = async (values, { setSubmitting }) => {
         setSubmitting(true);
@@ -43,9 +42,9 @@ const Booking = () => {
 
     return(
 
-        <div>
+        <>
 
-            {isModalOpen && <FModal currentFlight={currentFlight} setIsModalOpen={setIsModalOpen} planeLayout={planeLayout}> </FModal>}
+            {isModalOpen && <FModal setIsModalOpen={setIsModalOpen} planeLayout={planeLayout}> </FModal>}
 
             <Navbar/>
 
@@ -68,14 +67,13 @@ const Booking = () => {
                 </Formik>
                 <FlightListContainer
                 flightList={flightList}
-                setCurrentFlight={setCurrentFlight}
                 setIsModalOpen={setIsModalOpen}
                 planeLayout={planeLayout}
                 setPlaneLayout={setPlaneLayout}
                 ></FlightListContainer>
 
             </BookingContainer>
-        </div>
+        </>
     )
 
 }
