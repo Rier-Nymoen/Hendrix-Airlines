@@ -129,6 +129,17 @@ const getTripsByEmail = (request, response) => {
 
 }
 
+const deleteTripByConfirmationNum = (request, response) => {
+  const confirmation_no = request.params.confirmation_no;
+
+  pool.query('DELETE FROM trip WHERE confirmation_no = $1', [confirmation_no], (error, results) => {
+    if (error) {
+        response.sendStatus(503);
+    } else {
+        response.status(200).send(`Trip deleted with confirmation number: ${confirmation_no}`);
+    }
+  })
+}
 
 
 module.exports = {
@@ -139,5 +150,6 @@ module.exports = {
     deleteAccount,
     getFlightsByAirport,
     getFlightsBySearch,
-    getTripsByEmail
+    getTripsByEmail,
+    deleteTripByConfirmationNum
 }

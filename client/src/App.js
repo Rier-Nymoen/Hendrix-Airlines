@@ -8,6 +8,7 @@ import Booking from "./components/BookingFlights";
 import ConfirmationNumPage from "./pages/confirmationnum";
 import {UserContext} from "./components/UserContext";
 import MyAccount from "./pages/MyAccount";
+import FlightInfo from "./pages/FlightInfo";
 import Error from "./pages/Error";
 
 
@@ -37,7 +38,8 @@ const App = ()  => {
                 <Route path="/sign-up" element={user ? <Error /> : <SignupPage />} />
                 <Route path="/book" element={<Booking />} />
                 <Route path="/my-account" element={user ? <MyAccount /> : <Error />} />
-                <Route path="/trips" element={user ? <ConfirmationNumPage /> : <Error />} />
+                <Route path="/confirmation-number" element={user ? <ConfirmationNumPage /> : <Error />} />
+                <Route path="/flight-info" element={user ? <FlightInfo /> : <Error />} />
             </Routes>
         </UserContext.Provider>
     </Router>
