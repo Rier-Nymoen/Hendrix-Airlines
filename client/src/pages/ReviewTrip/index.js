@@ -6,11 +6,14 @@ import {
     PageWrap,
     FlightInfoContainer,
     PassengerForm,
-    initialValues,
+    passengerInitialValues,
     BagsSelect,
-    SubmitButton
+    SubmitButton,
+    CardForm,
+    cardInitialValues,
+    ExpDateSelect
 } from "./ReviewTripElements";
-import {PassengerContext, FlightContext} from "../../components/UserContext";
+import {PassengerContext, FlightContext, UserContext} from "../../components/UserContext";
 import {TextBox} from "../../components/FormFields";
 import {Formik} from "formik";
 import {
@@ -19,12 +22,14 @@ import {
     GenderSelect,
     StateSelect
 } from "../../components/Signup/SignupForm/FormElements";
-import {passengerSchema} from "./passengerSchema";
+import {passengerSchema, cardSchema} from "./validationSchema";
 import axios from "axios";
 
 
 const PassengerMap = () => {
     const {passengerList} = useContext(PassengerContext);
+    const {user} = useContext(UserContext);
+    const {currentFlight} = useContext(FlightContext);
     let formValuesList = [];
 
     const formRef = useRef([]);
@@ -32,16 +37,21 @@ const PassengerMap = () => {
 
     const onSubmit = (values) => {
         formValuesList.push(values)
-        if(formValuesList.length === passengerList.length) {
-            for(const formValues of formValuesList) {
-                putPassenger(formValues)
+        if(formValuesList.length === passengerList.length + 1) {
+            const ticketnoList = Array(5).fill(null);
+            for(let i = 0; i < passengerList.length; i++) {
+                const ticketno = (Math.random().toString(36)+'00000000000000000').slice(2, 15)
+                ticketnoList[i] = ticketno
+                postPassenger(formValuesList[i], ticketno)
             }
-            alert('Passengers added!');
+            postCreditCard(formValuesList[formValuesList.length - 1])
+            postTrip(ticketnoList)
+            alert('Trip created!');
         }
     }
 
-    const putPassenger = async (passengerData) => {
-        let data = {...passengerData}
+    const postPassenger = async (passengerData, ticketno) => {
+        let data = {...passengerData, ticketno: ticketno}
         data.dob = `${data.dob.getFullYear()}-${data.dob.getMonth() + 1}-${data.dob.getDate()}`
         try {
             const response = await axios.post('http://localhost:5005/passenger', data);
@@ -53,7 +63,40 @@ const PassengerMap = () => {
         catch (error) {
             alert("Unexpected Error :(");
         }
+    };
 
+     const postCreditCard = async (cardData) => {
+        let data = {...cardData, account: user.email}
+        data.exp_date = `${data.exp_date.getFullYear()}-${data.exp_date.getMonth() + 1}-${data.exp_date.getDate()}`
+        try {
+            const response = await axios.post('http://localhost:5005/credit_card', data);
+
+            if (response.status !== 201) {
+                alert("Unexpected Error :(");
+            }
+        }
+        catch (error) {
+            alert("Unexpected Error :(");
+        }
+    };
+
+    const postTrip = async (ticketnoList) => {
+        const data = {
+            email: user.email,
+            flight_no: currentFlight.flight_no,
+            ticketnoList: ticketnoList
+        }
+
+        try {
+            const response = await axios.post('http://localhost:5005/trips', data);
+
+            if (response.status !== 201) {
+                alert("Unexpected Error :(");
+            }
+        }
+        catch (error) {
+            alert("Unexpected Error :(");
+        }
     };
 
     const handleSubmit = () => {
@@ -67,15 +110,15 @@ const PassengerMap = () => {
       <>
         {passengerList.map((passenger, i) =>
             <div key={i}>
-                <h1>Passenger {i+1} - {passenger.row + passenger.column}</h1>
                 <Formik
                     innerRef={(element) => {formRef.current[i] = element}}
                     validateOnChange={true}
-                    initialValues={initialValues}
+                    initialValues={passengerInitialValues}
                     validationSchema={passengerSchema}
                     onSubmit={onSubmit}>
                     {() => (
-                    <PassengerForm id='passenger-form'>
+                    <PassengerForm>
+                        <h1>Passenger {i+1} - {passenger.row + passenger.column}</h1>
                         <FormColumn>
                             <TextBox name="fname" label="First Name"/>
                             <TextBox name="mname" label="Middle Name"/>
@@ -94,18 +137,32 @@ const PassengerMap = () => {
                 </Formik>
             </div>)
         }
-        <SubmitButton type='submit' onClick={handleSubmit}>Continue</SubmitButton>
+        <Formik
+            innerRef={(element) => {formRef.current[passengerList.length] = element}}
+            validateOnChange={true}
+            initialValues={cardInitialValues}
+            validationSchema={cardSchema}
+            onSubmit={onSubmit}>
+            {() => (
+            <CardForm>
+                <h1>Payment Details</h1>
+                <FormColumn>
+                    <TextBox name="name" label="Name on Card"/>
+                    <TextBox name="card_number" label="Card Number"/>
+                    <ExpDateSelect name="exp_date"/>
+                </FormColumn>
+                <FormColumn>
+                    <TextBox name="cvv" label="CVV"/>
+                    <TextBox name="zip" label="Billing Zip Code"/>
+                </FormColumn>
+            </CardForm>
+            )}
+        </Formik>
+        <SubmitButton type='submit' onClick={handleSubmit}>Submit</SubmitButton>
       </>
     );
 };
 
-// <>
-//         {passengerList.map(passenger =>
-//           <PassengerForm key={passenger.row + passenger.column}>
-//           {passenger.row}{passenger.column}
-//           </PassengerForm>)
-//         }
-//       </>
 
 const ReviewTrip = () => {
     const {passengerList} = useContext(PassengerContext);

@@ -1,11 +1,14 @@
 import styled from "styled-components";
 import Footer from "../../components/Footer";
 import {Form, useField} from "formik";
-import {FormControl, InputLabel, MenuItem, Select} from "@mui/material";
+import {FormControl, InputLabel, MenuItem, Select, TextField} from "@mui/material";
 import React from "react";
+import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
+import {AdapterDateFns} from "@mui/x-date-pickers/AdapterDateFns";
+import {DatePicker} from "@mui/x-date-pickers/DatePicker";
 
 
-export const initialValues = {
+export const passengerInitialValues = {
     fname: '',
     mname: '',
     lname: '',
@@ -13,6 +16,14 @@ export const initialValues = {
     gender: '',
     state: '',
     bags: 0
+};
+
+export const cardInitialValues = {
+    name: '',
+    card_number: '',
+    exp_date: null,
+    cvv: '',
+    zip: ''
 };
 
 export const BagsSelect = ({ ...props }) => {
@@ -35,7 +46,40 @@ export const BagsSelect = ({ ...props }) => {
     );
 };
 
+export const ExpDateSelect = ({ ...props }) => {
+    const [, meta, helpers] = useField(props);
+
+    return (
+    <LocalizationProvider dateAdapter={AdapterDateFns}>
+      <DatePicker
+        label="Expiration Date"
+        openTo="year"
+        views={['year', 'month']}
+        disablePast={true}
+        value={meta.value}
+        onChange={(newDate) => {
+          helpers.setValue(newDate);
+        }}
+        renderInput={(params) => <TextField {...params} onBlur={() => {helpers.setTouched(true)}}
+                                            helperText={meta.error && meta.touched ? meta.error: " "}
+                                            error={!!(meta.error && meta.touched)}/>}
+      />
+    </LocalizationProvider>
+    );
+};
+
 export const PassengerForm = styled(Form)`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  border-style: solid;
+  padding-top: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+`;
+
+export const CardForm = styled(Form)`
   display: flex;
   flex-direction: column;
   align-items: center;

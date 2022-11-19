@@ -33,7 +33,10 @@ app.get('/book/:regno/seats', db.getPlaneLayout)
 
 app.get('/trips/:email', db.getTripsByEmail)
 app.get('/trips/confirmation_no/:confirmation_no', db.getTripByConfirmationNo)
+app.post('/trips', db.createTrip)
 
 app.post('/passenger', db.createPassenger)
+
+app.post('/credit_card', db.createCreditCard)
 
 app.listen(port, () => {console.log(`Server started on port ${port}`)})

@@ -169,9 +169,9 @@ const createPassenger = (request, response) => {
       dob,
       gender,
       state,
-      bags
+      bags,
+      ticketno
   } = request.body
-    const ticketno = (Math.random().toString(36)+'00000000000000000').slice(2, 15)
 
   pool.query("INSERT INTO passenger VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *",
    [ticketno, fname, mname, lname, dob, gender, state, bags], (error, results) => {
@@ -180,6 +180,45 @@ const createPassenger = (request, response) => {
         console.log(error);
     } else {
         response.status(201).send(`Passenger added with ticket number: ${results.rows[0].id}`)
+    }
+  })
+}
+
+const createCreditCard = (request, response) => {
+  const {name,
+      card_number,
+      exp_date,
+      cvv,
+      zip,
+      account
+  } = request.body
+
+  pool.query("INSERT INTO credit_card VALUES ($1, $2, $3, $4, $5, $6) RETURNING *",
+   [card_number, exp_date, cvv, zip, name, account], (error, results) => {
+    if (error) {
+        response.sendStatus(503);
+        console.log(error);
+    } else {
+        response.status(201).send(`Credit Card added with card number: ${results.rows[0].id}`)
+    }
+  })
+}
+
+const createTrip = (request, response) => {
+  const {email,
+      flight_no,
+      ticketnoList
+  } = request.body
+
+  const confirmation_no = (Math.random().toString(36)+'00000000000000000').slice(2, 8)
+
+  pool.query("INSERT INTO trip VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *", [email, flight_no, ticketnoList[0],
+      ticketnoList[1], ticketnoList[2], ticketnoList[3], ticketnoList[4], confirmation_no], (error, results) => {
+    if (error) {
+        response.sendStatus(503);
+        console.log(error);
+    } else {
+        response.status(201).send(`Trip added belonging to: ${results.rows[0].id}`)
     }
   })
 }
@@ -196,5 +235,7 @@ module.exports = {
     getPlaneLayout,
     getTripsByEmail,
     getTripByConfirmationNo,
-    createPassenger
+    createPassenger,
+    createCreditCard,
+    createTrip
 }
