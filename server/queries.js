@@ -105,7 +105,7 @@ const getFlightsBySearch = (request, response) => {
 
 const getFlightsBySearch = (request, response) => {
   //parameters for the route, request.body is the body of the request, req.query is query parameters
-  const {source,destination, departure, passengers}= request.params;
+  const {source,destination, departure, passengers} = request.params;
 
   pool.query('SELECT * FROM Flight natural join Plane NATURAL JOIN (SELECT regno from seat where istaken = false group by regno having count(istaken) - $4 >= 0) as capacity where source_gate_code = $1 and destination_gate_code = $2 and date(departure) = $3', [source, destination, departure, passengers] ,(error, results) =>{
     if(error)
@@ -223,6 +223,19 @@ const createTrip = (request, response) => {
   })
 }
 
+const updateSeat = (request, response) => {
+  const {regno, row, column} = request.params;
+  const {passenger} = request.body;
+
+  pool.query('UPDATE seat SET passenger = $1 WHERE regno = $2 AND row = $3 AND columnletter = $4', [passenger, regno, row, column], (error, results) => {
+      if (error) {
+          response.sendStatus(503);
+      } else {
+          response.status(200).send(`Seat modified with row: ${row} and column: ${column}`);
+      }
+    })
+}
+
 
 
 module.exports = {
@@ -237,5 +250,6 @@ module.exports = {
     getTripByConfirmationNo,
     createPassenger,
     createCreditCard,
-    createTrip
+    createTrip,
+    updateSeat
 }

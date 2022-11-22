@@ -43,6 +43,7 @@ const PassengerMap = () => {
                 const ticketno = (Math.random().toString(36)+'00000000000000000').slice(2, 15)
                 ticketnoList[i] = ticketno
                 postPassenger(formValuesList[i], ticketno)
+                putSeat(ticketno, passengerList[i].row, passengerList[i].column)
             }
             postCreditCard(formValuesList[formValuesList.length - 1])
             postTrip(ticketnoList)
@@ -91,6 +92,21 @@ const PassengerMap = () => {
             const response = await axios.post('http://localhost:5005/trips', data);
 
             if (response.status !== 201) {
+                alert("Unexpected Error :(");
+            }
+        }
+        catch (error) {
+            alert("Unexpected Error :(");
+        }
+    };
+
+     const putSeat = async (ticketno, row, column) => {
+        const data = {passenger: ticketno}
+
+        try {
+            const response = await axios.put(`http://localhost:5005/seats/${currentFlight.regno}/${row}/${column}`, data);
+
+            if (response.status !== 200) {
                 alert("Unexpected Error :(");
             }
         }

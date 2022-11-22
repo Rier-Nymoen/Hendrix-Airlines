@@ -39,4 +39,6 @@ app.post('/passenger', db.createPassenger)
 
 app.post('/credit_card', db.createCreditCard)
 
+app.put('/seats/:regno/:row/:column', db.updateSeat)
+
 app.listen(port, () => {console.log(`Server started on port ${port}`)})
