@@ -145,3 +145,26 @@ export const Trip = styled.div`
 export const NoTrips = styled.h1`
   font-size: 24pt;
 `;
+
+export const CancelTrip = styled.button`
+  border-radius: 50px;
+  background: #010606;
+  white-space: nowrap;
+  padding: 13px 28px;
+  color: white;
+  font-size: 16px;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.2s ease-in-out;
+  text-decoration: none;
+  //margin-top: 15px;
+  
+  &:hover {
+    transition: all 0.2s ease-in-out;
+    background: #49A9E6;
+  }
+`;

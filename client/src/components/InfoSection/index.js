@@ -14,44 +14,31 @@ import {InfoContainer,
     Img
 } from "./InfoElements";
 
+const InfoSection = () => {
+    const img = require('../../images/travel_mode.svg').default;
 
-const InfoSection = ({
-    lightBg,
-    id,
-    imgStart,
-    topLine,
-    lightText,
-    headline,
-    darkText,
-    description,
-    buttonLabel,
-    img,
-    alt
-}) => {
     return (
-        <>
-            <InfoContainer lightBg={lightBg} id={id}>
-                <InfoWrapper>
-                    <InfoRow imgStart={imgStart}>
-                        <Column1>
-                            <TextWrapper>
-                                <TopLine>{topLine}</TopLine>
-                                <Heading lightText={lightText}>{headline}</Heading>
-                                <Subtitle darkText={darkText}>{description}</Subtitle>
-                                <BtnWrap>
-                                    <Button to='/prepare'>{buttonLabel}</Button>
-                                </BtnWrap>
-                            </TextWrapper>
-                        </Column1>
-                        <Column2>
-                            <ImgWrap>
-                                <Img src={img} alt={alt}/>
-                            </ImgWrap>
-                        </Column2>
-                    </InfoRow>
-                </InfoWrapper>
-            </InfoContainer>
-        </>
+        <InfoContainer lightBg={true} id='prepare'>
+            <InfoWrapper>
+                <InfoRow imgStart={false}>
+                    <Column1>
+                        <TextWrapper>
+                            <TopLine>Preparation</TopLine>
+                            <Heading lightText={false}>What's required for your trip?</Heading>
+                            <Subtitle darkText={true}>Find the latest travel requirements for the United States.</Subtitle>
+                            <BtnWrap>
+                                <Button>Learn More</Button>
+                            </BtnWrap>
+                        </TextWrapper>
+                    </Column1>
+                    <Column2>
+                        <ImgWrap>
+                            <Img src={img} alt='travelers'/>
+                        </ImgWrap>
+                    </Column2>
+                </InfoRow>
+            </InfoWrapper>
+        </InfoContainer>
     );
 };
 

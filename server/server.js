@@ -34,11 +34,18 @@ app.get('/book/:regno/seats', db.getPlaneLayout)
 app.get('/trips/:email', db.getTripsByEmail)
 app.get('/trips/confirmation_no/:confirmation_no', db.getTripByConfirmationNo)
 app.post('/trips', db.createTrip)
+app.delete('/trips/:email/:flightno', db.deleteTrip)
 
 app.post('/passenger', db.createPassenger)
 
 app.post('/credit_card', db.createCreditCard)
 
 app.put('/seats/:regno/:row/:column', db.updateSeat)
+
+app.get('/book/:regno/seats', db.getPlaneLayout)
+
+app.get('/credit_cards/:email', db.getCreditCardsByEmail)
+app.delete('/credit_cards/:card_number', db.deleteCreditCard)
+
 
 app.listen(port, () => {console.log(`Server started on port ${port}`)})

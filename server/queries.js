@@ -47,7 +47,7 @@ const createAccount = (request, response) => {
   } = request.body
 
 
-  pool.query("INSERT INTO account VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, 'user') RETURNING *",
+  pool.query("INSERT INTO account VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) RETURNING *",
    [email, password, fname, mname, lname, suffix, dob, gender, address, address2, phone, city, zip, state], (error, results) => {
     if (error) {
         response.sendStatus(503);
@@ -236,7 +236,42 @@ const updateSeat = (request, response) => {
     })
 }
 
+const deleteTrip = (request, response) => {
+  const {email, flightno} = request.params;
+  pool.query('SELECT canceltrip($1, $2)', [email, flightno], (error, results) => {
+    if (error) {
+        response.sendStatus(503);
+    } else if (!results.rows[0].canceltrip) {
+        response.sendStatus(406);
+    } else {
+        response.status(200).send(`Trip deleted with flightno: ${flightno}`);
+    }
+  })
+}
 
+const getCreditCardsByEmail = (request, response) => {
+  const { email } = request.params;
+
+  pool.query('SELECT * FROM credit_card WHERE account = $1', [email], (error, results) => {
+    if (error) {
+        response.sendStatus(503);
+    } else {
+        response.status(200).json(results.rows);
+    }
+  })
+}
+
+const deleteCreditCard = (request, response) => {
+  const { card_number } = request.params;
+
+  pool.query('DELETE FROM credit_card WHERE card_number = $1', [card_number], (error, results) => {
+    if (error) {
+        response.sendStatus(503);
+    } else {
+        response.status(200).send(`Card deleted with card number: ${card_number}`);
+    }
+  })
+}
 
 module.exports = {
     getAccounts,
@@ -251,5 +286,8 @@ module.exports = {
     createPassenger,
     createCreditCard,
     createTrip,
-    updateSeat
+    updateSeat,
+    deleteTrip,
+    getCreditCardsByEmail,
+    deleteCreditCard
 }

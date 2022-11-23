@@ -15,7 +15,8 @@ import {PageBody,
     BgImg,
     TripMap,
     Trip,
-    NoTrips
+    NoTrips,
+    CancelTrip
 } from "./MyAccountElements";
 import {useNavigate} from "react-router-dom";
 import sky from "../../images/sky.jpg";
@@ -70,12 +71,54 @@ const AccountDetails = () => {
 };
 
 const MyTrips = ({ myTrips }) => {
+    const { user } = useContext(UserContext);
+
+    const handleClick = async (email, flightno) => {
+        const response = await axios.delete(`http://localhost:5005/trips/${email}/${flightno}`);
+        if (response.status === 406) {
+            alert('Cannot cancel trip. Must be at least 24 hours before departure.');
+        }
+        else if (response.status === 503) {
+            alert('Unexpected error.');
+        }
+        else {
+            alert('Trip successfully cancelled.');
+            window.location.reload();
+        }
+    }
+
     return (
         <TripMap>
             {myTrips.length === 0 ? <NoTrips>No Trips</NoTrips>
-                : myTrips.map(trip => <Trip key={trip.flightno}>
-                    Flight Number: {trip.flightno}, Confirmation Number: {trip.confirmation_no}
-                </Trip>)}
+                : myTrips.map(trip =>
+                    <Trip key={trip.flightno}>
+                        Flight Number: {trip.flightno}, Confirmation Number: {trip.confirmation_no}
+                        <CancelTrip onClick={() => handleClick(user.email, trip.flightno)}>Cancel Trip</CancelTrip>
+                    </Trip>)}
+        </TripMap>
+    );
+};
+
+const CreditCards = ({ creditCards }) => {
+    const handleClick = async (card_number) => {
+        const response = await axios.delete(`http://localhost:5005/credit_cards/${card_number}`);
+        if (response.status !== 200) {
+            alert('Unexpected error.');
+        }
+        else {
+            alert('Card successfully deleted.');
+            window.location.reload();
+        }
+    }
+    // reusing Trip components
+    return (
+        <TripMap>
+            {creditCards.length === 0 ? <NoTrips>No Credit Cards</NoTrips>
+                : creditCards.map(card =>
+                    <Trip key={card.card_number}>
+                        Card Number: {card.card_number}
+                        <CancelTrip onClick={() => handleClick(card.card_number)}>Remove Card</CancelTrip>
+                    </Trip>)}
         </TripMap>
     );
 };
@@ -92,11 +135,13 @@ const MyAccount = () => {
         setCurrentTab("accountDetails");
     };
 
-    const switchToAdminView = () => {
-        setCurrentTab("adminView");
+    const switchToCreditCards = () => {
+        setCurrentTab("creditCards");
     };
 
     const [myTrips, setMyTrips] = useState([])
+
+    const [creditCards, setCreditCards] = useState([])
 
     useEffect(() => {
         const getMyTrips = async () => {
@@ -109,7 +154,18 @@ const MyAccount = () => {
             }
         };
 
+        const getCreditCards = async () => {
+            const response = await axios.get('http://localhost:5005/credit_cards/' + user.email);
+            if (response.status !== 200) {
+                alert('API Status Error: ' + response.status);
+            }
+            else {
+                setCreditCards(response.data);
+            }
+        };
+
         getMyTrips()
+        getCreditCards()
 
     }, [user.email])
 
@@ -121,13 +177,12 @@ const MyAccount = () => {
                 <TabsContainer>
                     <AccountTab currTab={currentTab === "accountDetails"} onClick={switchToAccountDetails}>Account Details</AccountTab>
                     <AccountTab currTab={currentTab === "trips"} onClick={switchToTrips}>My Trips</AccountTab>
-                    {user.type === 'admin'
-                        && <AccountTab currTab={currentTab === "adminView"} onClick={switchToAdminView}>Admin View</AccountTab>}
+                    <AccountTab currTab={currentTab === "creditCards"} onClick={switchToCreditCards}>Saved Credit Cards</AccountTab>
                 </TabsContainer>
                 <CenterBox>
                     {currentTab === "accountDetails" ? <AccountDetails />
                         : currentTab === "trips" ? <MyTrips myTrips={myTrips}/>
-                        : currentTab === "adminView" && user.type === 'admin' ? <h1>Admin View</h1>
+                        : currentTab === "creditCards" ? <CreditCards creditCards={creditCards}/>
                         : null}
                 </CenterBox>
             </PageBody>

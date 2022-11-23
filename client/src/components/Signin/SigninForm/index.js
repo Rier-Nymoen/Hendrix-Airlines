@@ -18,7 +18,7 @@ const SigninForm = () => {
 
         try {
             const response = await axios.get('http://localhost:5005/accounts/' + signinData.email);
-
+            console.log("response:", response)
             if (response.status !== 200) {
                 alert('API Status Error: ' + response.status);
             } else if (response.data.length === 0) {
