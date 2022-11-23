@@ -15,12 +15,6 @@ import {
 import ConfirmationNumForm from './ConfirmationNumForm';
 import computer from '../../images/person_checking_computer.jpg';
 
-const ShowTrip = ({trip}) => {
-    return (
-        <h1>{trip.flightno}</h1>
-    );
-};
-
 const ConfirmationNum = () => {
     const [trip, setTrip] = useState(null);
 
@@ -35,13 +29,10 @@ const ConfirmationNum = () => {
                 </ImgWrap>
                 <ConfirmationNumContent>
                     <ConfirmationNumWrapper>
-                        {trip ? <ShowTrip trip={trip} /> :
-                            <>
-                                <ConfirmationNumHeader>Enter Your Confirmation Number</ConfirmationNumHeader>
-                                <FormWrap>
-                                    <ConfirmationNumForm setTrip={setTrip}/>
-                                </FormWrap>
-                            </>}
+                        <ConfirmationNumHeader>Enter Your Confirmation Number</ConfirmationNumHeader>
+                        <FormWrap>
+                            <ConfirmationNumForm setTrip={setTrip}/>
+                        </FormWrap>
                     </ConfirmationNumWrapper>
                     <ConfirmationNumFooter>
                         © 2022 Hendrix Airlines, Inc.

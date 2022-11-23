@@ -7,6 +7,7 @@ import SignupPage from "./pages/signup";
 import Booking from "./components/BookingFlights";
 import {UserContext, PassengerContext, FlightContext} from "./components/UserContext";
 import ConfirmationNumPage from "./pages/confirmationnum";
+import FlightInfo from "./pages/FlightInfo";
 import MyAccount from "./pages/MyAccount";
 import Error from "./pages/Error";
 import ReviewTrip from "./pages/ReviewTrip";
@@ -50,6 +51,7 @@ const App = ()  => {
                             <Route path="/book" element={<Booking />} />
                             <Route path="/my-account" element={user ? <MyAccount /> : <Error />} />
                             <Route path="/trips" element={<ConfirmationNumPage />} />
+                            <Route path="/trips/:confirmation_no" element={<FlightInfo />} />
                             <Route path="/book/trip" element={user && passengerList ? <ReviewTrip /> : <Error />} />
                             <Route path="/about" element={<About />} />
                             <Route path="/terms-of-service" element={<TermsOfService />} />
