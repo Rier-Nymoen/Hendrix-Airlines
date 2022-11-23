@@ -1,5 +1,4 @@
 import React from 'react';
-import {Button} from "../ButtonElement";
 import {InfoContainer,
     InfoWrapper,
     InfoRow,
@@ -11,7 +10,8 @@ import {InfoContainer,
     Subtitle,
     BtnWrap,
     ImgWrap,
-    Img
+    Img,
+    LearnMoreButton
 } from "./InfoElements";
 
 const InfoSection = () => {
@@ -27,7 +27,9 @@ const InfoSection = () => {
                             <Heading lightText={false}>What's required for your trip?</Heading>
                             <Subtitle darkText={true}>Find the latest travel requirements for the United States.</Subtitle>
                             <BtnWrap>
-                                <Button>Learn More</Button>
+                                <LearnMoreButton onClick={() =>
+                                    window.location.href="https://www.tsa.gov/travel/security-screening"
+                                }>Learn More</LearnMoreButton>
                             </BtnWrap>
                         </TextWrapper>
                     </Column1>

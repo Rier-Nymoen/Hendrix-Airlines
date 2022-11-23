@@ -43,9 +43,6 @@ const Navbar = () => {
                             <NavLinks to="/about">About</NavLinks>
                         </NavItem>
                         <NavItem>
-                            <NavLinks to="/discover">Discover</NavLinks>
-                        </NavItem>
-                        <NavItem>
                             <NavLinks to="/trips">Flight Info</NavLinks>
                         </NavItem>
                         {user ? null : (

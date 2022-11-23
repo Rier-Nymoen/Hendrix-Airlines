@@ -10,6 +10,8 @@ import ConfirmationNumPage from "./pages/confirmationnum";
 import MyAccount from "./pages/MyAccount";
 import Error from "./pages/Error";
 import ReviewTrip from "./pages/ReviewTrip";
+import About from "./pages/About";
+import TermsOfService from "./pages/TermsOfService";
 
 
 const App = ()  => {
@@ -48,6 +50,8 @@ const App = ()  => {
                             <Route path="/my-account" element={user ? <MyAccount /> : <Error />} />
                             <Route path="/trips" element={<ConfirmationNumPage />} />
                             <Route path="/book/trip" element={user && passengerList ? <ReviewTrip /> : <Error />} />
+                            <Route path="/about" element={<About />} />
+                            <Route path="/terms-of-service" element={<TermsOfService />} />
                         </Routes>
                     </FlightContext.Provider>
                 </PassengerContext.Provider>
