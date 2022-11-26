@@ -256,8 +256,8 @@ const updateSeat = (request, response) => {
 }
 
 const deleteTrip = (request, response) => {
-  const {email, flightno} = request.params;
-  pool.query('SELECT canceltrip($1, $2)', [email, flightno], (error, results) => {
+  const {email, flightno, confirmation_no} = request.params;
+  pool.query('SELECT canceltrip($1, $2, $3)', [email, flightno, confirmation_no], (error, results) => {
     if (error) {
         response.sendStatus(503);
     } else if (!results.rows[0].canceltrip) {

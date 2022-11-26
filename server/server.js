@@ -34,7 +34,7 @@ app.get('/book/:regno/seats', db.getPlaneLayout)
 app.get('/trips/:email', db.getTripsByEmail)
 app.get('/trips/confirmation_no/:confirmation_no', db.getTripByConfirmationNo)
 app.post('/trips', db.createTrip)
-app.delete('/trips/:email/:flightno', db.deleteTrip)
+app.delete('/trips/:email/:flightno/:confirmation_no', db.deleteTrip)
 
 app.post('/passenger', db.createPassenger)
 
