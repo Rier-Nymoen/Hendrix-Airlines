@@ -82,7 +82,7 @@ export const FModal = ({setIsModalOpen, planeLayout}) => {
 }
 
 //Represents seat object
-export const FSeat = ({row, isTaken, column, currentPassenger}) => {
+export const FSeat = ({row, occupant, column, currentPassenger}) => {
   const {passengerList,setPassengerList} = useContext(PassengerContext);
   const [selectedPassenger, setSelectedPassenger] = useState(null)
   const clickHandler =  () => {
@@ -95,9 +95,9 @@ export const FSeat = ({row, isTaken, column, currentPassenger}) => {
 
 }
 
-  if(isTaken)
+  if(occupant != null)
   {
-    return(<FSeatStyle disabled={true} isTaken={isTaken}>{row} {column}</FSeatStyle>)
+    return(<FSeatStyle disabled={true} occupant={occupant}>{row} {column}</FSeatStyle>)
   }
   else if(selectedPassenger !== null && passengerList[selectedPassenger].row === row && passengerList[selectedPassenger].column === column) 
   {
@@ -143,30 +143,30 @@ export const ModelB747 = ({planeLayout}) => {
 
     <NextPassengerButton onClick={handleNextPassenger}>Next Passenger</NextPassengerButton> {/*want to have the current passenger selected for maybe in button text  */}
 
-
+      {console.log("Plane layout", planeLayout[0]["passenger"])}
     <FSeatColumn>
-      <FSeat row={planeLayout[0]["row"]} column={planeLayout[0]["columnletter"]} isTaken={planeLayout[0]["istaken"]} currentPassenger={currentPassenger}></FSeat>
-      <FSeat row={planeLayout[1]["row"]} column={planeLayout[1]["columnletter"]} isTaken={planeLayout[1]["istaken"]} currentPassenger={currentPassenger}></FSeat>
-      <FSeat row={planeLayout[2]["row"]} column={planeLayout[2]["columnletter"]}  isTaken={planeLayout[2]["istaken"]} currentPassenger={currentPassenger}></FSeat>
-      <FSeat row={planeLayout[3]["row"]} column={planeLayout[3]["columnletter"]}  isTaken={planeLayout[3]["istaken"]} currentPassenger={currentPassenger}></FSeat>
+      <FSeat row={planeLayout[0]["row"]} column={planeLayout[0]["columnletter"]} occupant={planeLayout[0]["passenger"]} currentPassenger={currentPassenger}></FSeat>
+      <FSeat row={planeLayout[1]["row"]} column={planeLayout[1]["columnletter"]} occupant={planeLayout[1]["passenger"]} currentPassenger={currentPassenger}></FSeat>
+      <FSeat row={planeLayout[2]["row"]} column={planeLayout[2]["columnletter"]}  occupant={planeLayout[2]["passenger"]} currentPassenger={currentPassenger}></FSeat>
+      <FSeat row={planeLayout[3]["row"]} column={planeLayout[3]["columnletter"]}  occupant={planeLayout[3]["passenger"]} currentPassenger={currentPassenger}></FSeat>
     </FSeatColumn>
     <FSeatColumn>
-      <FSeat row={planeLayout[4]["row"]} column={planeLayout[4]["columnletter"]}  isTaken={planeLayout[4]["istaken"]} currentPassenger={currentPassenger}></FSeat>
-      <FSeat row={planeLayout[5]["row"]} column={planeLayout[5]["columnletter"]}  isTaken={planeLayout[5]["istaken"]} currentPassenger={currentPassenger}></FSeat>
-      <FSeat row={planeLayout[6]["row"]} column={planeLayout[6]["columnletter"]}  isTaken={planeLayout[6]["istaken"]} currentPassenger={currentPassenger}></FSeat>
-      <FSeat row={planeLayout[7]["row"]} column={planeLayout[7]["columnletter"]}  isTaken={planeLayout[7]["istaken"]} currentPassenger={currentPassenger}></FSeat>
+      <FSeat row={planeLayout[4]["row"]} column={planeLayout[4]["columnletter"]}  occupant={planeLayout[4]["passenger"]} currentPassenger={currentPassenger}></FSeat>
+      <FSeat row={planeLayout[5]["row"]} column={planeLayout[5]["columnletter"]}  occupant={planeLayout[5]["passenger"]} currentPassenger={currentPassenger}></FSeat>
+      <FSeat row={planeLayout[6]["row"]} column={planeLayout[6]["columnletter"]}  occupant={planeLayout[6]["passenger"]} currentPassenger={currentPassenger}></FSeat>
+      <FSeat row={planeLayout[7]["row"]} column={planeLayout[7]["columnletter"]}  occupant={planeLayout[7]["passenger"]} currentPassenger={currentPassenger}></FSeat>
     </FSeatColumn>
     <FSeatColumn>
-      <FSeat row={planeLayout[8]["row"]} column={planeLayout[8]["columnletter"]}  isTaken={planeLayout[8]["istaken"]} currentPassenger={currentPassenger}></FSeat>
-      <FSeat row={planeLayout[9]["row"]} column={planeLayout[9]["columnletter"]}  isTaken={planeLayout[9]["istaken"]} currentPassenger={currentPassenger}></FSeat>
-      <FSeat row={planeLayout[10]["row"]} column={planeLayout[10]["columnletter"]}  isTaken={planeLayout[10]["istaken"]} currentPassenger={currentPassenger}></FSeat>
-      <FSeat row={planeLayout[11]["row"]} column={planeLayout[11]["columnletter"]}  isTaken={planeLayout[11]["istaken"]} currentPassenger={currentPassenger}></FSeat>
+      <FSeat row={planeLayout[8]["row"]} column={planeLayout[8]["columnletter"]}  occupant={planeLayout[8]["passenger"]} currentPassenger={currentPassenger}></FSeat>
+      <FSeat row={planeLayout[9]["row"]} column={planeLayout[9]["columnletter"]}  occupant={planeLayout[9]["passenger"]} currentPassenger={currentPassenger}></FSeat>
+      <FSeat row={planeLayout[10]["row"]} column={planeLayout[10]["columnletter"]}  occupant={planeLayout[10]["passenger"]} currentPassenger={currentPassenger}></FSeat>
+      <FSeat row={planeLayout[11]["row"]} column={planeLayout[11]["columnletter"]}  occupant={planeLayout[11]["passenger"]} currentPassenger={currentPassenger}></FSeat>
     </FSeatColumn>
     <FSeatColumn>
-      <FSeat row={planeLayout[12]["row"]} column={planeLayout[12]["columnletter"]} isTaken={planeLayout[12]["istaken"]} currentPassenger={currentPassenger}></FSeat>
-      <FSeat row={planeLayout[13]["row"]} column={planeLayout[13]["columnletter"]} isTaken={planeLayout[13]["istaken"]} currentPassenger={currentPassenger}></FSeat>
-      <FSeat row={planeLayout[14]["row"]} column={planeLayout[14]["columnletter"]} isTaken={planeLayout[14]["istaken"]} currentPassenger={currentPassenger}></FSeat>
-      <FSeat row={planeLayout[15]["row"]} column={planeLayout[15]["columnletter"]} isTaken={planeLayout[15]["istaken"]} currentPassenger={currentPassenger}></FSeat>
+      <FSeat row={planeLayout[12]["row"]} column={planeLayout[12]["columnletter"]} occupant={planeLayout[12]["passenger"]} currentPassenger={currentPassenger}></FSeat>
+      <FSeat row={planeLayout[13]["row"]} column={planeLayout[13]["columnletter"]} occupant={planeLayout[13]["passenger"]} currentPassenger={currentPassenger}></FSeat>
+      <FSeat row={planeLayout[14]["row"]} column={planeLayout[14]["columnletter"]} occupant={planeLayout[14]["passenger"]} currentPassenger={currentPassenger}></FSeat>
+      <FSeat row={planeLayout[15]["row"]} column={planeLayout[15]["columnletter"]} occupant={planeLayout[15]["passenger"]} currentPassenger={currentPassenger}></FSeat>
     </FSeatColumn>
 
     {(() => {
@@ -311,13 +311,13 @@ export const FSeatSelected = styled.button`
 
 //Styling for FSeat
 export const FSeatStyle = styled.button`
-  background: ${({isTaken}) => isTaken === true ? 'rgba(200,200,200,0.3)' : '#49A9E6'};
+  background: ${({occupant}) => occupant != null ? 'rgba(200,200,200,0.3)' : '#49A9E6'};
   white-space: nowrap;
   padding: 13px 28px;
   color: white;
   font-size: 16px;
   border: none;
-  cursor:  ${({isTaken}) => isTaken === true ? 'not-allowed' : 'pointer'};
+  cursor:  ${({occupant}) => occupant != null? 'not-allowed' : 'pointer'};
   display: flex;
   justify-content: center;
   align-items: center;
