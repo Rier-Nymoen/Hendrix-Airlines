@@ -35,19 +35,24 @@ const PassengerMap = () => {
     const formRef = useRef([]);
     formRef.current = formRef.current.slice(0, passengerList.length);
 
-    const onSubmit = (values) => {
+    const onSubmit = async (values) => {
         formValuesList.push(values)
+        let success = true
         if(formValuesList.length === passengerList.length + 1) {
             const ticketnoList = Array(5).fill(null);
+            success = success && await postCreditCard(formValuesList[formValuesList.length - 1])
+
             for(let i = 0; i < passengerList.length; i++) {
                 const ticketno = (Math.random().toString(36)+'00000000000000000').slice(2, 15)
                 ticketnoList[i] = ticketno
-                postPassenger(formValuesList[i], ticketno)
-                putSeat(ticketno, passengerList[i].row, passengerList[i].column)
+                success = success && await postPassenger(formValuesList[i], ticketno)
+                success = success && await putSeat(ticketno, passengerList[i].row, passengerList[i].column)
             }
-            postCreditCard(formValuesList[formValuesList.length - 1])
-            postTrip(ticketnoList)
-            alert('Trip created!');
+
+            success = success && await postTrip(ticketnoList)
+            if(success) {
+                alert('Trip created!');
+            }
         }
     }
 
@@ -58,12 +63,15 @@ const PassengerMap = () => {
             const response = await axios.post('http://localhost:5005/passenger', data);
 
             if (response.status !== 201) {
-                alert("Unexpected Error :(");
+                alert("Unexpected Error");
+                return false
             }
         }
         catch (error) {
-            alert("Unexpected Error :(");
+            alert("Unexpected Error");
+            return false
         }
+        return true
     };
 
      const postCreditCard = async (cardData) => {
@@ -73,12 +81,15 @@ const PassengerMap = () => {
             const response = await axios.post('http://localhost:5005/credit_card', data);
 
             if (response.status !== 201) {
-                alert("Unexpected Error :(");
+                alert("Unexpected Error");
+                return false
             }
         }
         catch (error) {
-            alert("Unexpected Error :(");
+            alert("Unexpected Error");
+            return false
         }
+        return true
     };
 
     const postTrip = async (ticketnoList) => {
@@ -92,12 +103,15 @@ const PassengerMap = () => {
             const response = await axios.post('http://localhost:5005/trips', data);
 
             if (response.status !== 201) {
-                alert("Unexpected Error :(");
+                alert("Cannot book duplicate trip for the same passenger");
+                return false
             }
         }
         catch (error) {
-            alert("Unexpected Error :(");
+            alert("Cannot book duplicate trip for the same passenger");
+            return false
         }
+        return true
     };
 
      const putSeat = async (ticketno, row, column) => {
@@ -108,11 +122,14 @@ const PassengerMap = () => {
 
             if (response.status !== 200) {
                 alert("Unexpected Error :(");
+                return false
             }
         }
         catch (error) {
             alert("Unexpected Error :(");
+            return false
         }
+        return true
     };
 
     const handleSubmit = () => {

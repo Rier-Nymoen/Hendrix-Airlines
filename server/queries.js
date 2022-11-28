@@ -7,6 +7,8 @@ const pool = new Pool({
     database: "postgres"
 })
 
+var temp_client = null;
+
 const getAccounts = (request, response) => {
     pool.query('SELECT * FROM account', (error, results)=>{
     if(error){
@@ -53,7 +55,7 @@ const createAccount = (request, response) => {
         response.sendStatus(503);
         console.log(error);
     } else {
-        response.status(201).send(`User added with email: ${results.rows[0].id}`)
+        response.sendStatus(201)
     }
   })
 }
@@ -66,7 +68,7 @@ const updateAccount = (request, response) => {
       if (error) {
           response.sendStatus(503);
       } else {
-          response.status(200).send(`User modified with email: ${email}`);
+          response.sendStatus(200)
       }
     })
 }
@@ -78,7 +80,7 @@ const deleteAccount = (request, response) => {
     if (error) {
         response.sendStatus(503);
     } else {
-        response.status(200).send(`User deleted with email: ${email}`);
+        response.sendStatus(200)
     }
   })
 }
@@ -149,7 +151,7 @@ const getTripsByEmail = (request, response) => {
 }
 
 const getTripByConfirmationNo = (request, response) => {
-  const confirmation_no = request.params.confirmation_no;
+  const {confirmation_no} = request.params;
 
   pool.query('SELECT * FROM trip WHERE confirmation_no = $1', [confirmation_no] ,(error, results) =>{
     if(error)
@@ -173,18 +175,20 @@ const createPassenger = (request, response) => {
       ticketno
   } = request.body
 
-  pool.query("INSERT INTO passenger VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *",
-   [ticketno, fname, mname, lname, dob, gender, state, bags], (error, results) => {
+  temp_client.query("INSERT INTO passenger VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *",
+   [ticketno, fname, mname, lname, dob, gender, state, bags], async (error, results) => {
     if (error) {
         response.sendStatus(503);
-        console.log(error);
+        console.log("create passenger", error);
+        await temp_client.query("ROLLBACK")
+        temp_client.release()
     } else {
-        response.status(201).send(`Passenger added with ticket number: ${results.rows[0].id}`)
+        response.sendStatus(201)
     }
   })
 }
 
-const createCreditCard = (request, response) => {
+const createCreditCard = async (request, response) => {
   const {name,
       card_number,
       exp_date,
@@ -192,15 +196,19 @@ const createCreditCard = (request, response) => {
       zip,
       account
   } = request.body
+  const client = await pool.connect() // creating a constant client for transaction
 
-  pool.query("INSERT INTO credit_card VALUES ($1, $2, $3, $4, $5, $6) RETURNING *",
-   [card_number, exp_date, cvv, zip, name, account], (error, results) => {
-    if (error) {
-        response.sendStatus(503);
-        console.log(error);
-    } else {
-        response.status(201).send(`Credit Card added with card number: ${results.rows[0].id}`)
-    }
+  await client.query("BEGIN TRANSACTION ISOLATION LEVEL READ COMMITTED")
+
+  await client.query("SAVEPOINT before_credit_card_insert")
+
+  client.query("INSERT INTO credit_card VALUES ($1, $2, $3, $4, $5, $6) RETURNING *",
+   [card_number, exp_date, cvv, zip, name, account], async (error, results) => {
+      if(error) {
+          await client.query("ROLLBACK TO SAVEPOINT before_credit_card_insert")
+      }
+    response.sendStatus(201)
+    temp_client = client // client will release later
   })
 }
 
@@ -212,39 +220,46 @@ const createTrip = (request, response) => {
 
   const confirmation_no = (Math.random().toString(36)+'00000000000000000').slice(2, 8)
 
-  pool.query("INSERT INTO trip VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *", [email, flight_no, ticketnoList[0],
-      ticketnoList[1], ticketnoList[2], ticketnoList[3], ticketnoList[4], confirmation_no], (error, results) => {
+  temp_client.query("INSERT INTO trip VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *", [email, flight_no, ticketnoList[0],
+      ticketnoList[1], ticketnoList[2], ticketnoList[3], ticketnoList[4], confirmation_no], async (error, results) => {
     if (error) {
-        response.sendStatus(503);
-        console.log(error);
+        response.sendStatus(503)
+        console.log("create trip", error)
+        await temp_client.query("ROLLBACK")
     } else {
-        response.status(201).send(`Trip added belonging to: ${results.rows[0].id}`)
+        response.sendStatus(201)
+        await temp_client.query("COMMIT")
     }
   })
+
+  temp_client.release()
 }
 
 const updateSeat = (request, response) => {
   const {regno, row, column} = request.params;
   const {passenger} = request.body;
 
-  pool.query('UPDATE seat SET passenger = $1 WHERE regno = $2 AND row = $3 AND columnletter = $4', [passenger, regno, row, column], (error, results) => {
+  temp_client.query('UPDATE seat SET passenger = $1 WHERE regno = $2 AND row = $3 AND columnletter = $4', [passenger, regno, row, column], async (error, results) => {
       if (error) {
-          response.sendStatus(503);
+        response.sendStatus(503);
+        console.log(error);
+        await temp_client.query("ROLLBACK")
+        temp_client.release()
       } else {
-          response.status(200).send(`Seat modified with row: ${row} and column: ${column}`);
+          response.sendStatus(200)
       }
     })
 }
 
 const deleteTrip = (request, response) => {
-  const {email, flightno} = request.params;
-  pool.query('SELECT canceltrip($1, $2)', [email, flightno], (error, results) => {
+  const {confirmation_no} = request.params;
+  pool.query('SELECT canceltrip($1)', [confirmation_no], (error, results) => {
     if (error) {
         response.sendStatus(503);
     } else if (!results.rows[0].canceltrip) {
         response.sendStatus(406);
     } else {
-        response.status(200).send(`Trip deleted with flightno: ${flightno}`);
+        response.sendStatus(200)
     }
   })
 }
@@ -268,7 +283,7 @@ const deleteCreditCard = (request, response) => {
     if (error) {
         response.sendStatus(503);
     } else {
-        response.status(200).send(`Card deleted with card number: ${card_number}`);
+        response.sendStatus(200)
     }
   })
 }

@@ -71,21 +71,7 @@ const AccountDetails = () => {
 };
 
 const MyTrips = ({ myTrips }) => {
-    const { user } = useContext(UserContext);
-
-    const handleClick = async (email, flightno) => {
-        const response = await axios.delete(`http://localhost:5005/trips/${email}/${flightno}`);
-        if (response.status === 406) {
-            alert('Cannot cancel trip. Must be at least 24 hours before departure.');
-        }
-        else if (response.status === 503) {
-            alert('Unexpected error.');
-        }
-        else {
-            alert('Trip successfully cancelled.');
-            window.location.reload();
-        }
-    }
+    const navigate = useNavigate();
 
     return (
         <TripMap>
@@ -93,7 +79,7 @@ const MyTrips = ({ myTrips }) => {
                 : myTrips.map(trip =>
                     <Trip key={trip.flightno}>
                         Flight Number: {trip.flightno}, Confirmation Number: {trip.confirmation_no}
-                        <CancelTrip onClick={() => handleClick(user.email, trip.flightno)}>Cancel Trip</CancelTrip>
+                        <CancelTrip onClick={() => navigate(`/trips/${trip.confirmation_no}`)}>Show Details</CancelTrip>
                     </Trip>)}
         </TripMap>
     );
