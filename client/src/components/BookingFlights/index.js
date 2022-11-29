@@ -7,7 +7,7 @@ import Navbar from "../Navbar";
 import {TextBox} from "../FormFields";
 import {bookingSchema} from "./bookingSchema";
 import { Link } from 'react-router-dom';
-import { PassengerContext} from '../UserContext';
+import { PassengerContext, UserContext} from '../UserContext';
 
 const Booking = () => {
 

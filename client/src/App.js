@@ -48,7 +48,7 @@ const App = ()  => {
                             <Route path="/" element={<Home />} />
                             <Route path="/sign-in" element={user ? <Error /> : <SigninPage />} />
                             <Route path="/sign-up" element={user ? <Error /> : <SignupPage />} />
-                            <Route path="/book" element={<Booking />} />
+                            <Route path="/book" element={user ? <Booking/> : <SigninPage/>} />
                             <Route path="/my-account" element={user ? <MyAccount /> : <Error />} />
                             <Route path="/trips" element={<ConfirmationNumPage />} />
                             <Route path="/trips/:confirmation_no" element={<FlightInfo />} />

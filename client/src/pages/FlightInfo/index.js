@@ -19,8 +19,10 @@ import { useParams } from 'react-router-dom';
 const FlightInfo = () => {
     const { confirmation_no } = useParams();
 
+
     const handleClick = async (confirm_no) => {
         const response = await axios.delete(`http://localhost:5005/trips/${confirm_no}`);
+
         if (response.status === 406) {
             alert('Cannot cancel trip. Must be at least 24 hours before departure.');
         }

@@ -105,11 +105,29 @@ const getFlightsBySearch = (request, response) => {
 
 //New Updated query
 
+// const getFlightsBySearch = (request, response) => {
+//   //parameters for the route, request.body is the body of the request, req.query is query parameters
+//   const {source,destination, departure, passengers} = request.params;
+
+//   pool.query('SELECT * FROM Flight natural join Plane NATURAL JOIN (SELECT regno from seat where istaken = false group by regno having count(istaken) - $4 >= 0) as capacity where source_gate_code = $1 and destination_gate_code = $2 and date(departure) = $3', [source, destination, departure, passengers] ,(error, results) =>{
+//     if(error)
+//     {
+//       response.sendStatus(503);
+//     }
+//     else{
+//       response.status(200).json(results.rows)
+//     }
+//   })
+// }
+
+
+
+
 const getFlightsBySearch = (request, response) => {
   //parameters for the route, request.body is the body of the request, req.query is query parameters
   const {source,destination, departure, passengers} = request.params;
 
-  pool.query('SELECT * FROM Flight natural join Plane NATURAL JOIN (SELECT regno from seat where istaken = false group by regno having count(istaken) - $4 >= 0) as capacity where source_gate_code = $1 and destination_gate_code = $2 and date(departure) = $3', [source, destination, departure, passengers] ,(error, results) =>{
+  pool.query('SELECT * FROM Flight natural join Plane NATURAL JOIN (SELECT regno from seat where passenger is null group by regno having count(*) - $4 >= 0) as capacity where source_gate_code = $1 and destination_gate_code = $2 and date(departure) = $3', [source, destination, departure, passengers] ,(error, results) =>{
     if(error)
     {
       response.sendStatus(503);
@@ -119,6 +137,7 @@ const getFlightsBySearch = (request, response) => {
     }
   })
 }
+
 
 
 const getPlaneLayout = (request, response) => {
@@ -253,6 +272,7 @@ const updateSeat = (request, response) => {
 
 const deleteTrip = (request, response) => {
   const {confirmation_no} = request.params;
+
   pool.query('SELECT canceltrip($1)', [confirmation_no], (error, results) => {
     if (error) {
         response.sendStatus(503);

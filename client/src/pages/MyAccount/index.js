@@ -71,6 +71,7 @@ const AccountDetails = () => {
 };
 
 const MyTrips = ({ myTrips }) => {
+
     const navigate = useNavigate();
 
     return (
