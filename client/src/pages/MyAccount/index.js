@@ -78,7 +78,7 @@ const MyTrips = ({ myTrips }) => {
         <TripMap>
             {myTrips.length === 0 ? <NoTrips>No Trips</NoTrips>
                 : myTrips.map(trip =>
-                    <Trip key={trip.flightno}>
+                    <Trip key={trip.confirmation_no}>
                         Flight Number: {trip.flightno}, Confirmation Number: {trip.confirmation_no}
                         <CancelTrip onClick={() => navigate(`/trips/${trip.confirmation_no}`)}>Show Details</CancelTrip>
                     </Trip>)}

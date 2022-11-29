@@ -20,7 +20,7 @@ const getAccounts = (request, response) => {
 }
 
 const getAccountByEmail = (request, response) => {
-  const email = request.params.email;
+  const {email} = request.params;
 
   pool.query('SELECT * FROM account WHERE email = $1', [email], (error, results) => {
     if (error) {
@@ -61,7 +61,7 @@ const createAccount = (request, response) => {
 }
 
 const updateAccount = (request, response) => {
-  const email = request.params.email;
+  const {email} = request.params;
   const {password} = request.body;
 
   pool.query('UPDATE account SET password = $1 WHERE email = $2', [password, email], (error, results) => {
@@ -74,7 +74,7 @@ const updateAccount = (request, response) => {
 }
 
 const deleteAccount = (request, response) => {
-  const email = request.params.email;
+  const {email} = request.params;
 
   pool.query('DELETE FROM account WHERE email = $1', [email], (error, results) => {
     if (error) {
@@ -156,7 +156,7 @@ const getPlaneLayout = (request, response) => {
 }
 
 const getTripsByEmail = (request, response) => {
-  const email = request.params.email;
+  const {email} = request.params;
 
   pool.query('SELECT * FROM trip WHERE email = $1', [email] ,(error, results) =>{
     if(error)
@@ -172,7 +172,21 @@ const getTripsByEmail = (request, response) => {
 const getTripByConfirmationNo = (request, response) => {
   const {confirmation_no} = request.params;
 
-  pool.query('SELECT * FROM trip WHERE confirmation_no = $1', [confirmation_no] ,(error, results) =>{
+  pool.query('SELECT * FROM flight JOIN trip ON flight_no=flightno WHERE confirmation_no = $1', [confirmation_no] ,(error, results) =>{
+    if(error)
+    {
+      response.sendStatus(503);
+    }
+    else{
+      response.status(200).json(results.rows)
+    }
+  })
+}
+
+const getPassengersOnTrip = (request, response) => {
+  const {confirmation_no} = request.params;
+
+  pool.query('SELECT passenger.* FROM trip JOIN passenger ON passenger1=ticketno OR passenger2=ticketno OR passenger3=ticketno OR passenger4=ticketno OR passenger5=ticketno WHERE confirmation_no = $1;', [confirmation_no] ,(error, results) =>{
     if(error)
     {
       response.sendStatus(503);
@@ -324,5 +338,6 @@ module.exports = {
     updateSeat,
     deleteTrip,
     getCreditCardsByEmail,
-    deleteCreditCard
+    deleteCreditCard,
+    getPassengersOnTrip
 }

@@ -37,6 +37,7 @@ app.post('/trips', db.createTrip)
 app.delete('/trips/:confirmation_no', db.deleteTrip)
 
 app.post('/passenger', db.createPassenger)
+app.get('/passenger/confirmation_no/:confirmation_no', db.getPassengersOnTrip)
 
 app.post('/credit_card', db.createCreditCard)
 

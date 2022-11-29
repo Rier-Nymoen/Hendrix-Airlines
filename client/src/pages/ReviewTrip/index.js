@@ -24,6 +24,7 @@ import {
 } from "../../components/Signup/SignupForm/FormElements";
 import {passengerSchema, cardSchema} from "./validationSchema";
 import axios from "axios";
+import {FlightTimes} from "../../components/FlightTimes";
 
 
 const PassengerMap = () => {
@@ -202,18 +203,8 @@ const ReviewTrip = () => {
     const {currentFlight} = useContext(FlightContext);
     console.log("curr flight:", currentFlight)
     console.log("passengers:", passengerList)
-    const dateOptions = { year: 'numeric', month: 'short', day: 'numeric', weekday: 'short', hour: 'numeric', minute: 'numeric' };
-    const departure = new Date(currentFlight.departure)
-    const arrival = new Date(currentFlight.arrival)
 
-    const timeDiff = arrival - departure
-
-    let minutes = Math.round(Math.floor(timeDiff / 1000) / 60);
-    let hours = Math.floor(minutes / 60);
-
-    minutes = minutes % 60;
-
-    const duration = `${hours}h ${minutes}m`;
+    const {departure, arrival, duration} = FlightTimes(currentFlight.departure, currentFlight.arrival);
 
     return (
         <PageWrap>
@@ -222,8 +213,8 @@ const ReviewTrip = () => {
                 <FlightInfoContainer>
                     Plane Number: {currentFlight.regno},
                     From: {currentFlight.source_gate_code}, To: {currentFlight.destination_gate_code},
-                    Departure Date: {departure.toLocaleString("en-US", dateOptions)},
-                    Arrival Date: {arrival.toLocaleString("en-US", dateOptions)},
+                    Departure Date: {departure},
+                    Arrival Date: {arrival},
                     Flight Duration: {duration}
                 </FlightInfoContainer>
                 <PassengerMap />
