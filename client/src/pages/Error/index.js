@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import Navbar from "../../components/Navbar";
 import {ErrorContainer, ErrorFooter, ErrorImg, PageWrap} from "./ErrorElements";
 import sadcat from '../../images/sadcat.jpg';

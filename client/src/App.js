@@ -1,12 +1,12 @@
 import React, {useState, useMemo, useEffect} from "react";
 import "./App.css";
 import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
-import Home from "./pages";
-import SigninPage from "./pages/signin";
-import SignupPage from "./pages/signup";
-import Booking from "./components/BookingFlights";
+import Home from "./pages/Home";
+import Signin from "./pages/Signin";
+import Signup from "./pages/Signup";
+import Booking from "./pages/Booking";
 import {UserContext, PassengerContext, FlightContext} from "./components/UserContext";
-import ConfirmationNumPage from "./pages/confirmationnum";
+import ConfirmationNum from "./pages/ConfirmationNum";
 import FlightInfo from "./pages/FlightInfo";
 import MyAccount from "./pages/MyAccount";
 import Error from "./pages/Error";
@@ -46,11 +46,11 @@ const App = ()  => {
                     <FlightContext.Provider value={flightMemo}>
                         <Routes>
                             <Route path="/" element={<Home />} />
-                            <Route path="/sign-in" element={user ? <Error /> : <SigninPage />} />
-                            <Route path="/sign-up" element={user ? <Error /> : <SignupPage />} />
-                            <Route path="/book" element={user ? <Booking/> : <SigninPage/>} />
+                            <Route path="/sign-in" element={user ? <Error /> : <Signin />} />
+                            <Route path="/sign-up" element={user ? <Error /> : <Signup />} />
+                            <Route path="/book" element={user ? <Booking/> : <Signin/>} />
                             <Route path="/my-account" element={user ? <MyAccount /> : <Error />} />
-                            <Route path="/trips" element={<ConfirmationNumPage />} />
+                            <Route path="/trips" element={<ConfirmationNum />} />
                             <Route path="/trips/:confirmation_no" element={<FlightInfo />} />
                             <Route path="/book/trip" element={user && passengerList ? <ReviewTrip /> : <Error />} />
                             <Route path="/about" element={<About />} />

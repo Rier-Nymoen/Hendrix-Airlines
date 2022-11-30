@@ -16,7 +16,7 @@ import ConfirmationNumForm from './ConfirmationNumForm';
 import computer from '../../images/person_checking_computer.jpg';
 
 const ConfirmationNum = () => {
-    const [trip, setTrip] = useState(null);
+    const [, setTrip] = useState(null);
 
     return (
         <PageWrap>

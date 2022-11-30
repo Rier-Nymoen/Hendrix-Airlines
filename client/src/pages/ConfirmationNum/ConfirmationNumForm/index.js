@@ -4,7 +4,7 @@ import {Formik} from "formik";
 import {ConfirmationNumButton} from "../ConfirmationNumElements";
 import {FormikForm, initialValues} from "./FormElements";
 import axios from 'axios';
-import {TextBox} from "../../FormFields";
+import {TextBox} from "../../../components/FormFields";
 import { useNavigate } from 'react-router-dom';
 
 const ConfirmationNumForm = ({setTrip}) => {

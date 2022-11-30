@@ -13,7 +13,7 @@ import {
 } from "./FormElements";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import {TextBox, PassBox} from "../../FormFields";
+import {TextBox, PassBox} from "../../../components/FormFields";
 
 
 const SignupForm = () => {

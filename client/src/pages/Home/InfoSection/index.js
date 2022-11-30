@@ -15,7 +15,7 @@ import {InfoContainer,
 } from "./InfoElements";
 
 const InfoSection = () => {
-    const img = require('../../images/travel_mode.svg').default;
+    const img = require('../../../images/travel_mode.svg').default;
 
     return (
         <InfoContainer lightBg={true} id='prepare'>

@@ -21,7 +21,7 @@ import {
     FormColumn,
     GenderSelect,
     StateSelect
-} from "../../components/Signup/SignupForm/FormElements";
+} from "../Signup/SignupForm/FormElements"
 import {passengerSchema, cardSchema} from "./validationSchema";
 import axios from "axios";
 import {FlightTimes} from "../../components/FlightTimes";

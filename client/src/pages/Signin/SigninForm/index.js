@@ -3,10 +3,10 @@ import {signinSchema} from "./validationSchema";
 import {Formik} from "formik";
 import {SigninButton} from "../SigninElements";
 import {FormikForm, initialValues} from "./FormElements";
-import {UserContext} from "../../UserContext";
+import {UserContext} from "../../../components/UserContext";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
-import {PassBox, TextBox} from "../../FormFields";
+import {PassBox, TextBox} from "../../../components/FormFields";
 
 
 const SigninForm = () => {
