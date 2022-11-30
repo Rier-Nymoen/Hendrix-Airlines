@@ -41,6 +41,7 @@ export const AccountTab = styled.button`
   font-size: 18pt;
   border-radius: 30px;
   cursor: ${({currTab}) => (currTab ? 'default' : 'pointer')};
+  margin-top: 20px;
   
   &:hover {
     transition: all 0.2s ease-in-out;
@@ -92,34 +93,22 @@ export const SignOutButton = styled.button`
   }
 `;
 
-// export const AccountDetailsContainer = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   height: 550px;
-//   width: 1200px;
-//   border-style: groove;
-//   background-color: #e6f7ff;
-//   align-items: center;
-//   justify-content: center;
-//   gap: 20px;
-// `;
-
 export const AccountDetailsContainer = styled.div`
   display: flex;
   flex-direction: column;
-  height: 550px;
-  width: 1200px;
+  height: 100%;
+  width: 100%;
   align-items: center;
   justify-content: center;
   gap: 20px;
 `;
 
 export const CenterBox = styled.div`
-  height: 550px;
-  width: 1200px;
-  //border-style: groove;
-  background-color: white; //#e6f7ff
+  min-height: 550px;
+  min-width: 1200px;
+  background-color: white;
   border-radius: 20px;
+  padding-bottom: 30px;
 `;
 
 export const AccountFooter = styled(Footer)`

@@ -52,7 +52,7 @@ const App = ()  => {
                             <Route path="/my-account" element={user ? <MyAccount /> : <Error />} />
                             <Route path="/trips" element={<ConfirmationNum />} />
                             <Route path="/trips/:confirmation_no" element={<FlightInfo />} />
-                            <Route path="/book/trip" element={user && passengerList ? <ReviewTrip /> : <Error />} />
+                            <Route path="/book/trip" element={user && passengerList && currentFlight ? <ReviewTrip /> : <Error />} />
                             <Route path="/about" element={<About />} />
                             <Route path="/terms-of-service" element={<TermsOfService />} />
                             <Route path="/privacy-policy" element={<PrivacyPolicy />} />

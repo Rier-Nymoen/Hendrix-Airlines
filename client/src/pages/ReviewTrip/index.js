@@ -25,12 +25,14 @@ import {
 import {passengerSchema, cardSchema} from "./validationSchema";
 import axios from "axios";
 import {FlightTimes} from "../../components/FlightTimes";
+import {useNavigate} from "react-router-dom";
 
 
 const PassengerMap = () => {
-    const {passengerList} = useContext(PassengerContext);
+    const {passengerList, setPassengerList} = useContext(PassengerContext);
     const {user} = useContext(UserContext);
-    const {currentFlight} = useContext(FlightContext);
+    const {currentFlight, setCurrentFlight} = useContext(FlightContext);
+    const navigate = useNavigate();
     let formValuesList = [];
 
     const formRef = useRef([]);
@@ -50,9 +52,14 @@ const PassengerMap = () => {
                 success = success && await putSeat(ticketno, passengerList[i].row, passengerList[i].column)
             }
 
-            success = success && await postTrip(ticketnoList)
+            const confirmation_no = (Math.random().toString(36)+'00000000000000000').slice(2, 8)
+            success = success && await postTrip(ticketnoList, confirmation_no)
+
             if(success) {
-                alert('Trip created!');
+                setPassengerList(null)
+                setCurrentFlight(null)
+                alert('Trip created!')
+                navigate(`/trips/${confirmation_no}`)
             }
         }
     }
@@ -93,11 +100,12 @@ const PassengerMap = () => {
         return true
     };
 
-    const postTrip = async (ticketnoList) => {
+    const postTrip = async (ticketnoList, confirmation_no) => {
         const data = {
             email: user.email,
             flight_no: currentFlight.flight_no,
-            ticketnoList: ticketnoList
+            ticketnoList: ticketnoList,
+            confirmation_no: confirmation_no
         }
 
         try {

@@ -248,10 +248,9 @@ const createCreditCard = async (request, response) => {
 const createTrip = (request, response) => {
   const {email,
       flight_no,
-      ticketnoList
+      ticketnoList,
+      confirmation_no
   } = request.body
-
-  const confirmation_no = (Math.random().toString(36)+'00000000000000000').slice(2, 8)
 
   temp_client.query("INSERT INTO trip VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *", [email, flight_no, ticketnoList[0],
       ticketnoList[1], ticketnoList[2], ticketnoList[3], ticketnoList[4], confirmation_no], async (error, results) => {
