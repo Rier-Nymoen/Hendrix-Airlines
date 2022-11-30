@@ -140,8 +140,15 @@ export const ModelB747 = ({planeLayout}) => {
     <>
 
 
+{(() => {
+      if(passengerList.length > 1)
+      {
+        return(<NextPassengerButton onClick={handleNextPassenger}>Next Passenger</NextPassengerButton> )
+      }
 
-    <NextPassengerButton onClick={handleNextPassenger}>Next Passenger</NextPassengerButton> {/*want to have the current passenger selected for maybe in button text  */}
+      })()}
+
+    {/* <NextPassengerButton onClick={handleNextPassenger}>Next Passenger</NextPassengerButton> want to have the current passenger selected for maybe in button text  */}
 
       {console.log("Plane layout", planeLayout[0]["passenger"])}
     <FSeatColumn>
@@ -243,8 +250,7 @@ export const NextPassengerButton = styled.button`
   transition: all 0.2s ease-in-out;
   text-decoration: none;
   
-  &:hover {
-    transition: all 0.2s ease-in-out;
+  &:active {
     background: #49A9E6;
   }
 `
@@ -433,8 +439,7 @@ export const BookButton = styled.button`
   transition: all 0.2s ease-in-out;
   text-decoration: none;
   
-  &:hover {
-    transition: all 0.2s ease-in-out;
+  &:active {
     background: #49A9E6;
   }
 `;
