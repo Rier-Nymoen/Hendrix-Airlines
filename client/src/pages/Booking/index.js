@@ -59,8 +59,8 @@ const Booking = () => {
 
                     {({ isSubmitting }) => (
                     <FormikForm>
-                        <TextBox name="sourceAirport" type="input" label="From" />
-                        <TextBox name="destinationAirport" type="input" label="To" />
+                        <TextBox name="sourceAirport" label="From" />
+                        <TextBox name="destinationAirport" label="To" />
                         <DepartureCalendar name="departDate"></DepartureCalendar>
                         <PassengerSelect name="passengerSelect"> </PassengerSelect>
                         <BookButton disabled={isSubmitting} type="submit">Search</BookButton>
