@@ -54,7 +54,6 @@ export const InfoRow = styled.div`
   flex-direction: row;
   align-items: end;
   gap: 16px;
-  //height: 47px;
   justify-content: center;
 `;
 
@@ -104,11 +103,13 @@ export const AccountDetailsContainer = styled.div`
 `;
 
 export const CenterBox = styled.div`
-  min-height: 550px;
-  min-width: 1200px;
+  height: 550px;
+  width: 1200px;
   background-color: white;
-  border-radius: 20px;
+  //border-radius: 20px;
   padding-bottom: 30px;
+  margin-bottom: 30px;
+  overflow-y: auto;
 `;
 
 export const AccountFooter = styled(Footer)`
@@ -150,7 +151,6 @@ export const CancelTrip = styled.button`
   align-items: center;
   transition: all 0.2s ease-in-out;
   text-decoration: none;
-  //margin-top: 15px;
   
   &:hover {
     transition: all 0.2s ease-in-out;
