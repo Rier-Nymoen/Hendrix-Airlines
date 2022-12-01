@@ -12,7 +12,8 @@ import {
 } from "./NavbarElements";
 import {UserContext} from "../UserContext";
 import {Avatar, Menu, MenuItem, IconButton, Tooltip} from '@mui/material';
-import { useNavigate } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
+
 
 const Navbar = () => {
     const toggleHome = () => {
@@ -31,6 +32,7 @@ const Navbar = () => {
         navigate('/');
     };
 
+
     return (
         <>
             <Nav>
@@ -43,10 +45,7 @@ const Navbar = () => {
                             <NavLinks to="/about">About</NavLinks>
                         </NavItem>
                         <NavItem>
-                            <NavLinks to="/discover">Discover</NavLinks>
-                        </NavItem>
-                        <NavItem>
-                            <NavLinks to="/services">Services</NavLinks>
+                            <NavLinks to="/trips">Flight Info</NavLinks>
                         </NavItem>
                         {user ? null : (
                             <NavItem>

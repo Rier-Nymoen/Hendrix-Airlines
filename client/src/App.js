@@ -1,18 +1,34 @@
 import React, {useState, useMemo, useEffect} from "react";
 import "./App.css";
 import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
-import Home from "./pages";
-import SigninPage from "./pages/signin";
-import SignupPage from "./pages/signup";
-import Booking from "./components/BookingFlights";
-import {UserContext} from "./components/UserContext";
+import Home from "./pages/Home";
+import Signin from "./pages/Signin";
+import Signup from "./pages/Signup";
+import Booking from "./pages/Booking";
+import {UserContext, PassengerContext, FlightContext, LoadingContext} from "./components/UserContext";
+import ConfirmationNum from "./pages/ConfirmationNum";
+import FlightInfo from "./pages/FlightInfo";
 import MyAccount from "./pages/MyAccount";
 import Error from "./pages/Error";
+import ReviewTrip from "./pages/ReviewTrip";
+import About from "./pages/About";
+import TermsOfService from "./pages/TermsOfService";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import Loading from "./components/Loading";
 
 
 const App = ()  => {
-    const [user, setUser] = useState(null)
+    const [user, setUser] = useState(null);
     const userMemo = useMemo(() => ({ user, setUser }), [user, setUser]);
+
+    const [passengerList, setPassengerList] = useState(null);
+    const passengerMemo = useMemo(() => ({ passengerList, setPassengerList }), [passengerList, setPassengerList]);
+
+    const [currentFlight, setCurrentFlight] = useState(null);
+    const flightMemo = useMemo(() => ({ currentFlight, setCurrentFlight }), [currentFlight, setCurrentFlight]);
+
+    const [loading, setLoading] = useState(false);
+    const loadingMemo = useMemo(() => ({ loading, setLoading }), [loading, setLoading]);
 
     useEffect(() => {
         const data = localStorage.getItem("user");
@@ -28,17 +44,29 @@ const App = ()  => {
     }, [user])
 
     return (
-    <Router>
-        <UserContext.Provider value={userMemo}>
-            <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/sign-in" element={user ? <Error /> : <SigninPage />} />
-                <Route path="/sign-up" element={user ? <Error /> : <SignupPage />} />
-                <Route path="/book" element={<Booking />} />
-                <Route path="/my-account" element={user ? <MyAccount /> : <Error />} />
-            </Routes>
-        </UserContext.Provider>
-    </Router>
+        <Router>
+            <UserContext.Provider value={userMemo}>
+                <PassengerContext.Provider value={passengerMemo}>
+                    <FlightContext.Provider value={flightMemo}>
+                        <LoadingContext.Provider value={loadingMemo}>
+                            <Routes>
+                                <Route path="/" element={<Home />} />
+                                <Route path="/sign-in" element={user ? <Error /> : <Signin />} />
+                                <Route path="/sign-up" element={user ? <Error /> : <Signup />} />
+                                <Route path="/book" element={user ? <Booking/> : <Signin/>} />
+                                <Route path="/my-account" element={user ? <MyAccount /> : <Error />} />
+                                <Route path="/trips" element={loading ? <Loading /> : <ConfirmationNum />} />
+                                <Route path="/trips/:confirmation_no" element={<FlightInfo />} />
+                                <Route path="/book/trip" element={loading ? <Loading /> : user && passengerList && currentFlight ? <ReviewTrip /> : <Error />} />
+                                <Route path="/about" element={<About />} />
+                                <Route path="/terms-of-service" element={<TermsOfService />} />
+                                <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+                            </Routes>
+                        </LoadingContext.Provider>
+                    </FlightContext.Provider>
+                </PassengerContext.Provider>
+            </UserContext.Provider>
+        </Router>
     );
 }
 
