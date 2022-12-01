@@ -12,7 +12,8 @@ import {
 } from "./NavbarElements";
 import {UserContext} from "../UserContext";
 import {Avatar, Menu, MenuItem, IconButton, Tooltip} from '@mui/material';
-import { useNavigate } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
+
 
 const Navbar = () => {
     const toggleHome = () => {
@@ -30,6 +31,7 @@ const Navbar = () => {
         setUser(null);
         navigate('/');
     };
+
 
     return (
         <>

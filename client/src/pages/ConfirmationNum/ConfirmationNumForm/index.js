@@ -1,14 +1,17 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import {confirmation_numSchema} from './validationSchema';
 import {Formik} from "formik";
 import {ConfirmationNumButton} from "../ConfirmationNumElements";
 import {FormikForm, initialValues} from "./FormElements";
 import axios from 'axios';
 import {TextBox} from "../../../components/FormFields";
-import { useNavigate } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
+import {Sleep} from "../../../components/Sleep";
+import {LoadingContext} from "../../../components/UserContext";
 
 const ConfirmationNumForm = ({setTrip}) => {
     const navigate = useNavigate();
+    const {setLoading} = useContext(LoadingContext);
 
     const onSubmit = async (confirmation_numData, { setSubmitting, setFieldError }) => {
       setSubmitting(true);
@@ -22,6 +25,9 @@ const ConfirmationNumForm = ({setTrip}) => {
               setFieldError('confirmation_num', 'Confirmation Number not found');
           } else {
               setTrip(response.data[0]);
+              setLoading(true)
+              await Sleep(3000)
+              setLoading(false)
               navigate(`/trips/${confirmation_numData.confirmation_num}`);
           }
       }

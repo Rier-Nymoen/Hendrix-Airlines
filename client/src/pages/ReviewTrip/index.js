@@ -13,7 +13,7 @@ import {
     cardInitialValues,
     ExpDateSelect
 } from "./ReviewTripElements";
-import {PassengerContext, FlightContext, UserContext} from "../../components/UserContext";
+import {PassengerContext, FlightContext, UserContext, LoadingContext} from "../../components/UserContext";
 import {TextBox} from "../../components/FormFields";
 import {Formik} from "formik";
 import {
@@ -26,12 +26,14 @@ import {passengerSchema, cardSchema} from "./validationSchema";
 import axios from "axios";
 import {FlightTimes} from "../../components/FlightTimes";
 import {useNavigate} from "react-router-dom";
+import {Sleep} from "../../components/Sleep";
 
 
 const PassengerMap = () => {
     const {passengerList, setPassengerList} = useContext(PassengerContext);
     const {user} = useContext(UserContext);
     const {currentFlight, setCurrentFlight} = useContext(FlightContext);
+    const {setLoading} = useContext(LoadingContext);
     const navigate = useNavigate();
     let formValuesList = [];
 
@@ -58,7 +60,9 @@ const PassengerMap = () => {
             if(success) {
                 setPassengerList(null)
                 setCurrentFlight(null)
-                alert('Trip created!')
+                setLoading(true)
+                await Sleep(3000)
+                setLoading(false)
                 navigate(`/trips/${confirmation_no}`)
             }
         }
