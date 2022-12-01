@@ -106,7 +106,6 @@ export const CenterBox = styled.div`
   height: 550px;
   width: 1200px;
   background-color: white;
-  //border-radius: 20px;
   padding-bottom: 30px;
   margin-bottom: 30px;
   overflow-y: auto;
