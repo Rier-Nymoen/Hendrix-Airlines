@@ -21,18 +21,31 @@ const FlightInfo = () => {
     const { confirmation_no } = useParams();
 
     const handleClick = async (confirm_no) => {
-        const response = await axios.delete(`http://localhost:5005/trips/${confirm_no}`);
+        try
+        {
+            const response = await axios.delete(`http://localhost:5005/trips/${confirm_no}`);
+            if(response.status === 200)
+            {
+                alert('Trip successfully cancelled.');
+                window.location.replace('/');
+            } 
 
-        if (response.status === 406) {
-            alert('Cannot cancel trip. Must be at least 24 hours before departure.');
         }
-        else if (response.status === 503) {
-            alert('Unexpected error.');
+        catch(error)
+        {
+            console.log(error.response.status);
+            
+            if (error.response.status === 406) {
+                alert('Cannot cancel trip. Must be at least 24 hours before departure.');
+            }
+            else if (error.response.status === 503)
+            {
+                alert('Unexpected error.');
+            }
         }
-        else {
-            alert('Trip successfully cancelled.');
-            window.location.replace('/');
-        }
+
+
+
     }
 
     const [myTrip, setMyTrip] = useState(null);
