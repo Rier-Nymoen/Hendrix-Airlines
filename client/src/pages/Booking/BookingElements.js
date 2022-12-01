@@ -13,7 +13,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import {FlightContext, PassengerContext} from "../../components/UserContext";
 import { useContext, useState } from 'react';
-
+import {FlightTimes} from "../../components/FlightTimes";
 
 //Holds all flight lists (props is a convention we can use)
 export const FlightListContainer = ({flightList, setIsModalOpen, setPlaneLayout}) => {
@@ -33,7 +33,10 @@ export const FlightListContainer = ({flightList, setIsModalOpen, setPlaneLayout}
         <FlightMap>
             {flightList.map(flight =>
               <Flight key={flight.flight_no}>
-              {flight.flight_no}, {flight.status}, {flight.source_gate_code} to {flight.destination_gate_code} {flight.regno} {flight.departure}
+              {flight.flight_no}, {flight.status}, {flight.source_gate_code} to {flight.destination_gate_code} {flight.regno} 
+
+              <TimeDisplay departureTime={flight.departure} arrivalTime={flight.arrival}></TimeDisplay>
+
               <FlightButton onClick={() => {selectHandler(flight)}}>Pick Seats</FlightButton>
               </Flight>)}
         </FlightMap>
@@ -72,6 +75,13 @@ export const FModal = ({setIsModalOpen, planeLayout}) => {
                 <ModelB747 planeLayout={planeLayout}>
                 </ModelB747>       
               )
+            }
+            else if(currentFlight.model === "A380")
+            {
+            return(
+              <ModelA380 planeLayout={planeLayout}>
+              </ModelA380>
+            )
             }
           })()}
 
@@ -129,13 +139,6 @@ export const ModelB747 = ({planeLayout}) => {
   }
   console.log("Current Passenger Index: ",currentPassenger)
 
-  
-
-    
-
-  
-  
-
   return(
     <>
 
@@ -174,6 +177,84 @@ export const ModelB747 = ({planeLayout}) => {
       <FSeat row={planeLayout[13]["row"]} column={planeLayout[13]["columnletter"]} occupant={planeLayout[13]["passenger"]} currentPassenger={currentPassenger}></FSeat>
       <FSeat row={planeLayout[14]["row"]} column={planeLayout[14]["columnletter"]} occupant={planeLayout[14]["passenger"]} currentPassenger={currentPassenger}></FSeat>
       <FSeat row={planeLayout[15]["row"]} column={planeLayout[15]["columnletter"]} occupant={planeLayout[15]["passenger"]} currentPassenger={currentPassenger}></FSeat>
+    </FSeatColumn>
+
+    {(() => {
+      if(passengerList.every((passenger) => passenger.row !== null))
+      {
+        return(<ContinueButton to="/book/trip">Continue</ContinueButton>)
+      }
+
+      })()}
+
+    </>
+  )
+}
+
+export const ModelA380 = ({planeLayout}) => {
+  const {passengerList} = useContext(PassengerContext);
+
+  const [currentPassenger, setCurrentPassenger] = useState(0)
+
+  const handleNextPassenger =  () => {
+    if(currentPassenger === passengerList.length-1)
+    {
+      setCurrentPassenger(0)
+    }
+    else
+    {
+      setCurrentPassenger(currentPassenger + 1)
+    }
+
+    
+  }
+  console.log("Current Passenger Index: ",currentPassenger)
+
+  return(
+    <>
+
+
+{(() => {
+      if(passengerList.length > 1)
+      {
+        return(<NextPassengerButton onClick={handleNextPassenger}>Next Passenger</NextPassengerButton> )
+      }
+
+      })()}
+
+    {/* <NextPassengerButton onClick={handleNextPassenger}>Next Passenger</NextPassengerButton> want to have the current passenger selected for maybe in button text  */}
+
+      {console.log("Plane layout", planeLayout[0]["passenger"])}
+    <FSeatColumn>
+      <FSeat row={planeLayout[0]["row"]} column={planeLayout[0]["columnletter"]} occupant={planeLayout[0]["passenger"]} currentPassenger={currentPassenger}></FSeat>
+      <FSeat row={planeLayout[1]["row"]} column={planeLayout[1]["columnletter"]} occupant={planeLayout[1]["passenger"]} currentPassenger={currentPassenger}></FSeat>
+      <FSeat row={planeLayout[2]["row"]} column={planeLayout[2]["columnletter"]}  occupant={planeLayout[2]["passenger"]} currentPassenger={currentPassenger}></FSeat>
+      <FSeat row={planeLayout[3]["row"]} column={planeLayout[3]["columnletter"]}  occupant={planeLayout[3]["passenger"]} currentPassenger={currentPassenger}></FSeat>
+
+    </FSeatColumn>
+    <FSeatColumn>
+      <FSeat row={planeLayout[4]["row"]} column={planeLayout[4]["columnletter"]}  occupant={planeLayout[4]["passenger"]} currentPassenger={currentPassenger}></FSeat>
+      <FSeat row={planeLayout[5]["row"]} column={planeLayout[5]["columnletter"]}  occupant={planeLayout[5]["passenger"]} currentPassenger={currentPassenger}></FSeat>
+      <FSeat row={planeLayout[6]["row"]} column={planeLayout[6]["columnletter"]}  occupant={planeLayout[6]["passenger"]} currentPassenger={currentPassenger}></FSeat>
+      <FSeat row={planeLayout[7]["row"]} column={planeLayout[7]["columnletter"]}  occupant={planeLayout[7]["passenger"]} currentPassenger={currentPassenger}></FSeat>
+    </FSeatColumn>
+    <FSeatColumn>
+      <FSeat row={planeLayout[8]["row"]} column={planeLayout[8]["columnletter"]}  occupant={planeLayout[8]["passenger"]} currentPassenger={currentPassenger}></FSeat>
+      <FSeat row={planeLayout[9]["row"]} column={planeLayout[9]["columnletter"]}  occupant={planeLayout[9]["passenger"]} currentPassenger={currentPassenger}></FSeat>
+      <FSeat row={planeLayout[10]["row"]} column={planeLayout[10]["columnletter"]}  occupant={planeLayout[10]["passenger"]} currentPassenger={currentPassenger}></FSeat>
+      <FSeat row={planeLayout[11]["row"]} column={planeLayout[11]["columnletter"]}  occupant={planeLayout[11]["passenger"]} currentPassenger={currentPassenger}></FSeat>
+    </FSeatColumn>
+    <FSeatColumn>
+      <FSeat row={planeLayout[12]["row"]} column={planeLayout[12]["columnletter"]} occupant={planeLayout[12]["passenger"]} currentPassenger={currentPassenger}></FSeat>
+      <FSeat row={planeLayout[13]["row"]} column={planeLayout[13]["columnletter"]} occupant={planeLayout[13]["passenger"]} currentPassenger={currentPassenger}></FSeat>
+      <FSeat row={planeLayout[14]["row"]} column={planeLayout[14]["columnletter"]} occupant={planeLayout[14]["passenger"]} currentPassenger={currentPassenger}></FSeat>
+      <FSeat row={planeLayout[15]["row"]} column={planeLayout[15]["columnletter"]} occupant={planeLayout[15]["passenger"]} currentPassenger={currentPassenger}></FSeat>
+    </FSeatColumn>
+    <FSeatColumn>
+      <FSeat row={planeLayout[16]["row"]} column={planeLayout[16]["columnletter"]} occupant={planeLayout[16]["passenger"]} currentPassenger={currentPassenger}></FSeat>
+      <FSeat row={planeLayout[17]["row"]} column={planeLayout[17]["columnletter"]} occupant={planeLayout[17]["passenger"]} currentPassenger={currentPassenger}></FSeat>
+      <FSeat row={planeLayout[18]["row"]} column={planeLayout[18]["columnletter"]} occupant={planeLayout[18]["passenger"]} currentPassenger={currentPassenger}></FSeat>
+      <FSeat row={planeLayout[19]["row"]} column={planeLayout[19]["columnletter"]} occupant={planeLayout[19]["passenger"]} currentPassenger={currentPassenger}></FSeat>
     </FSeatColumn>
 
     {(() => {
@@ -235,6 +316,22 @@ export const PassengerSelect = ({ ...props }) => {
   );
 };
 
+
+const TimeDisplay = ({departureTime, arrivalTime}) => {
+
+  const {departure, arrival, duration} = FlightTimes(departureTime, arrivalTime)
+
+  return
+  (
+    <div>
+    
+      {departure} {arrival} {duration}
+    </div>
+    
+  )
+}
+
+
 export const NextPassengerButton = styled.button`
   background: #010606;
   white-space: nowrap;
@@ -247,7 +344,6 @@ export const NextPassengerButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: all 0.2s ease-in-out;
   text-decoration: none;
   
   &:active {
@@ -436,7 +532,6 @@ export const BookButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: all 0.2s ease-in-out;
   text-decoration: none;
   
   &:active {
@@ -452,3 +547,4 @@ export const initialValues =
       departDate: null,
       passengerSelect: '1'
 };
+
