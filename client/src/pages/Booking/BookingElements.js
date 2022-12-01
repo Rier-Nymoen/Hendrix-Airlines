@@ -35,10 +35,12 @@ export const FlightListContainer = ({flightList, setIsModalOpen, setPlaneLayout}
         <FlightMap>
             {flightList.map(flight =>
               <Flight key={flight.flight_no}>
-              {flight.flight_no}, {flight.status}, {flight.source_gate_code} to {flight.destination_gate_code} {flight.regno} 
+                             <h5> {flight.source_gate_code} to {flight.destination_gate_code} </h5>
+
+                              <TimeDisplay departureTime={flight.departure} arrivalTime={flight.arrival}></TimeDisplay>
+
               
-              <TimeDisplay departureTime={flight.departure} arrivalTime={flight.arrival}></TimeDisplay>
-              
+              {flight.flight_no}, {flight.model} 
               <FlightButton onClick={() => {selectHandler(flight)}}>Pick Seats</FlightButton>
               </Flight>)}
         </FlightMap>
@@ -124,9 +126,9 @@ export const TimeDisplay = ({departureTime, arrivalTime}) => {
 
   const {departure, arrival, duration} = FlightTimes(departureTime, arrivalTime);
 return(
-
-  <h1> {departure} {arrival} {duration} </h1>
-
+<>
+  <h3> {departure} AiOutlineArrowRight {arrival}  </h3> <h5> {duration} </h5>
+</>
 )
 
 }
@@ -151,9 +153,8 @@ export const ModelB747 = ({planeLayout}) => {
   console.log("Current Passenger Index: ",currentPassenger)
 
   return(
-    <>
-
-
+<ModelContainer>
+<ButtonContainer>
 {(() => {
       if(passengerList.length > 1)
       {
@@ -162,9 +163,13 @@ export const ModelB747 = ({planeLayout}) => {
 
       })()}
 
+
+</ButtonContainer>
+
     {/* <NextPassengerButton onClick={handleNextPassenger}>Next Passenger</NextPassengerButton> want to have the current passenger selected for maybe in button text  */}
 
       {console.log("Plane layout", planeLayout[0]["passenger"])}
+    <ColumnContainer>
     <FSeatColumn>
       <FSeat row={planeLayout[0]["row"]} column={planeLayout[0]["columnletter"]} occupant={planeLayout[0]["passenger"]} currentPassenger={currentPassenger}></FSeat>
       <FSeat row={planeLayout[1]["row"]} column={planeLayout[1]["columnletter"]} occupant={planeLayout[1]["passenger"]} currentPassenger={currentPassenger}></FSeat>
@@ -189,7 +194,8 @@ export const ModelB747 = ({planeLayout}) => {
       <FSeat row={planeLayout[14]["row"]} column={planeLayout[14]["columnletter"]} occupant={planeLayout[14]["passenger"]} currentPassenger={currentPassenger}></FSeat>
       <FSeat row={planeLayout[15]["row"]} column={planeLayout[15]["columnletter"]} occupant={planeLayout[15]["passenger"]} currentPassenger={currentPassenger}></FSeat>
     </FSeatColumn>
-
+    </ColumnContainer>
+    <ButtonContainer>
     {(() => {
       if(passengerList.every((passenger) => passenger.row !== null))
       {
@@ -197,8 +203,9 @@ export const ModelB747 = ({planeLayout}) => {
       }
 
       })()}
+    </ButtonContainer>
 
-    </>
+    </ModelContainer>
   )
 }
 
@@ -333,10 +340,6 @@ export const PassengerSelect = ({ ...props }) => {
       </FormControl>
   );
 };
-
-
-
-
 
 export const NextPassengerButton = styled.button`
   background: #010606;
@@ -484,7 +487,6 @@ const Flight = styled.div`
   border-style: solid;
   width: 800px;
   height: 200px;
-  background-color: green;
 `
 
 //Inside each FlightComponent and each Flight's seat picker
