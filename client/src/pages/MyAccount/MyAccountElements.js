@@ -41,6 +41,7 @@ export const AccountTab = styled.button`
   font-size: 18pt;
   border-radius: 30px;
   cursor: ${({currTab}) => (currTab ? 'default' : 'pointer')};
+  margin-top: 20px;
   
   &:hover {
     transition: all 0.2s ease-in-out;
@@ -53,7 +54,6 @@ export const InfoRow = styled.div`
   flex-direction: row;
   align-items: end;
   gap: 16px;
-  //height: 47px;
   justify-content: center;
 `;
 
@@ -92,23 +92,11 @@ export const SignOutButton = styled.button`
   }
 `;
 
-// export const AccountDetailsContainer = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   height: 550px;
-//   width: 1200px;
-//   border-style: groove;
-//   background-color: #e6f7ff;
-//   align-items: center;
-//   justify-content: center;
-//   gap: 20px;
-// `;
-
 export const AccountDetailsContainer = styled.div`
   display: flex;
   flex-direction: column;
-  height: 550px;
-  width: 1200px;
+  height: 100%;
+  width: 100%;
   align-items: center;
   justify-content: center;
   gap: 20px;
@@ -117,9 +105,10 @@ export const AccountDetailsContainer = styled.div`
 export const CenterBox = styled.div`
   height: 550px;
   width: 1200px;
-  //border-style: groove;
-  background-color: white; //#e6f7ff
-  border-radius: 20px;
+  background-color: white;
+  padding-bottom: 30px;
+  margin-bottom: 30px;
+  overflow-y: auto;
 `;
 
 export const AccountFooter = styled(Footer)`
@@ -161,7 +150,6 @@ export const CancelTrip = styled.button`
   align-items: center;
   transition: all 0.2s ease-in-out;
   text-decoration: none;
-  //margin-top: 15px;
   
   &:hover {
     transition: all 0.2s ease-in-out;

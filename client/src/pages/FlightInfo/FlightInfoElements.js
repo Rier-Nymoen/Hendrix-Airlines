@@ -23,7 +23,7 @@ export const BgImg = styled.img`
   position: absolute;
   z-index: -1;
   object-fit: cover;
-  filter: brightness(90%);
+  filter: brightness(75%);
 `;
 
 export const InfoRow = styled.div`
@@ -45,23 +45,22 @@ export const InfoText = styled.p`
   color: black;
   margin-bottom: 3px;
 `;
-
-export const TripDetailsContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: 550px;
-  width: 1200px;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
-`;
+//
+// export const TripDetailsContainer = styled.div`
+//   //display: flex;
+//   //flex-direction: column;
+//   //height: 550px;
+//   //width: 1200px;
+//   //align-items: center;
+//   //justify-content: center;
+//   //gap: 20px;
+// `;
 
 export const CenterBox = styled.div`
-  height: 580px;
-  width: 1200px;
-  //border-style: groove;
-  background-color: white; //#e6f7ff
+  background-color: white;
   border-radius: 20px;
+  padding-top: 40px;
+  padding-bottom: 40px;
 `;
 
 export const TripFooter = styled(Footer)`
@@ -71,8 +70,8 @@ export const TripFooter = styled(Footer)`
 export const Trip = styled.div`
   display: flex;
   flex-direction: column;
-  height: 550px;
-  width: 1200px;
+  //min-height: 550px;
+  min-width: 1200px;
   align-items: center;
   justify-content: center;
   gap: 20px;

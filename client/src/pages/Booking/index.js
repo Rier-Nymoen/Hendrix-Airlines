@@ -5,7 +5,8 @@ import axios from 'axios';
 import Navbar from "../../components/Navbar";
 import {TextBox} from "../../components/FormFields";
 import {bookingSchema} from "./bookingSchema";
-import { PassengerContext} from "../../components/UserContext";
+import { PassengerContext } from "../../components/UserContext";
+
 
 const Booking = () => {
 
@@ -42,7 +43,7 @@ const Booking = () => {
 
             {isModalOpen && <FModal setIsModalOpen={setIsModalOpen} planeLayout={planeLayout}> </FModal>}
 
-            <Navbar/>
+            <Navbar />
 
             <BookingContainer>
                 <Formik
