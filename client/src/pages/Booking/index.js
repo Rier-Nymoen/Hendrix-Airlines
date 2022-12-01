@@ -1,6 +1,11 @@
 import React, {useContext, useState} from 'react'
 import {Formik} from 'formik'
-import { FormikForm, initialValues, FlightListContainer, BookButton, BookingContainer, DepartureCalendar, PassengerSelect, FModal} from './BookingElements';
+import {FormikForm, initialValues, BookButton, BookingContainer} from './BookingElements';
+import {FlightListContainer,
+    FModal,
+    PassengerSelect,
+    DepartureCalendar
+} from "./BookingFunctions";
 import axios from 'axios';
 import Navbar from "../../components/Navbar";
 import {TextBox} from "../../components/FormFields";
