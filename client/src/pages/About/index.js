@@ -11,6 +11,7 @@ import cockpit from "../../images/cockpit.jpg";
 import chat_bubble from "../../images/chat_bubble.png";
 import very_nice from "../../audio/very_nice.mp3";
 
+
 const About = () => {
     const playAudio = () => {
         new Audio(very_nice).play()

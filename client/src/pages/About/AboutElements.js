@@ -31,34 +31,27 @@ export const AboutContainer = styled.div`
 `;
 
 const rgbAnimation = keyframes`
-0%{
-
-  background-color:red;
-}
-16.6%
-{
-  background-color: violet;
-}
-33.2%
-{
-  background-color:blue;
-}
-49.4%
-{
-  background-color: green;
-}
-65.6%
-{
-  background-color: yellow;
-}
-81.8%
-{
-  background-color: orange;
-}
-100%
-{
-  background-color: red;
-}
+  0% {
+    background-color: rgba(0, 255, 255, 1);
+  }
+  16.6% {
+    background-color: rgba(238, 147, 236, 1);
+  }
+  33.2% {
+    background-color: #90d9b1;
+  }
+  49.4% {
+    background-color: #e1535b;
+  }
+  65.6% {
+    background-color: #eaca7b;
+  }
+  81.8% {
+    background-color: #cea65a;
+  }
+  100% {
+    background-color: #66ccae;
+  }
 `;
 
 
