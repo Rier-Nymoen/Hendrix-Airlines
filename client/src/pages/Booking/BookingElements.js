@@ -29,14 +29,16 @@ export const FlightListContainer = ({flightList, setIsModalOpen, setPlaneLayout}
       //must be last thing called in this function
       setIsModalOpen(true)
     }
+
+
     return(
         <FlightMap>
             {flightList.map(flight =>
               <Flight key={flight.flight_no}>
               {flight.flight_no}, {flight.status}, {flight.source_gate_code} to {flight.destination_gate_code} {flight.regno} 
-
+              
               <TimeDisplay departureTime={flight.departure} arrivalTime={flight.arrival}></TimeDisplay>
-
+              
               <FlightButton onClick={() => {selectHandler(flight)}}>Pick Seats</FlightButton>
               </Flight>)}
         </FlightMap>
@@ -64,9 +66,7 @@ export const FModal = ({setIsModalOpen, planeLayout}) => {
     <FModalBackground>
       <FModalContainer>
 
-          <div></div>
           <CloseButton onClick={exitModalHandler}>X</CloseButton>
-          <div></div>
 
           {(() => {
             if(currentFlight.model === "B747")
@@ -119,6 +119,17 @@ export const FSeat = ({row, occupant, column, currentPassenger}) => {
   }
 }
 /* */
+
+export const TimeDisplay = ({departureTime, arrivalTime}) => {
+
+  const {departure, arrival, duration} = FlightTimes(departureTime, arrivalTime);
+return(
+
+  <h1> {departure} {arrival} {duration} </h1>
+
+)
+
+}
 
 export const ModelB747 = ({planeLayout}) => {
   const {passengerList} = useContext(PassengerContext);
@@ -211,9 +222,9 @@ export const ModelA380 = ({planeLayout}) => {
   console.log("Current Passenger Index: ",currentPassenger)
 
   return(
-    <>
+    <ModelContainer>
 
-
+<ButtonContainer>
 {(() => {
       if(passengerList.length > 1)
       {
@@ -222,9 +233,14 @@ export const ModelA380 = ({planeLayout}) => {
 
       })()}
 
+
+</ButtonContainer>
+
+
     {/* <NextPassengerButton onClick={handleNextPassenger}>Next Passenger</NextPassengerButton> want to have the current passenger selected for maybe in button text  */}
 
       {console.log("Plane layout", planeLayout[0]["passenger"])}
+    <ColumnContainer>
     <FSeatColumn>
       <FSeat row={planeLayout[0]["row"]} column={planeLayout[0]["columnletter"]} occupant={planeLayout[0]["passenger"]} currentPassenger={currentPassenger}></FSeat>
       <FSeat row={planeLayout[1]["row"]} column={planeLayout[1]["columnletter"]} occupant={planeLayout[1]["passenger"]} currentPassenger={currentPassenger}></FSeat>
@@ -256,7 +272,9 @@ export const ModelA380 = ({planeLayout}) => {
       <FSeat row={planeLayout[18]["row"]} column={planeLayout[18]["columnletter"]} occupant={planeLayout[18]["passenger"]} currentPassenger={currentPassenger}></FSeat>
       <FSeat row={planeLayout[19]["row"]} column={planeLayout[19]["columnletter"]} occupant={planeLayout[19]["passenger"]} currentPassenger={currentPassenger}></FSeat>
     </FSeatColumn>
+    </ColumnContainer>
 
+    <ButtonContainer>
     {(() => {
       if(passengerList.every((passenger) => passenger.row !== null))
       {
@@ -264,9 +282,9 @@ export const ModelA380 = ({planeLayout}) => {
       }
 
       })()}
-
-    </>
-  )
+    </ButtonContainer>
+</ModelContainer>
+)
 }
 
 export const DepartureCalendar = ({ ...props }) => {
@@ -317,19 +335,7 @@ export const PassengerSelect = ({ ...props }) => {
 };
 
 
-const TimeDisplay = ({departureTime, arrivalTime}) => {
 
-  const {departure, arrival, duration} = FlightTimes(departureTime, arrivalTime)
-
-  return
-  (
-    <div>
-    
-      {departure} {arrival} {duration}
-    </div>
-    
-  )
-}
 
 
 export const NextPassengerButton = styled.button`
@@ -345,12 +351,31 @@ export const NextPassengerButton = styled.button`
   justify-content: center;
   align-items: center;
   text-decoration: none;
+  width: 220px;
+  height: 45px;
   
   &:active {
     background: #49A9E6;
   }
 `
 
+export const ModelContainer = styled.div`
+display: flex;
+flex-direction: column;
+justify-content: center;
+position: absolute;
+gap: 10px;
+
+`;
+
+export const ColumnContainer = styled.div`
+justify-content: center;
+display: flex;
+align-items: center;
+flex-direction: row;
+width: 590px;
+
+`
 
 export const ContinueButton = styled(Link)`
   background: #010606;
@@ -366,12 +391,21 @@ export const ContinueButton = styled(Link)`
   align-items: center;
   transition: all 0.2s ease-in-out;
   text-decoration: none;
+  width: 220px;
   
   &:hover {
     transition: all 0.2s ease-in-out;
     background: #49A9E6;
   }
 `
+export const ButtonContainer = styled.div`
+justify-content: center;
+position: relative;
+display: flex;
+align-items: center;
+width: 100%;
+`;
+
 export const CloseButton = styled.button`
   background: black;
   white-space: nowrap;
@@ -406,7 +440,10 @@ export const FSeatSelected = styled.button`
   align-items: center;
   transition: all 0.2s ease-in-out;
   text-decoration: none;
-  
+  width: 78px;
+  height: 46px;
+  margin-bottom: 10px;
+
   
 `
 
@@ -425,6 +462,9 @@ export const FSeatStyle = styled.button`
   align-items: center;
   transition: all 0.2s ease-in-out;
   text-decoration: none;
+  width: 78px;
+  height: 46px;
+  margin-bottom: 10px;
   &:hover {
     transition: all 0.2s ease-in-out;
     background: black;
@@ -444,6 +484,7 @@ const Flight = styled.div`
   border-style: solid;
   width: 800px;
   height: 200px;
+  background-color: green;
 `
 
 //Inside each FlightComponent and each Flight's seat picker
@@ -472,10 +513,8 @@ export const FlightButton = styled.button`
 export const FSeatColumn = styled.div`
 border-style: solid;
 background-color: white;
-float: left;
 width: 18%;
 padding: 10px;
-height: 400px;
 justify-content: center;
 align-items: center;
 `
@@ -510,6 +549,7 @@ export const BookingContainer = styled.div`
   width: 100%;
   align-items: center;
   margin-bottom: 30px;
+  background-color: white;
 `;
 
 export const FormikForm = styled(Form)`

@@ -227,7 +227,8 @@ const ReviewTrip = () => {
                     From: {currentFlight.source_gate_code}, To: {currentFlight.destination_gate_code},
                     Departure Date: {departure},
                     Arrival Date: {arrival},
-                    Flight Duration: {duration}
+                    Flight Duration: {duration},
+                    Price: ${(passengerList.length * 21.12).toFixed(2)}
                 </FlightInfoContainer>
                 <PassengerMap />
             </PageBody>
