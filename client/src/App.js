@@ -5,7 +5,7 @@ import Home from "./pages/Home";
 import Signin from "./pages/Signin";
 import Signup from "./pages/Signup";
 import Booking from "./pages/Booking";
-import {UserContext, PassengerContext, FlightContext} from "./components/UserContext";
+import {UserContext, PassengerContext, FlightContext, LoadingContext} from "./components/UserContext";
 import ConfirmationNum from "./pages/ConfirmationNum";
 import FlightInfo from "./pages/FlightInfo";
 import MyAccount from "./pages/MyAccount";
@@ -14,6 +14,7 @@ import ReviewTrip from "./pages/ReviewTrip";
 import About from "./pages/About";
 import TermsOfService from "./pages/TermsOfService";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
+import Loading from "./components/Loading";
 
 
 const App = ()  => {
@@ -25,6 +26,9 @@ const App = ()  => {
 
     const [currentFlight, setCurrentFlight] = useState(null);
     const flightMemo = useMemo(() => ({ currentFlight, setCurrentFlight }), [currentFlight, setCurrentFlight]);
+
+    const [loading, setLoading] = useState(false);
+    const loadingMemo = useMemo(() => ({ loading, setLoading }), [loading, setLoading]);
 
     useEffect(() => {
         const data = localStorage.getItem("user");
@@ -44,19 +48,21 @@ const App = ()  => {
             <UserContext.Provider value={userMemo}>
                 <PassengerContext.Provider value={passengerMemo}>
                     <FlightContext.Provider value={flightMemo}>
-                        <Routes>
-                            <Route path="/" element={<Home />} />
-                            <Route path="/sign-in" element={user ? <Error /> : <Signin />} />
-                            <Route path="/sign-up" element={user ? <Error /> : <Signup />} />
-                            <Route path="/book" element={user ? <Booking/> : <Signin/>} />
-                            <Route path="/my-account" element={user ? <MyAccount /> : <Error />} />
-                            <Route path="/trips" element={<ConfirmationNum />} />
-                            <Route path="/trips/:confirmation_no" element={<FlightInfo />} />
-                            <Route path="/book/trip" element={user && passengerList && currentFlight ? <ReviewTrip /> : <Error />} />
-                            <Route path="/about" element={<About />} />
-                            <Route path="/terms-of-service" element={<TermsOfService />} />
-                            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-                        </Routes>
+                        <LoadingContext.Provider value={loadingMemo}>
+                            <Routes>
+                                <Route path="/" element={<Home />} />
+                                <Route path="/sign-in" element={user ? <Error /> : <Signin />} />
+                                <Route path="/sign-up" element={user ? <Error /> : <Signup />} />
+                                <Route path="/book" element={user ? <Booking/> : <Signin/>} />
+                                <Route path="/my-account" element={user ? <MyAccount /> : <Error />} />
+                                <Route path="/trips" element={loading ? <Loading /> : <ConfirmationNum />} />
+                                <Route path="/trips/:confirmation_no" element={<FlightInfo />} />
+                                <Route path="/book/trip" element={loading ? <Loading /> : user && passengerList && currentFlight ? <ReviewTrip /> : <Error />} />
+                                <Route path="/about" element={<About />} />
+                                <Route path="/terms-of-service" element={<TermsOfService />} />
+                                <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+                            </Routes>
+                        </LoadingContext.Provider>
                     </FlightContext.Provider>
                 </PassengerContext.Provider>
             </UserContext.Provider>

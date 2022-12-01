@@ -16,6 +16,7 @@ import mountain from "../../images/mountain.jpg";
 import { useParams } from 'react-router-dom';
 import {FlightTimes} from "../../components/FlightTimes";
 
+
 const FlightInfo = () => {
     const { confirmation_no } = useParams();
 
@@ -60,6 +61,7 @@ const FlightInfo = () => {
     if(myTrip) {
         ({departure, arrival, duration} = FlightTimes(myTrip.departure, myTrip.arrival));
     }
+
 
     return (
         <PageWrap>
