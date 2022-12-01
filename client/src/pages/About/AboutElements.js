@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, {keyframes} from 'styled-components';
 
 export const CaptainHendrixImg = styled.img`
   height: 800px;
@@ -30,6 +30,38 @@ export const AboutContainer = styled.div`
   gap: 100px;
 `;
 
+const rgbAnimation = keyframes`
+0%{
+
+  background-color:red;
+}
+16.6%
+{
+  background-color: violet;
+}
+33.2%
+{
+  background-color:blue;
+}
+49.4%
+{
+  background-color: green;
+}
+65.6%
+{
+  background-color: yellow;
+}
+81.8%
+{
+  background-color: orange;
+}
+100%
+{
+  background-color: red;
+}
+`;
+
+
 export const AudioButton = styled.button`
   background: #49A9E6;
   white-space: nowrap;
@@ -50,9 +82,11 @@ export const AudioButton = styled.button`
   top: 300px;
   z-index: 1;
   
-  &:hover {
+  /* &:hover {
     background: white;
     transition: 0.2s ease-in-out;
-  }
+  } */
+  animation: ${rgbAnimation} 40s infinite;
+
 `;
 

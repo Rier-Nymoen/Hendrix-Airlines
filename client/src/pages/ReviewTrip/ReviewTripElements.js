@@ -115,6 +115,7 @@ export const FlightInfoContainer = styled.div`
   width: 800px;
 `;
 
+
 export const SubmitButton = styled.button`
   border-radius: 50px;
   background: #010606;

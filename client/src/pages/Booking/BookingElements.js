@@ -35,7 +35,7 @@ export const FlightListContainer = ({flightList, setIsModalOpen, setPlaneLayout}
         <FlightMap>
             {flightList.map(flight =>
               <Flight key={flight.flight_no}>
-                             <h5> {flight.source_gate_code} to {flight.destination_gate_code} </h5>
+                             <DestinationArrivalText> {flight.source_gate_code} to {flight.destination_gate_code} </DestinationArrivalText>
 
                               <TimeDisplay departureTime={flight.departure} arrivalTime={flight.arrival}></TimeDisplay>
 
@@ -62,6 +62,8 @@ export const FModal = ({setIsModalOpen, planeLayout}) => {
         
       setIsModalOpen(false)
   }
+
+  
 
 
   return(
@@ -127,7 +129,7 @@ export const TimeDisplay = ({departureTime, arrivalTime}) => {
   const {departure, arrival, duration} = FlightTimes(departureTime, arrivalTime);
 return(
 <>
-  <h3> {departure} AiOutlineArrowRight {arrival}  </h3> <h5> {duration} </h5>
+  <h3> {departure} to {arrival}  </h3> <h5> {duration} </h5>
 </>
 )
 
@@ -361,6 +363,10 @@ export const NextPassengerButton = styled.button`
     background: #49A9E6;
   }
 `
+
+export const DestinationArrivalText = styled.div`
+color:black;
+`;
 
 export const ModelContainer = styled.div`
 display: flex;

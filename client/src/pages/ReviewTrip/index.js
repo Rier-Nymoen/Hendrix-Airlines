@@ -223,12 +223,20 @@ const ReviewTrip = () => {
             <Navbar />
             <PageBody>
                 <FlightInfoContainer>
-                    Plane Number: {currentFlight.regno},
-                    From: {currentFlight.source_gate_code}, To: {currentFlight.destination_gate_code},
+                    <h4>From: {currentFlight.source_gate_code}, To: {currentFlight.destination_gate_code} </h4>
+                    <h3>
                     Departure Date: {departure},
+                    </h3>
+                    <h3>
                     Arrival Date: {arrival},
+                    </h3>
+                    <h4>
                     Flight Duration: {duration},
-                    Price: ${(passengerList.length * 21.12).toFixed(2)}
+                    Plane Number: {currentFlight.regno}
+                    </h4>
+                    <h4>Amount Due: ${(passengerList.length * 21.12).toFixed(2)}</h4>
+
+
                 </FlightInfoContainer>
                 <PassengerMap />
             </PageBody>
